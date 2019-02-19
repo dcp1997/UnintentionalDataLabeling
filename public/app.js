@@ -13,3 +13,14 @@ function googleLogin() {
         })
         .catch(console.log)
 }
+
+var submitTempUserButton = document.getElementById("submit");
+
+function tempUserLogin(){
+    var test= "test";
+    firebase.database().ref('users/' + userId).set({
+        username: test
+      });
+
+
+}
