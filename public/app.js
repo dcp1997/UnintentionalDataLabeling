@@ -1,26 +1,27 @@
+
+
 document.addEventListener("DOMContentLoaded", event => {
     const app = firebase.app();
     console.log(app)
 });
 
-function googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-        .then(result => {
-            const user = result.user;
-            document.write(`Hello ${user.displayName}`);
-            console.log(user)
-        })
-        .catch(console.log)
-}
-
-var submitTempUserButton = document.getElementById("submit");
-
 function tempUserLogin(){
-    var test= "test";
-    firebase.database().ref('users/' + userId).set({
-        username: test
-      });
+    var db = firebase.database();
+    var userInput = document.getElementById('usernameBox').value;
 
-
+    db.ref('TempUser/').push(
+        {
+            Username: userInput
+        }
+    );
+    console.log("what");
 }
+
+// function readDB(){
+//     alert(getDB());
+// }
+// function getDB(){
+//     return firebase.database().ref('/users/gameOne').once('value').then(function(snapshot) {
+//         var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+//       });
+// }

@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-    <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBG0Qkj858Axm39hTx_AXEshQUJGQHi6HE",
-    authDomain: "unintentional-data-labeling.firebaseapp.com",
-    databaseURL: "https://unintentional-data-labeling.firebaseio.com",
-    projectId: "unintentional-data-labeling",
-    storageBucket: "unintentional-data-labeling.appspot.com",
-    messagingSenderId: "750426975197"
-  };
-  firebase.initializeApp(config);
-</script>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/5.8.3/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/5.8.3/firebase-auth.js"></script>
-    <script defer src="/__/firebase/5.8.3/firebase-database.js"></script>
-    <script defer src="/__/firebase/5.8.3/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/5.8.3/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to Firebase Hosting</title>
 
-  </head>
-  <body>
-    <button onclick = "googleLogin()">
-      Google Login Auth Test
-    </button>
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/5.8.3/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script defer src="/__/firebase/5.8.3/firebase-auth.js"></script>
+  <script defer src="/__/firebase/5.8.3/firebase-database.js"></script>
+  <script defer src="/__/firebase/5.8.3/firebase-messaging.js"></script>
+  <script defer src="/__/firebase/5.8.3/firebase-storage.js"></script>
+  <!-- initialize the SDK after all desired features are loaded -->
+  <script defer src="/__/firebase/init.js"></script>
 
-    <textarea id = "mainText" placeholder ="enter Username here"></textarea>
-    <button id="submit" onclick = "tempUserLogin()">submit</button>
-    <script src = "app.js">
-    
-    </script>
-  </body>
+</head>
+
+
+
+
+<body>
+
+  <button onclick="googleLogin()">
+    Google Login Auth Test
+  </button>
+
+  <textarea id="usernameBox" placeholder="enter Username here"></textarea>
+  <button id="submit" onclick="tempUserLogin()">makeUser</button>
+  <button id="submit" onclick="readDB()">readDB</button>
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBG0Qkj858Axm39hTx_AXEshQUJGQHi6HE",
+      authDomain: "unintentional-data-labeling.firebaseapp.com",
+      databaseURL: "https://unintentional-data-labeling.firebaseio.com",
+      projectId: "unintentional-data-labeling",
+      storageBucket: "unintentional-data-labeling.appspot.com",
+      messagingSenderId: "750426975197"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <script src="app.js"></script>
+</body>
+
 </html>
