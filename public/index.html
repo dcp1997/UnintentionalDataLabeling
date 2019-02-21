@@ -16,6 +16,7 @@
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
 
+  <link href='style.css' rel='stylesheet' type='text/css' />
 </head>
 
 
@@ -23,13 +24,10 @@
 
 <body>
 
-  <button onclick="googleLogin()">
-    Google Login Auth Test
-  </button>
-
   <textarea id="usernameBox" placeholder="enter Username here"></textarea>
   <button id="submit" onclick="tempUserLogin()">makeUser</button>
   <button id="submit" onclick="readDB()">readDB</button>
+  <img src="pic_trulli.jpg" alt="Italian Trulli">
 
 
   <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>

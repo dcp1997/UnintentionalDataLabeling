@@ -1,0 +1,12 @@
+body{
+    text-align:center;
+}
+#submit{
+    display:block;
+    text-align: center;
+    margin:0 auto;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
