@@ -10,7 +10,9 @@ function tempUserLogin() {
     db.ref('TempUser/').push({
         Username: userInput
     });
-    console.log("what");
+    console.log(userInput);
+    var element = document.querySelector('#usernameShow');
+    element.textContent = userInput;
 }
 
 function readDB() {
@@ -18,15 +20,21 @@ function readDB() {
 
     ref.on("value", function (snapshot) {
         console.log(snapshot.val());
+        var url = snapshot.val().Link;
+        var img = document.createElement("img");
+        img.src = url;
+        document.body.appendChild(img);
     }, function (error) {
         console.log("Error: " + error.code);
     });
+}
 
-    console.log();
-    var url = "https://i.imgur.com/qSnnQyU.jpg";
-
-    var img = document.createElement("img");
-    img.src = url;
-    document.body.appendChild(img);
-
+function createLobby(){
+    var ref = firebase.database().ref("Lobby/");
+    var username = document.getElementById('usernameShow').textContent;
+    ref.push({
+        username: {
+            number: 1
+         }
+    });
 }

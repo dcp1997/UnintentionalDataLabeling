@@ -11,7 +11,6 @@
   <!-- include only the Firebase features as you need -->
   <script defer src="/__/firebase/5.8.3/firebase-auth.js"></script>
   <script defer src="/__/firebase/5.8.3/firebase-database.js"></script>
-  <script defer src="/__/firebase/5.8.3/firebase-messaging.js"></script>
   <script defer src="/__/firebase/5.8.3/firebase-storage.js"></script>
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
@@ -20,14 +19,12 @@
 </head>
 
 
-
-
 <body>
-
+  <div id = usernameShow>guest</div>
   <textarea id="usernameBox" placeholder="enter Username here"></textarea>
   <button id="submit" onclick="tempUserLogin()">makeUser</button>
   <button id="submit" onclick="readDB()">readDB</button>
-  <img src="pic_trulli.jpg" alt="Italian Trulli">
+  <button id="submit" onclick="createLobby()">createLobby</button>
 
 
   <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
