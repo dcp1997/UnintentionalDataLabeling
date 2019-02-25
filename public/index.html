@@ -5,31 +5,58 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Welcome to Firebase Hosting</title>
-
-  <!-- update the version number as needed -->
+  <!--
   <script defer src="/__/firebase/5.8.3/firebase-app.js"></script>
-  <!-- include only the Firebase features as you need -->
   <script defer src="/__/firebase/5.8.3/firebase-auth.js"></script>
   <script defer src="/__/firebase/5.8.3/firebase-database.js"></script>
   <script defer src="/__/firebase/5.8.3/firebase-storage.js"></script>
-  <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
+  --> 
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
   <link href='style.css' rel='stylesheet' type='text/css' />
 </head>
 
 
 <body>
-  <div id = usernameShow>guest</div>
+  <div id=usernameShow>guest</div>
   <textarea id="usernameBox" placeholder="enter Username here"></textarea>
   <button id="submit" onclick="tempUserLogin()">makeUser</button>
   <button id="submit" onclick="readDB()">readDB</button>
   <button id="submit" onclick="createLobby()">createLobby</button>
+  <button id="submit" onclick="addNewItem()">Add New Item</button>
 
+  <div id="app">
+    {{ message }}
+  </div>
+
+  <div id="app-2">
+    <span v-bind:title="message">
+      Hover
+    </span>
+  </div>
+
+  <div id="app-3">
+    <span v-if="seen">Lobby{___}</span>
+  </div>
+
+
+  <div id="app-4">
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo.text }}
+      </li>
+    </ol>
+  </div>
+
+  <div id="app-5">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+  </div>
 
   <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
   <script>
-    // Initialize Firebase
+    // Initialize Firebase, alt + shift + f
     var config = {
       apiKey: "AIzaSyBG0Qkj858Axm39hTx_AXEshQUJGQHi6HE",
       authDomain: "unintentional-data-labeling.firebaseapp.com",
