@@ -15,20 +15,22 @@ function tempUserLogin() {
     var element = document.querySelector('#usernameShow');
     element.textContent = userInput;
 }
+function createNewGame(){
+
+}
 
 function readDB() {
 
     for(var i = 0; i < 4; i++)
     {
-        var randomIndex = getRandomInt(0,4);
+        var randomIndex = getRandomInt(0,833);
         appendImage(randomIndex);
     }
-
 }
 
 function appendImage(index)
 {
-    var ref = firebase.database().ref("picture/"+index);
+    var ref = firebase.database().ref("images/"+index);
     ref.on("value", function (snapshot) {
         console.log(snapshot.val());
         var url = snapshot.val().url;
@@ -49,8 +51,6 @@ function getRandomInt(min, max) {
 function createLobby() {
     var ref = firebase.database().ref("Lobby/");
     var username = document.getElementById('usernameShow').textContent;
-    
-
     gameLobby.seen = !gameLobby.seen;
 }
 
