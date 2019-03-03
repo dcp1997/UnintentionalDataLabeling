@@ -13,10 +13,10 @@
   <script defer src="/__/firebase/init.js"></script>
   -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
+  <script src="app.js"></script>
   <link href='style.css' rel='stylesheet' type='text/css' />
-</head>
 
+</head>
 
 <body>
   <div id=usernameShow>Guest</div>
@@ -28,11 +28,6 @@
     <span v-if="seen"> Lobby{} </span>
   </div>
   <button id="submit" onclick="createNewGame()">Create New Game</button>
-
-
-
-
-
 
 
   <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
@@ -49,7 +44,6 @@
     firebase.initializeApp(config);
   </script>
 
-  <script src="app.js"></script>
 </body>
 
 </html>
