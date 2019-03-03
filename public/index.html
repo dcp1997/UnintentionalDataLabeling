@@ -11,7 +11,7 @@
   <script defer src="/__/firebase/5.8.3/firebase-database.js"></script>
   <script defer src="/__/firebase/5.8.3/firebase-storage.js"></script>
   <script defer src="/__/firebase/init.js"></script>
-  --> 
+  -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
   <link href='style.css' rel='stylesheet' type='text/css' />
@@ -19,39 +19,22 @@
 
 
 <body>
-  <div id=usernameShow>guest</div>
+  <div id=usernameShow>Guest</div>
   <textarea id="usernameBox" placeholder="enter Username here"></textarea>
   <button id="submit" onclick="tempUserLogin()">makeUser</button>
   <button id="submit" onclick="readDB()">readDB</button>
   <button id="submit" onclick="createLobby()">createLobby</button>
-  <button id="submit" onclick="addNewItem()">Add New Item</button>
-
-  <div id="app">
-    {{ message }}
+  <div id="gameLobby">
+    <span v-if="seen"> Lobby{} </span>
   </div>
 
-  <div id="app-2">
-    <span v-bind:title="message">
-      Hover
-    </span>
-  </div>
-
-  <div id="app-3">
-    <span v-if="seen">Lobby{___}</span>
-  </div>
-
-
-  <div id="app-4">
-    <ol>
-      <li v-for="todo in todos">
-        {{ todo.text }}
-      </li>
-    </ol>
-  </div>
-
-  <div id="app-5">
-    <p>{{ message }}</p>
-    <button v-on:click="reverseMessage">Reverse Message</button>
+  <div id="demo">
+    <button v-on:click="show = !show">
+      Toggle
+    </button>
+    <transition name="fade">
+      <p v-if="show">hello</p>
+    </transition>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>

@@ -7,7 +7,7 @@ body{
     margin:0 auto;
 }
 img {
-    max-width: 100%;
+    max-width: 22%;
     max-height: 100%;
 }
 #usernameShow{
@@ -17,3 +17,10 @@ img {
     border-radius: 3px;
     color: maroon;
 }
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
