@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
-import * as serviceWorker from './serviceWorker;';
-im
-import logo from './logo.svg';
+import registerServuceWorker from './serviceWorker';
+
 import './App.css';
-import 
+
 class App extends Component {
   render() {
     return (
