@@ -19,11 +19,11 @@ class App extends Component {
         var ref = firebase.database().ref("images/"+ index);
         ref.on("value", function (snapshot) {
             console.log(snapshot.val().url);
-            test = snapshot.val().url;
+            //test = snapshot.val().url;
         }, function (error) {
             console.log("Error: " + error.code);
         });
-        console.log(test);
+       // console.log(test);
     }
 
     getRandomInt(min, max) 
@@ -40,7 +40,6 @@ class App extends Component {
         <button onClick={ () => this.readDB()}>
             Get Random Images
         </button>
-        <img src={this.test} />
         </div>
     );
   }
