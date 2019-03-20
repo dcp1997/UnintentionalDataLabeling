@@ -6,14 +6,14 @@ import { storage } from 'firebase';
 
 
 class App extends Component {
-    constructor(props){
-        super(props);
-        const img0 = 'https://d3n8a8pro7vhmx.cloudfront.net/taxpayers/pages/679/attachments/original/1499663166/4-ways-cheer-up-depressed-cat.jpg?1499663166';
-            this.state = {
-                urlValue: '',
-                pictures : [img0],
-            };
-    }
+    // constructor(props){
+    //     super(props);
+    //     const img0 = 'https://d3n8a8pro7vhmx.cloudfront.net/taxpayers/pages/679/attachments/original/1499663166/4-ways-cheer-up-depressed-cat.jpg?1499663166';
+    //         this.state = {
+    //             urlValue: '',
+    //             pictures : [img0],
+    //         };
+    // }
     readDB()
     {
         for(var i = 0; i < 4; i++){
@@ -64,10 +64,10 @@ class App extends Component {
         <button type="button" onClick={this.onClearArray}>
           Clear Pictures
         </button>
-        <div class = "Pictures" id = "Pictures">
-            {this.state.pictures.map(image => (
+        <div className = "Pictures" id = "Pictures">
+            {/* {this.state.pictures.map(image => (
                 <img key = {image} src = {image} alt = "random"/>
-        ))}
+        ))} */}
         
         </div>
         </div>
