@@ -32,7 +32,9 @@ class App extends Component {
           window.url = snapshot.val().url
           var elem = document.createElement("img")
           elem.setAttribute("src", snapshot.val().url)
-          elem.setAttribute("class", "random")
+          elem.setAttribute('height', '300px')
+          elem.setAttribute('width', '300px')
+          elem.setAttribute("class", "randomPictures")
           document.getElementById("Pictures").appendChild(elem)
        });
 
