@@ -38,7 +38,7 @@ class App extends Component {
           //window.url = snapshot.val().url
           var elem = document.createElement("img")
           elem.setAttribute("src", snapshot.val().url)
-          document.getElementById("root").appendChild(elem)
+          document.getElementById("Pictures").appendChild(elem)
        });
 
     }
@@ -118,12 +118,12 @@ class App extends Component {
         <button type="button" onClick={this.onClearArray}>
           Clear Pictures
         </button>
-        <ul className = "pictures">
+        <div class = "Pictures" id = "Pictures">
             {this.state.pictures.map(image => (
                 <img key = {image} src = {image} alt = "random"/>
         ))}
         
-        </ul>
+        </div>
         </div>
     );
   }
