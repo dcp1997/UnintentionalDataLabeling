@@ -35,9 +35,10 @@ class App extends Component {
         return firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
           //pictureURL = (snapshot.val().url);
           console.log(snapshot.val().url)
-          //window.url = snapshot.val().url
+          window.url = snapshot.val().url
           var elem = document.createElement("img")
           elem.setAttribute("src", snapshot.val().url)
+          elem.setAttribute("class", "random")
           document.getElementById("Pictures").appendChild(elem)
        });
 
@@ -80,24 +81,28 @@ class App extends Component {
 
     
 
-    addImage(url)
-    {
-        //console.log(url);
-        this.setState({urlValue: url});
-        this.setState(state =>{
-            const pictures = state.pictures.concat(state.urlValue);
+    // addImage(url)
+    // {
+    //     //console.log(url);
+    //     this.setState({urlValue: url});
+    //     this.setState(state =>{
+    //         const pictures = state.pictures.concat(state.urlValue);
        
-            return{
-                pictures,
-                urlValue: '',
-            }
+    //         return{
+    //             pictures,
+    //             urlValue: '',
+    //         }
        
-        });
+    //     });
         
-    }
+    // }
 
     onClearArray = () => {
-        this.setState({ pictures: [] });
+        //this.setState({ pictures: [] });
+        var myNode = document.getElementById("Pictures");
+        while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+        }
       };
     
 
