@@ -5,20 +5,6 @@ import { storage } from 'firebase';
 
 class Game extends Component {
 
-    initNewGame(hostPlayerID)
-    {
-        firebase.database().ref('Games/').push({
-            Players:
-            {
-                
-                
-            }
-        }).then((snap) => {
-            const key = snap.key;
-            console.log(key);
-            return key;
-         }); 
-    }
 
     test()
     {
