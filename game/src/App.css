@@ -85,6 +85,9 @@ p{
     margin: 0 25% 20% 25%;
     padding: 2% 0;
 }
+.gameOption{
+  align-items: center;
+}
 button {
     width: 150px;
     /* height: 25px; */
