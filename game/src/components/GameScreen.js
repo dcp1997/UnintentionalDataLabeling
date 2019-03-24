@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import '../App.css';
 import firebase from '../firebase'
 import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button';
@@ -14,7 +14,7 @@ class App extends Component{
         };
     }
     appendCaption(){
-        var randomIndex = this.getRandomInt(1,7);
+        var randomIndex = this.getRandomInt(1,27);
         return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
             console.log(snapshot);
             console.log(snapshot.val());

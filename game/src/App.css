@@ -154,6 +154,7 @@ button#exit {
 
 .grid .grid-item {
     flex: 1;
+    align-content: center;
 }
   
   
@@ -175,17 +176,20 @@ button#exit {
   
   .grid { 
     margin: 0 0 20px 0;
+    align-items: center;
+    justify-content: center;
   }
   .grid-item {
     padding: 10px;
+   
   }
 
   img {
-    height: 300px;
-    width: 300px;
     align-items: center;
     opacity: 0.7;
-    object-fit: cover;
+    object-fit: contain;
+    max-height: 300px;
+    max-width: 300px;
   }
 
   img:hover {

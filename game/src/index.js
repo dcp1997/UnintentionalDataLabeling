@@ -6,7 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Setup from './components/Setup';
 import Join from './components/Join';
-import GameScreen from './GameScreen';
+import GameScreen from './components/GameScreen';
 import Home from './components/Home';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
