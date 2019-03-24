@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase from './firebase'
 import { storage } from 'firebase';
+import Button from 'react-bootstrap/Button';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class App extends Component{
     readDB(){
@@ -45,7 +47,9 @@ class App extends Component{
         return (
             <div>
                 <div>
-                    <button id="exit"  onclick="window.location.href = 'index.html';">Exit Game</button>
+                <Link to="/">
+                    <Button id="exit">Exit Game</Button>
+                </Link>   
                 </div>
                 <header>
                     Round 1
