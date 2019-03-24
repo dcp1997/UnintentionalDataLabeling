@@ -31,3 +31,160 @@
     transform: rotate(360deg);
   }
 }
+@import url('https://fonts.googleapis.com/css?family=Acme');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Acme', sans-serif;
+}
+
+header {
+    font-size: 40px;
+    padding-top: 2.5%;
+    padding-bottom: 1.5%;
+    padding-left: 15%;
+    padding-right: 15%;
+    text-align: center;
+    background-color: #454B66;
+    color: white;
+}
+
+h2 {
+    text-align: left;
+    margin:0;
+}
+
+div#description {
+    font-size: 30px;
+}
+p{
+    font-size: 18px;
+}
+
+.caption {
+    margin: 1%;
+    text-align: center;
+    padding: 2.5%;
+    font-size: 35px;
+    border-style: double;
+    border-color: #677DB7;
+}
+
+#description {
+    font-size: 20px;
+    text-align: center;
+    padding: 2%;
+}
+
+#gameOptions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: darksalmon; */
+    margin: 0 25% 20% 25%;
+    padding: 2% 0;
+}
+button {
+    width: 150px;
+    /* height: 25px; */
+    margin: 1%;
+    padding: 3%;
+    background-color: transparent;
+    border: solid black medium;
+    border-radius: 15px;
+    font-family: 'Acme', sans-serif;
+    font-size: 30px;
+
+}
+button.option {
+    background-color: transparent;
+    border-style: dotted white 2px;
+    border-radius: 30%;
+}
+
+button.gameOption{
+    padding: 2%;
+    margin-left: 1%;
+}
+
+button:hover {
+    background-color: lightskyblue;
+}
+
+.caption:hover{
+    font-size: 45px;
+}
+
+#a {
+    /* background-color: darkred; */
+    height: 50vh;
+}
+
+#gameplay {
+    margin-left: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+button#exit {
+    margin: 1%;
+    padding:0;
+    font-size: 12px;
+    top:0;
+    float: right;
+    color: white;
+}
+
+.gameInfo {
+    background-color: #454B66;
+    text-align: left;
+    font-size: 16px;
+    color: white;
+    padding: 1%;
+}
+
+.grid {
+    display: flex;
+}
+
+.grid .grid-item {
+    flex: 1;
+}
+  
+  
+@media (max-width: 700px) {
+    .grid {
+        display: block;
+        
+    }
+    .grid.grid-item {
+        width: 100%;
+        margin: 0 0 10px 0;
+    }
+}
+  
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  .grid { 
+    margin: 0 0 20px 0;
+  }
+  .grid-item {
+    padding: 10px;
+  }
+
+  img {
+    height: 300px;
+    width: 300px;
+    align-items: center;
+    opacity: 0.7;
+    object-fit: cover;
+  }
+
+  img:hover {
+    opacity: 1.0;
+  }
