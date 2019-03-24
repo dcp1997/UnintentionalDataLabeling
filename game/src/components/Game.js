@@ -3,8 +3,6 @@ import firebase from '../firebase'
 import { storage } from 'firebase';
 
 
-
-
 class Game extends Component {
 
     initNewGame(hostPlayerID)

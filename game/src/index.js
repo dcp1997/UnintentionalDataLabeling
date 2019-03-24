@@ -1,18 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Button from 'react-bootstrap/Button'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Test from './Test';
-import Game from './componants/Game';
+import Setup from './components/Setup';
+import Join from './components/Join';
 import GameScreen from './GameScreen';
-
+import Home from './components/Home';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 //ReactDOM.render(<Test/>, document.getElementById('root'));
 //ReactDOM.render(<Game />, document.getElementById('root'));
-ReactDOM.render(<GameScreen />, document.getElementById('root'));
+// ReactDOM.render(<GameScreen />, document.getElementById('root'));
+            // <button class = "option" onclick="window.location.href = 'activity.html';">Recent Activity</button>
+const routing = (
+    <Router>
+      <div>
+        <Route exact path="/" component={Home} />
+        <Route path="/newgame" component={Setup} />
+        <Route path="/joingame" component={Join} />
+        <Route path="/game" component={GameScreen} />
+      </div>
+    </Router>
+  )
+  ReactDOM.render(routing, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
