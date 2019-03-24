@@ -7,10 +7,22 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class App extends Component{
     readDB(){
+        this.appendCaption()
         for(var i = 0; i < 4; i++){
             var randomIndex = this.getRandomInt(0,833);
             this.appendImage(randomIndex, i);     
         };
+    }
+    appendCaption(){
+        var randomIndex = this.getRandomInt(0,7);
+        return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
+            console.log(snapshot.val().caption);
+            window.caption = snapshot.val().caption
+            var capt = document.createElement('div');
+            capt.setAttribute('text',snapshot.val().caption);
+            document.getElementById('caption').appendChild(capt);
+            
+        })
     }
       appendImage(index, currentCardNumber)
     {
