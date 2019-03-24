@@ -14,13 +14,13 @@ class App extends Component{
         };
     }
     appendCaption(){
-        var randomIndex = this.getRandomInt(0,7);
+        var randomIndex = this.getRandomInt(1,7);
         return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
+            console.log(snapshot);
+            console.log(snapshot.val());
             console.log(snapshot.val().caption);
             window.caption = snapshot.val().caption
-            var capt = document.createElement('div');
-            capt.setAttribute('text',snapshot.val().caption);
-            document.getElementById('caption').appendChild(capt);
+            document.getElementById('caption').innerHTML = snapshot.val().caption
             
         })
     }
@@ -32,16 +32,17 @@ class App extends Component{
           //pictureURL = (snapshot.val().url);
           console.log(snapshot.val().url)
           window.url = snapshot.val().url
+          var pic = document.createElement("img");
+          pic.setAttribute("class", "randomPictures");
+          pic.setAttribute("src", snapshot.val().url);
           var elem = document.createElement("div")
           elem.setAttribute('height', '300px')
           elem.setAttribute('width', '300px')
           elem.setAttribute("class", "grid-item");
           elem.setAttribute('id', currentCardNumber)
+          elem.appendChild(pic);
           document.getElementById("grid").appendChild(elem)
-          var pic = document.createElement("img");
-          pic.setAttribute("class", "randomPictures");
-          pic.setAttribute("src", snapshot.val().url);
-          document.getElementById(currentCardNumber).appendChild(pic);
+          
        });
 
     }  
@@ -66,17 +67,16 @@ class App extends Component{
                 <header>
                     Round 1
                 </header>
-                <div class="gameInfo"><h2>Your Score: 0</h2></div>
-                <div class="container">
+                <div className="gameInfo"><h2>Your Score: 0</h2></div>
+                <div className="container">
 
-                    <div class="caption">
-                        I don’t get paid enough for this
+                    <div className="caption" id="caption">
                     </div>
 
-                    <div class="grid" id="grid">
+                    <div className="grid" id="grid">
                         
                     </div>
-                    <button class = "gameOption" onclick="window.location.href = 'vote.html';">Submit</button>
+                    <button className= "gameOption" onClick="window.location.href = 'vote.html';">Submit</button>
                 </div>
             </div>
         );
