@@ -5,7 +5,7 @@ import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
-class App extends Component{
+class GameScreen extends Component{
     
     
     readDB(){
@@ -56,6 +56,7 @@ class App extends Component{
     componentDidMount(){
         window.addEventListener('load', this.readDB());
     }
+
     render() {
         return (
             <div>
@@ -82,4 +83,4 @@ class App extends Component{
         );
       }
     }
-export default App;
+export default GameScreen;
