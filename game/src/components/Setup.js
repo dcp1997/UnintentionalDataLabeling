@@ -15,15 +15,19 @@ class Setup extends Component {
           hostUserName:'',
           numberOfPlayers: '',
           numberofRounds:'',
-          ImagesOrPhrases:'',
-          dbKey: ''
+          mode:'image',
+          dbKey: '',
         }
-        
+
         this.updateUserName = this.updateUserName.bind(this);
         this.updateNumberOfPlayers = this.updateNumberOfPlayers.bind(this);
         this.updateNumberOfRounds = this.updateNumberOfRounds.bind(this);
         this.updateMode = this.updateMode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    updateMode(event) {
+        this.setState({value: event.target.value});
     }
 
     updateUserName(event)
@@ -39,14 +43,14 @@ class Setup extends Component {
     {
         this.setState({numberofRounds : event.target.value})
     }   
-
-    updateMode(event)
-    {
-        this.setState({mode : event.target.value})
-    }
     
     handleSubmit()
     {
+        alert('Your favorite flavor is: ' + this.state.value);
+        // var additional = "";
+        // for (var i=0; i<this.state.numberOfPlayers-1; i++){
+        //     additional = additional + "{nickname : '',powerups : 0,score : 0},";
+        // }
         if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!=null && 
             this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
@@ -56,22 +60,37 @@ class Setup extends Component {
                     mode : this.state.mode,
                     numberPlayers : this.state.numberOfPlayers,
                     numberRounds : this.state.numberofRounds,
-                    players : [ null, {
+                    players : 
+                    [ null, {
                         nickname : this.state.hostUserName,
                         powerups : 0,
                         score : 0
-                    } ],
+                        },
+                        // {
+                        // nickname : "",
+                        // powerups : 0,
+                        // score : 0
+                        // },
+                        // {
+                        // nickname : "",
+                        // powerups : 0,
+                        // score : 0
+                        // },
+                    ],
                     round : [ null, {
                         submissions : {
                           players : [ null, {
-                            nickname : null,
-                            submissionID : null
-                          }],
-                          promptID : null,
-                          type : this.state.mode,
-                          winner : null
+                            nickname : "",
+                            submissionID : 1
+                          }, {
+                            nickname : "",
+                            submissionID : 2
+                          } ],
+                          promptID : 1,
+                          type : "",
+                          winner : ""
                         }
-                      } ],
+                    } ],
                 }).then((snap) => {
                     const key = snap.key;
                     console.log(key);
@@ -106,8 +125,10 @@ class Setup extends Component {
                     </p>
 
                     <p>Play with </p>
-                    <input type="radio" name="input" onChange={this.updateMode}></input> Image<br></br>
-                    <input type="radio" name="input" onChange={this.updateMode}></input> Phrase<br></br>
+                    <select name="prompt">
+                        <option value="image">Image</option>
+                        <option value="caption">Caption</option>
+                    </select>
                 </form>
 
                 <input type="submit" onClick={this.handleSubmit} ></input>
