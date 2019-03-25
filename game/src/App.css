@@ -16,9 +16,11 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #17C490;
 }
-
+.container{
+  background-color:#182B4a
+}
 .App-link {
   color: #61dafb;
 }
@@ -46,7 +48,7 @@ header {
     padding-left: 15%;
     padding-right: 15%;
     text-align: center;
-    background-color: #454B66;
+    background-color: #57364F;
     color: white;
 }
 
@@ -65,10 +67,12 @@ p{
 .caption {
     margin: 1%;
     text-align: center;
+
     padding: 2.5%;
     font-size: 35px;
-    border-style: double;
-    border-color: #677DB7;
+    border-style: solid;
+    border-color: #17C490;
+    color: #17C490;
 }
 
 #description {
@@ -94,7 +98,8 @@ button {
     margin: 1%;
     padding: 3%;
     background-color: transparent;
-    border: solid black medium;
+    border: solid #F16B6C;
+    color: #F16B6C;
     border-radius: 15px;
     font-family: 'Acme', sans-serif;
     font-size: 30px;
@@ -112,13 +117,15 @@ button.gameOption{
 }
 
 button:hover {
-    background-color: lightskyblue;
+    background-color: #F16B6C;
 }
 
 .caption:hover{
     font-size: 45px;
 }
-
+.body{
+  background-color: #182B4A;
+}
 #a {
     /* background-color: darkred; */
     height: 50vh;
@@ -137,11 +144,13 @@ button#exit {
     font-size: 12px;
     top:0;
     float: right;
-    color: white;
+    color: #17C490;
+    border: none;
+
 }
 
 .gameInfo {
-    background-color: #454B66;
+    background-color: #182B4a;
     text-align: left;
     font-size: 16px;
     color: white;
@@ -155,6 +164,17 @@ button#exit {
 .grid .grid-item {
     flex: 1;
     align-content: center;
+}
+
+ input[type='submit']{
+    width: 100px;
+    margin: 1%;
+    padding: 1%;
+    background-color: transparent;
+    border: solid black medium;
+    border-radius: 15px;
+    font-family: 'Acme', sans-serif;
+    font-size: 20px;
 }
   
   
