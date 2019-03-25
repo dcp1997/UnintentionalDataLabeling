@@ -5,7 +5,7 @@ import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
-class App extends Component{
+class GameScreen extends Component{
     readDB(){
         this.appendCaption()
         for(var i = 0; i < 4; i++){
@@ -82,4 +82,4 @@ class App extends Component{
         );
       }
     }
-export default App;
+export default GameScreen;
