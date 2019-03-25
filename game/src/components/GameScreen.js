@@ -6,13 +6,15 @@ import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class GameScreen extends Component{
-    
     readDB(){
+        var clicks = [0, 0, 0, 0];
         this.appendCaption()
         for(var i = 0; i < 4; i++){
             var randomIndex = this.getRandomInt(0,833);
-            this.appendImage(randomIndex, i);     
+            this.appendImage(randomIndex, i, clicks);
         };
+        
+        
     }
     appendCaption(){
         var randomIndex = this.getRandomInt(1,27);
@@ -25,11 +27,9 @@ class GameScreen extends Component{
             
         })
     }
-    clickPicture(){
-        console.log(this)
-    }
     
-      appendImage(index, currentCardNumber)
+    
+      appendImage(index, currentCardNumber, clicks)
     {
         // var pictureURL;
         
@@ -45,14 +45,26 @@ class GameScreen extends Component{
           var elem = document.createElement("div")
           elem.setAttribute('height', '300px')
           elem.setAttribute('width', '300px')
-          elem.setAttribute("class", "grid-item");
+          elem.setAttribute("className", "grid-item");
           elem.setAttribute('id', currentCardNumber)
           elem.appendChild(pic);
           document.getElementById("grid").appendChild(elem)
-          elem.addEventListener('click', function(){
-            var current = document.getElementById("img"+currentCardNumber);
-            console.log(current.getAttribute('alt'));
-            });
+          document.getElementById(currentCardNumber).addEventListener('click', function(){
+            console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
+            if (clicks[currentCardNumber]%2 === 0){
+                console.log(clicks[currentCardNumber])
+                this.style.border = "solid";
+                this.style.borderColor = "#17C490";
+                clicks[currentCardNumber]++;
+                this.style.padding = '10px';
+            }
+            else if (clicks[currentCardNumber]%2 === 1){
+                console.log(clicks[currentCardNumber])
+                this.style.border = 'none';
+                clicks[currentCardNumber]--;
+                this.style.padding = '10px';
+            }
+        })     
        });
 
     }  
@@ -66,7 +78,8 @@ class GameScreen extends Component{
     
     componentDidMount(){
         window.addEventListener('load', this.readDB());
-    }
+        }
+    
 
     
     render() {
