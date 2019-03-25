@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import '../App.css';
-import firebase from '../firebase'
+import './App.css';
+import firebase from './firebase'
 import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
-class GameScreen extends Component{
+class App extends Component{
+    
+    
     readDB(){
         this.appendCaption()
         for(var i = 0; i < 4; i++){
@@ -14,7 +16,7 @@ class GameScreen extends Component{
         };
     }
     appendCaption(){
-        var randomIndex = this.getRandomInt(1,27);
+        var randomIndex = this.getRandomInt(1,7);
         return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
             console.log(snapshot);
             console.log(snapshot.val());
@@ -42,9 +44,7 @@ class GameScreen extends Component{
           elem.setAttribute('id', currentCardNumber)
           elem.appendChild(pic);
           document.getElementById("grid").appendChild(elem)
-          
        });
-
     }  
 
     getRandomInt(min, max) 
@@ -82,4 +82,4 @@ class GameScreen extends Component{
         );
       }
     }
-export default GameScreen;
+export default App;

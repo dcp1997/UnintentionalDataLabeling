@@ -165,6 +165,17 @@ button#exit {
     flex: 1;
     align-content: center;
 }
+
+ input[type='submit']{
+    width: 100px;
+    margin: 1%;
+    padding: 1%;
+    background-color: transparent;
+    border: solid black medium;
+    border-radius: 15px;
+    font-family: 'Acme', sans-serif;
+    font-size: 20px;
+}
   
   
 @media (max-width: 700px) {
