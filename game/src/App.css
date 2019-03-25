@@ -162,6 +162,10 @@ button#exit {
 .grid .grid-item {
     flex: 1;
     align-content: center;
+    background-color: #57364F;
+    border-radius: 15px;
+    height: 300px;
+    width: 300px;
 }
 
  input[type='submit']{
@@ -198,16 +202,21 @@ button#exit {
     justify-content: center;
   }
   .grid-item {
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
-   
   }
 
   img {
-    align-items: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
     opacity: 0.7;
     object-fit: contain;
-    max-height: 300px;
-    max-width: 300px;
+    max-height: 250px;
+    max-width: 250px;
   }
 
   img:hover {

@@ -50,7 +50,7 @@ class GameScreen extends Component{
           elem.setAttribute('id', currentCardNumber)
           elem.appendChild(pic);
           document.getElementById("grid").appendChild(elem)
-          pic.addEventListener('click', function(){
+          elem.addEventListener('click', function(){
             console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
             if (clicks[currentCardNumber] === 0){
                 console.log(clicks[currentCardNumber])
@@ -58,7 +58,7 @@ class GameScreen extends Component{
                 this.style.borderColor = "#17C490";
                 for(var l=0; l<clicks.length; l++){
                     if(clicks[l]===1){
-                        document.getElementById("img"+l).style.border = 'none';
+                        document.getElementById(l).style.border = 'none';
                         clicks[l]--;
                     }
                 }
