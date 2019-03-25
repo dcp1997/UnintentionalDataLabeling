@@ -5,8 +5,6 @@ import Button from 'react-bootstrap/Button'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 
-
-
 class Setup extends Component {
     
     constructor(props)
@@ -24,7 +22,7 @@ class Setup extends Component {
         this.updateUserName = this.updateUserName.bind(this);
         this.updateNumberOfPlayers = this.updateNumberOfPlayers.bind(this);
         this.updateNumberOfRounds = this.updateNumberOfRounds.bind(this);
-
+        this.updateMode = this.updateMode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -42,56 +40,80 @@ class Setup extends Component {
         this.setState({numberofRounds : event.target.value})
     }   
 
-   
-
+    updateMode(event)
+    {
+        this.setState({mode : event.target.value})
+    }
     
     handleSubmit()
     {
-        firebase.database().ref('Games/').push({
-            Players:
-            {
-                1: 
-                {
-                    username: this.state.hostUserName
-                }
-            },
-            NumberOfRounds: this.state.numberofRounds,
-            NumberOfPlayers: this.state.numberOfPlayers,
-
-        }).then((snap) => {
-            const key = snap.key;
-            console.log(key);
-            this.setState({dbKey: key});
-         }); 
-
+        if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
+            this.state.numberofRounds!=null && this.state.hostUserName!=null && 
+            this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
+                firebase.database().ref('game-session/').push({
+                    currentRoundNumber : 1,
+                    imagesUsed : null,
+                    mode : this.state.mode,
+                    numberPlayers : this.state.numberOfPlayers,
+                    numberRounds : this.state.numberofRounds,
+                    players : [ null, {
+                        nickname : this.state.hostUserName,
+                        powerups : 0,
+                        score : 0
+                    } ],
+                    round : [ null, {
+                        submissions : {
+                          players : [ null, {
+                            nickname : null,
+                            submissionID : null
+                          }],
+                          promptID : null,
+                          type : this.state.mode,
+                          winner : null
+                        }
+                      } ],
+                }).then((snap) => {
+                    const key = snap.key;
+                    console.log(key);
+                    this.setState({dbKey: key});
+                 }); 
+                 this.start = true;
+            }
+        
+        if (this.state.numberOfPlayers<3){
+            alert("Not enough players")
+        }
+        if (this.state.numberOfRounds<3){
+            alert("Not enough rounds")
+        }    
     }
 
     render() { 
         return   (
-
-
             <div>
             <header>Create a new game </header>
             <div id="gameOptions">
                 <form>
-                    <p>Enter Your Username </p>
+                    <p>Enter Your Nickname </p>
                     <input type="text" onChange={this.updateUserName}></input>
 
-                    <p>Number of Players (min 3)</p>
-                    <input type="text" name="players" onChange={this.updateNumberOfPlayers}></input>
+                    <p>Number of Players                     
+                        <input type="number" min="3" max="8" default="3" name="players" onChange={this.updateNumberOfPlayers}></input>
+                    </p>
 
-                    <p>Number of Rounds</p>
-                    <input type="text" name="rounds" onChange={this.updateNumberOfRounds}></input>
+                    <p>Number of Rounds
+                    <input type="number" min="3" max="50" default="3" name="rounds" onChange={this.updateNumberOfRounds}></input>
+                    </p>
 
-                    <p>Prompt with </p>
-                    <input type="radio" name="input"></input> Image<br></br>
-                    <input type="radio" name="input"></input> Phrase<br></br>
+                    <p>Play with </p>
+                    <input type="radio" name="input" onChange={this.updateMode}></input> Image<br></br>
+                    <input type="radio" name="input" onChange={this.updateMode}></input> Phrase<br></br>
                 </form>
 
                 <input type="submit" onClick={this.handleSubmit} ></input>
-                <p> Your Shareable game ID: {this.state.dbKey}</p>
+                <p> Your Shareable GameCode: {this.state.dbKey}</p>
                 <Link to="/game">
-                    <Button>Test Round</Button>
+                    <Button id ="startGame" variant="primary" disabled={!this.start}>Start Game</Button>
                 </Link>  
             </div>
         </div>
