@@ -27,7 +27,7 @@ class App extends Component{
       appendImage(index, currentCardNumber)
     {
         // var pictureURL;
-
+        
         return firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
           //pictureURL = (snapshot.val().url);
           console.log(snapshot.val().url)
@@ -55,6 +55,10 @@ class App extends Component{
     }
     componentDidMount(){
         window.addEventListener('load', this.readDB());
+    }
+
+    clickPicture(){
+        console.log(this)
     }
     render() {
         return (
