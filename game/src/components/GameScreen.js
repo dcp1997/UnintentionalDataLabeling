@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class GameScreen extends Component{
+    
     readDB(){
         this.appendCaption()
         for(var i = 0; i < 4; i++){
@@ -24,6 +25,10 @@ class GameScreen extends Component{
             
         })
     }
+    clickPicture(){
+        console.log(this)
+    }
+    
       appendImage(index, currentCardNumber)
     {
         // var pictureURL;
@@ -35,6 +40,8 @@ class GameScreen extends Component{
           var pic = document.createElement("img");
           pic.setAttribute("class", "randomPictures");
           pic.setAttribute("src", snapshot.val().url);
+          pic.setAttribute('id', "img"+currentCardNumber)
+          pic.setAttribute('alt', index);
           var elem = document.createElement("div")
           elem.setAttribute('height', '300px')
           elem.setAttribute('width', '300px')
@@ -42,7 +49,10 @@ class GameScreen extends Component{
           elem.setAttribute('id', currentCardNumber)
           elem.appendChild(pic);
           document.getElementById("grid").appendChild(elem)
-          
+          elem.addEventListener('click', function(){
+            var current = document.getElementById("img"+currentCardNumber);
+            console.log(current.getAttribute('alt'));
+            });
        });
 
     }  
@@ -53,13 +63,12 @@ class GameScreen extends Component{
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+    
     componentDidMount(){
         window.addEventListener('load', this.readDB());
     }
 
-    clickPicture(){
-        console.log(this)
-    }
+    
     render() {
         return (
             <div>

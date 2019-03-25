@@ -215,3 +215,8 @@ button#exit {
   img:hover {
     opacity: 1.0;
   }
+  #selectedimg {
+    opacity: 1.0;
+    border: solid;
+    border-color:  #17C490;
+  }
