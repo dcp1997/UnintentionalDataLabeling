@@ -42,28 +42,35 @@ class GameScreen extends Component{
           pic.setAttribute("src", snapshot.val().url);
           pic.setAttribute('id', "img"+currentCardNumber)
           pic.setAttribute('alt', index);
+          
           var elem = document.createElement("div")
           elem.setAttribute('height', '300px')
           elem.setAttribute('width', '300px')
-          elem.setAttribute("className", "grid-item");
+          elem.setAttribute("class", "grid-item");
           elem.setAttribute('id', currentCardNumber)
           elem.appendChild(pic);
           document.getElementById("grid").appendChild(elem)
-          document.getElementById(currentCardNumber).addEventListener('click', function(){
+          pic.addEventListener('click', function(){
             console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            if (clicks[currentCardNumber]%2 === 0){
+            if (clicks[currentCardNumber] === 0){
                 console.log(clicks[currentCardNumber])
                 this.style.border = "solid";
                 this.style.borderColor = "#17C490";
+                for(var l=0; l<clicks.length; l++){
+                    if(clicks[l]===1){
+                        document.getElementById("img"+l).style.border = 'none';
+                        clicks[l]--;
+                    }
+                }
                 clicks[currentCardNumber]++;
-                this.style.padding = '10px';
+
             }
-            else if (clicks[currentCardNumber]%2 === 1){
+            else if (clicks[currentCardNumber]=== 1){
                 console.log(clicks[currentCardNumber])
                 this.style.border = 'none';
                 clicks[currentCardNumber]--;
-                this.style.padding = '10px';
             }
+            
         })     
        });
 
