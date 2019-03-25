@@ -6,8 +6,15 @@ import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class GameScreen extends Component{
-    
-    
+    constructor(props)
+    {
+        super(props);
+        
+        this.state = {
+          GameID:''
+        }
+    }
+
     readDB(){
         this.appendCaption()
         for(var i = 0; i < 4; i++){
@@ -15,6 +22,7 @@ class GameScreen extends Component{
             this.appendImage(randomIndex, i);     
         };
     }
+
     appendCaption(){
         var randomIndex = this.getRandomInt(1,7);
         return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
