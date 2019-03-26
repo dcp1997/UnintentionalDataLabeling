@@ -14,7 +14,6 @@ class Join extends Component {
         this.state = {
             hostUserName:'',
             gameCode: '',
-            msg: '',
         }
 
         this.updateUserName = this.updateUserName.bind(this);
@@ -69,9 +68,11 @@ class Join extends Component {
                         </p>
                         <Button onClick={this.handleSubmit}>Submit</Button>
                     </form>
-                    <Link to="/game">
-                        <Button disabled={!this.start}>Start Game</Button>
-                    </Link> 
+                    <div id="next" >
+                        <Link to="/game">
+                            <Button disabled={!this.start}>Start Game</Button>
+                        </Link> 
+                    </div>
                 </div>
         </div>
         );

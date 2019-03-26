@@ -15,10 +15,10 @@ class Home extends Component {
                 <div id="a">
                     <div id="description">Who will find the best caption/picture combo?</div>
                     <div id="gameOptions">
-                        <Link to="/newgame">
+                        <Link to="/create">
                             <Button>New Game</Button>
                         </Link>            
-                        <Link to="/joingame">
+                        <Link to="/join">
                             <Button>Join Game</Button>
                         </Link>
                         <Link to="/game">

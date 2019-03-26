@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 
-class Setup extends Component {
+class Create extends Component {
     
     constructor(props)
     {
@@ -126,4 +126,4 @@ class Setup extends Component {
         );
     }
 }
-export default Setup;
+export default Create;
