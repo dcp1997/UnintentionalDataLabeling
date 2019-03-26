@@ -107,10 +107,11 @@ class Game extends Component{
                     </div>
 
                     <div className="grid" id="grid">
-                        
-                    </div>
-                    <button className= "gameOption" onClick="window.location.href = 'vote.html';">Submit</button>
-                </div>
+                       </div> 
+                    <Link to="/">
+                    <Button id="Submit">Submit</Button>
+                </Link>  
+            </div>
             </div>
         );
       }

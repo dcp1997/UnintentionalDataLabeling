@@ -34,6 +34,7 @@
   }
 }
 @import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 html, body {
     margin: 0;
@@ -82,6 +83,7 @@ form {
     text-align: center;
     background-color: #17C490;
     padding: 2.5%;
+    margin-bottom: 2vh;
     font-size: 35px;
     border-style: solid;
     border-color: #17C490;
@@ -115,13 +117,14 @@ button {
     width: 150px;
     /* height: 25px; */
     margin: 0.5vw;
-    padding: 3%;
-    background-color: transparent;
+    padding:1vmin;
+    background-color: rgba(150, 150, 150, 0.215);
     border: solid #F16B6C;
     color: #F16B6C;
     border-radius: 15px;
     font-size: 30px;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Open Sans', serif;
+    text-align: center;
 
 
 }
@@ -134,7 +137,9 @@ button.option {
 button.gameOption{
     padding: 2%;
     margin-left: 25%;
-    
+    border-width: thick;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
 }
 
 button:hover {
@@ -147,7 +152,7 @@ button:hover {
 }
 #a {
     /* background-color: darkred; */
-    height: 50vh;
+    height: 73vh;
     align-items: center;
     justify-content: center;
 }
@@ -263,9 +268,10 @@ input[type='text'], input[type='number']{
     justify-content: center;
   }
   .grid-item {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 1vw;
+    margin-right: 1vw;
     padding: 10px;
+    width: 22vw;
   }
 
   img {
