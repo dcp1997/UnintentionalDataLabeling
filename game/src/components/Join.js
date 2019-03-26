@@ -14,11 +14,12 @@ class Join extends Component {
         this.state = {
             hostUserName:'',
             gameCode: '',
+            showStart: false,
+            showSubmit: true,
         }
 
         this.updateUserName = this.updateUserName.bind(this);
         this.updateGameCode = this.updateGameCode.bind(this);
-        
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -36,6 +37,7 @@ class Join extends Component {
         var gc = this.state.gameCode;
         var user = this.state.hostUserName;
         var maxPlayers = 0;
+        var current = 0;
         firebase.database().ref('game-session/' + gc + '/numberPlayers').once('value', function(snapshot) {
             maxPlayers = snapshot.val()
         });
@@ -46,13 +48,24 @@ class Join extends Component {
                        nickname : user,
                        powerups : 0,
                        score : 0
-                       });
-                    alert("You have been added to this game.")
+                       }).then(() => {
+                        alert("You have been added to this game."); 
+                     });
                } else {
                    alert("You cannot join this game")
-               } 
-           });
-        }  
+                    
+               }  
+           })
+            firebase.database().ref('game-session/' + gc + '/players').once('value', function(snapshot) {
+            }).then((snapshot)=>{
+                current = snapshot.numChildren();
+                if (current!=0){
+                    this.setState({showStart: true});  
+                    this.setState({showSubmit:false});
+                }
+            });
+           
+        }
     }
 
     render() { 
@@ -71,13 +84,13 @@ class Join extends Component {
                         <p>Enter Game Code<br></br>
                             <input type="text" name="gameCode" onChange={this.updateGameCode}></input>
                         </p>
-                        <Button onClick={this.handleSubmit}>Submit</Button>
+                        {this.state.showSubmit ?
+                            <Button onClick={this.handleSubmit}>Submit</Button>:null
+                        }
                     </form>
-                    <div id="next" >
-                        <Link to="/game">
-                            <Button disabled={!this.start}>Start Game</Button>
-                        </Link> 
-                    </div>
+                    {this.state.showStart ?
+                        <Link to="/game"><Button >Start</Button></Link> :null
+                    }
                 </div>
         </div>
         );
