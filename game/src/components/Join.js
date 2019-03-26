@@ -58,7 +58,7 @@ class Join extends Component {
     render() { 
         return   (
             <div>
-                <header>Join</header>
+                <header>Join A Game</header>
                 <div id="gameOptions">
                     <form>
                         <p>Enter Your Nickname </p>

@@ -44,8 +44,8 @@ class Game extends Component{
           pic.setAttribute('alt', index);
           
           var elem = document.createElement("div")
-          elem.setAttribute('height', '300px')
-          elem.setAttribute('width', '300px')
+          elem.setAttribute('height', '200px')
+          elem.setAttribute('width', '200px')
           elem.setAttribute("class", "grid-item");
           elem.setAttribute('id', currentCardNumber)
           elem.appendChild(pic);

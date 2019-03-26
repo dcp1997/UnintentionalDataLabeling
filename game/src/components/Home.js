@@ -14,7 +14,7 @@ class Home extends Component {
             <header>Memes For Machines </header>
                 <div id="a">
                     <div id="description">Who will find the best caption/picture combo?</div>
-                    <div id="gameOptions">
+                    <div id="menuOptions">
                         <Link to="/create">
                             <Button>New Game</Button>
                         </Link>            
