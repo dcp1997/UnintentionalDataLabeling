@@ -46,7 +46,7 @@ html, body {
   body {
     background-image: url(http://weinbergerickson.com/wp-content/uploads/2018/01/white-marble-wallpaper-19.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
   }
 
 header {
@@ -96,11 +96,15 @@ form {
     text-align: center;
     padding: 2%;
 }
+#menuOptions {
+  display: flex;
+    flex-direction: column;
+  align-items: center;
+}
 
 #gameOptions {
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     /* background-color: darksalmon; */
     margin: 0 25% 20% 5%;
     padding: 2% 0;
