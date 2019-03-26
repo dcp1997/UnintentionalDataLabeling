@@ -4,9 +4,9 @@ import Button from 'react-bootstrap/Button'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Setup from './components/Setup';
+import Create from './components/Create';
 import Join from './components/Join';
-import GameScreen from './components/GameScreen';
+import Game from './components/Game';
 import Home from './components/Home';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import Lobby from './components/Lobby'
@@ -15,9 +15,9 @@ const routing = (
     <Router>
       <div>
         <Route exact path="/" component={Home} />
-        <Route path="/newgame" component={Setup} />
-        <Route path="/joingame" component={Join} />
-        <Route path="/game" component={GameScreen} />
+        <Route path="/create" component={Create} />
+        <Route path="/join" component={Join} />
+        <Route path="/game" component={Game} />
       </div>
     </Router>
   )

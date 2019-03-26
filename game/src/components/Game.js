@@ -1,37 +1,80 @@
 import React, { Component } from 'react';
+import '../App.css';
 import firebase from '../firebase'
 import { storage } from 'firebase';
+import Button from 'react-bootstrap/Button';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
-
-class Game extends Component {
-
-
-    test()
-    {
-
-    }
-
-    formNewHand(playerID)
-    {
-        firebase.database().ref('PlayerHand/'+playerID).remove();
-        for(var i = 0; i < 5; i++){
+class Game extends Component{
+    readDB(){
+        var clicks = [0, 0, 0, 0];
+        this.appendCaption()
+        for(var i = 0; i < 4; i++){
             var randomIndex = this.getRandomInt(0,833);
-            firebase.database().ref('images/' + randomIndex).once('value').then(function(snapshot) {
-                console.log(snapshot.val().url);
-                firebase.database().ref('PlayerHand/'+playerID).push({
-                        url:snapshot.val().url
-                });
-             });
-               
-        }
+            this.appendImage(randomIndex, i, clicks);
+        };
+        
+        
     }
-
-
+    appendCaption(){
+        var randomIndex = this.getRandomInt(1,27);
+        return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
+            console.log(snapshot);
+            console.log(snapshot.val());
+            console.log(snapshot.val().caption);
+            window.caption = snapshot.val().caption
+            document.getElementById('caption').innerHTML = snapshot.val().caption
+            
+        })
+    }
     
-    submitCard(cardGuid)
+    
+      appendImage(index, currentCardNumber, clicks)
     {
+        // var pictureURL;
+        
+        return firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
+          //pictureURL = (snapshot.val().url);
+          console.log(snapshot.val().url)
+          window.url = snapshot.val().url
+          var pic = document.createElement("img");
+          pic.setAttribute("class", "randomPictures");
+          pic.setAttribute("src", snapshot.val().url);
+          pic.setAttribute('id', "img"+currentCardNumber)
+          pic.setAttribute('alt', index);
+          
+          var elem = document.createElement("div")
+          elem.setAttribute('height', '200px')
+          elem.setAttribute('width', '200px')
+          elem.setAttribute("class", "grid-item");
+          elem.setAttribute('id', currentCardNumber)
+          elem.appendChild(pic);
+          document.getElementById("grid").appendChild(elem)
+          elem.addEventListener('click', function(){
+            console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
+            if (clicks[currentCardNumber] === 0){
+                console.log(clicks[currentCardNumber])
+                this.style.border = "solid";
+                this.style.borderColor = "#17C490";
+                for(var l=0; l<clicks.length; l++){
+                    if(clicks[l]===1){
+                        document.getElementById(l).style.border = 'none';
+                        clicks[l]--;
+                    }
+                }
+                clicks[currentCardNumber]++;
 
-    }
+            }
+            else if (clicks[currentCardNumber]=== 1){
+                console.log(clicks[currentCardNumber])
+                this.style.border = 'none';
+                clicks[currentCardNumber]--;
+            }
+            
+        })     
+       });
+
+    }  
 
     getRandomInt(min, max) 
     {
@@ -39,29 +82,38 @@ class Game extends Component {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+    
+    componentDidMount(){
+        window.addEventListener('load', this.readDB());
+        }
+    
 
-
-    render() { 
-        return   (
+    
+    render() {
+        return (
             <div>
-        <button onClick={ () => this.formNewHand("guid")}>
-        Get Random Images
-        </button>
-        <button onClick={ () => this.initNewGame("guid")}>
-        Make new Game
-        </button>
-        <button onClick={ () => this.test()}>
-        test
-        </button>
-        </div>
+                <div>
+                <Link to="/">
+                    <Button id="exit">Exit Game</Button>
+                </Link>   
+                </div>
+                <header>
+                    Round 1
+                </header>
+                <div className="gameInfo"><h2>Your Score: 0</h2></div>
+                <div className="container">
 
+                    <div className="caption" id="caption">
+                    </div>
 
+                    <div className="grid" id="grid">
+                       </div> 
+                    <Link to="/">
+                    <Button id="Submit">Submit</Button>
+                </Link>  
+            </div>
+            </div>
         );
+      }
     }
-
-    createNewGameEntry(){
-        
-    }
-}
- 
 export default Game;

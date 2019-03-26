@@ -18,9 +18,9 @@
   font-size: calc(10px + 2vmin);
   color: #17C490;
 }
-.container{
+/* .container{
   background-color:#182B4a
-}
+} */
 .App-link {
   color: #61dafb;
 }
@@ -33,13 +33,21 @@
     transform: rotate(360deg);
   }
 }
-@import url('https://fonts.googleapis.com/css?family=Acme');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Acme', sans-serif;
-}
+    font-family: 'Raleway', sans-serif;
+    background: #17C490;
+    }
+
+  body {
+    background-image: url(http://weinbergerickson.com/wp-content/uploads/2018/01/white-marble-wallpaper-19.jpg);
+    background-size: cover;
+    background-repeat: repeat;
+  }
 
 header {
     font-size: 40px;
@@ -60,18 +68,26 @@ h2 {
 div#description {
     font-size: 30px;
 }
-p{
-    font-size: 18px;
+p {
+    font-size: 28px;
+    padding-right: 1%;
+}
+
+form {
+  background-color: lightgray;
+  opacity: .85;
+  padding-left: 2%;
 }
 
 .caption {
     text-align: center;
-
+    background-color: #17C490;
     padding: 2.5%;
+    margin-bottom: 2vh;
     font-size: 35px;
     border-style: solid;
     border-color: #17C490;
-    color: #17C490;
+    color: white;
 }
 
 #description {
@@ -79,13 +95,19 @@ p{
     text-align: center;
     padding: 2%;
 }
+#menuOptions {
+  display: flex;
+    flex-direction: column;
+  align-items: center;
+}
 
 #gameOptions {
     display: flex;
-    flex-direction: column;
+    flex-direction: line;
     align-items: center;
+    justify-content: center;
     /* background-color: darksalmon; */
-    margin: 0 25% 20% 25%;
+    margin: 0 25% 20% 5%;
     padding: 2% 0;
 }
 .gameOption{
@@ -94,14 +116,16 @@ p{
 button {
     width: 150px;
     /* height: 25px; */
-    margin: 1%;
-    padding: 3%;
-    background-color: transparent;
+    margin: 0.5vw;
+    padding:1vmin;
+    background-color: rgba(150, 150, 150, 0.215);
     border: solid #F16B6C;
     color: #F16B6C;
     border-radius: 15px;
-    font-family: 'Acme', sans-serif;
     font-size: 30px;
+    font-family: 'Open Sans', serif;
+    text-align: center;
+
 
 }
 button.option {
@@ -112,11 +136,14 @@ button.option {
 
 button.gameOption{
     padding: 2%;
-    margin-left: 1%;
+    margin-left: 25%;
+    border-width: thick;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
 }
 
 button:hover {
-    background-color: #F16B6C;
+    background-color: rgba(107, 107, 107, 0.815);
 }
 
 
@@ -125,7 +152,9 @@ button:hover {
 }
 #a {
     /* background-color: darkred; */
-    height: 50vh;
+    height: 73vh;
+    align-items: center;
+    justify-content: center;
 }
 
 #gameplay {
@@ -156,15 +185,14 @@ button#exit {
 
 .grid {
     display: flex;
+    margin-top: 1%;
 }
 
-.grid .grid-item {
-    flex: 1;
-    align-content: center;
-    background-color: #57364F;
-    border-radius: 15px;
-    height: 300px;
-    width: 300px;
+.grid>* {
+  align-content: center;
+  background-color: #57364F;
+  border-radius: 15px;
+  height: 300px;
 }
 
  input[type='submit']{
@@ -174,14 +202,53 @@ button#exit {
     background-color: transparent;
     border: solid black medium;
     border-radius: 15px;
-    font-family: 'Acme', sans-serif;
     font-size: 20px;
+    font-family: 'Roboto Slab', serif;
+
+}
+input[type='submit']:hover {
+  background-color: rgba(107, 107, 107, 0.815);
 }
   
+input[type='text'], input[type='number']{
+  width: 40%;
+  font-size: 30px;
+  height: 35px;
+  background-color: white;
+  border-style:solid;
+  font-family: 'Roboto Slab', serif;
+
+
+}
+
+.styled-select {
+  background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+  height: 29px;
+  overflow: hidden;
+  width: 240px;
+}
+
+.styled-select select {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  height: 29px;
+  padding: 5px; /* If you add too much padding here, the options won't show in IE */
+  width: 268px;
+}
+
+.semi-square {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.white   { background-color: #fff; }
+
   
 @media (max-width: 700px) {
     .grid {
         display: block;
+
         
     }
     .grid.grid-item {
@@ -201,9 +268,10 @@ button#exit {
     justify-content: center;
   }
   .grid-item {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 1vw;
+    margin-right: 1vw;
     padding: 10px;
+    width: 22vw;
   }
 
   img {

@@ -14,11 +14,11 @@ class Home extends Component {
             <header>Memes For Machines </header>
                 <div id="a">
                     <div id="description">Who will find the best caption/picture combo?</div>
-                    <div id="gameOptions">
-                        <Link to="/newgame">
+                    <div id="menuOptions">
+                        <Link to="/create">
                             <Button>New Game</Button>
                         </Link>            
-                        <Link to="/joingame">
+                        <Link to="/join">
                             <Button>Join Game</Button>
                         </Link>
                         <Link to="/game">

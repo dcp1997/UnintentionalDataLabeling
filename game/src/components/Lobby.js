@@ -2,7 +2,6 @@ import React, {
   Component
 } from 'react';
 import firebase from '../firebase'
-import Setup from './Setup'
 
 class Lobby extends Component {
 
