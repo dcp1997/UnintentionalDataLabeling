@@ -18,9 +18,9 @@
   font-size: calc(10px + 2vmin);
   color: #17C490;
 }
-.container{
+/* .container{
   background-color:#182B4a
-}
+} */
 .App-link {
   color: #61dafb;
 }
@@ -34,11 +34,13 @@
   }
 }
 @import url('https://fonts.googleapis.com/css?family=Acme');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+
 
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Acme', sans-serif;
+    font-family: 'Roboto Slab', serif;
     }
 
   body {
@@ -85,6 +87,8 @@ form {
     border-style: solid;
     border-color: #17C490;
     color: #17C490;
+    background-color:#182B4a
+
 }
 
 #description {
@@ -113,8 +117,9 @@ button {
     border: solid #F16B6C;
     color: #F16B6C;
     border-radius: 15px;
-    font-family: 'Acme', sans-serif;
     font-size: 30px;
+    font-family: 'Roboto Slab', serif;
+
 
 }
 button.option {
@@ -168,16 +173,16 @@ button#exit {
 }
 
 .grid {
-    display: flex;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, 300px);
 }
 
-.grid .grid-item {
-    flex: 1;
-    align-content: center;
-    background-color: #57364F;
-    border-radius: 15px;
-    height: 300px;
-    width: 300px;
+.grid>* {
+  align-content: center;
+  background-color: #57364F;
+  border-radius: 15px;
+  height: 300px;
 }
 
  input[type='submit']{
@@ -187,8 +192,9 @@ button#exit {
     background-color: transparent;
     border: solid black medium;
     border-radius: 15px;
-    font-family: 'Acme', sans-serif;
     font-size: 20px;
+    font-family: 'Roboto Slab', serif;
+
 }
 input[type='submit']:hover {
   background-color: rgba(107, 107, 107, 0.815);
@@ -200,6 +206,8 @@ input[type='text'], input[type='number']{
   height: 35px;
   background-color: white;
   border-style:solid;
+  font-family: 'Roboto Slab', serif;
+
 
 }
 
@@ -226,17 +234,7 @@ input[type='text'], input[type='number']{
 }
 .white   { background-color: #fff; }
 
-  
-@media (max-width: 700px) {
-    .grid {
-        display: block;
-        
-    }
-    .grid.grid-item {
-        width: 100%;
-        margin: 0 0 10px 0;
-    }
-}
+
   
   
   * {
