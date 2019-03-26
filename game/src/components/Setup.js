@@ -46,11 +46,6 @@ class Setup extends Component {
     
     handleSubmit()
     {
-        alert('Your favorite flavor is: ' + this.state.value);
-        // var additional = "";
-        // for (var i=0; i<this.state.numberOfPlayers-1; i++){
-        //     additional = additional + "{nickname : '',powerups : 0,score : 0},";
-        // }
         if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!=null && 
             this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
@@ -66,16 +61,6 @@ class Setup extends Component {
                         powerups : 0,
                         score : 0
                         },
-                        // {
-                        // nickname : "",
-                        // powerups : 0,
-                        // score : 0
-                        // },
-                        // {
-                        // nickname : "",
-                        // powerups : 0,
-                        // score : 0
-                        // },
                     ],
                     round : [ null, {
                         submissions : {
@@ -104,7 +89,7 @@ class Setup extends Component {
         }
         if (this.state.numberOfRounds<3){
             alert("Not enough rounds")
-        }    
+        }  
     }
 
     render() { 
