@@ -33,23 +33,13 @@
     transform: rotate(360deg);
   }
 }
-<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css?family=Raleway');
-=======
-@import url('https://fonts.googleapis.com/css?family=Acme');
-@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
-
->>>>>>> a41cd215d942cf55cd71f876931789d711b93b93
 
 html, body {
     margin: 0;
     padding: 0;
-<<<<<<< HEAD
     font-family: 'Raleway', sans-serif;
     background: #17C490;
-=======
-    font-family: 'Roboto Slab', serif;
->>>>>>> a41cd215d942cf55cd71f876931789d711b93b93
     }
 
   body {
@@ -95,13 +85,7 @@ form {
     font-size: 35px;
     border-style: solid;
     border-color: #17C490;
-<<<<<<< HEAD
     color: white;
-=======
-    color: #17C490;
-    background-color:#182B4a
-
->>>>>>> a41cd215d942cf55cd71f876931789d711b93b93
 }
 
 #description {
@@ -117,13 +101,9 @@ form {
 
 #gameOptions {
     display: flex;
-<<<<<<< HEAD
     flex-direction: line;
     align-items: center;
     justify-content: center;
-=======
-    flex-direction: column;
->>>>>>> a41cd215d942cf55cd71f876931789d711b93b93
     /* background-color: darksalmon; */
     margin: 0 25% 20% 5%;
     padding: 2% 0;
@@ -199,14 +179,8 @@ button#exit {
 }
 
 .grid {
-<<<<<<< HEAD
     display: flex;
     margin-top: 1%;
-=======
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(auto-fit, 300px);
->>>>>>> a41cd215d942cf55cd71f876931789d711b93b93
 }
 
 .grid>* {
@@ -265,7 +239,6 @@ input[type='text'], input[type='number']{
 }
 .white   { background-color: #fff; }
 
-<<<<<<< HEAD
   
 @media (max-width: 700px) {
     .grid {
@@ -278,9 +251,6 @@ input[type='text'], input[type='number']{
         margin: 0 0 10px 0;
     }
 }
-=======
-
->>>>>>> a41cd215d942cf55cd71f876931789d711b93b93
   
   
   * {
