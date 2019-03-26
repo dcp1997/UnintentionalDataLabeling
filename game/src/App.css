@@ -39,7 +39,13 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Acme', sans-serif;
-}
+    }
+
+  body {
+    background-image: url(http://weinbergerickson.com/wp-content/uploads/2018/01/white-marble-wallpaper-19.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 
 header {
     font-size: 40px;
@@ -60,8 +66,15 @@ h2 {
 div#description {
     font-size: 30px;
 }
-p{
-    font-size: 18px;
+p {
+    font-size: 28px;
+    padding-right: 1%;
+}
+
+form {
+  background-color: lightgray;
+  opacity: .85;
+  padding-left: 2%;
 }
 
 .caption {
@@ -83,9 +96,9 @@ p{
 #gameOptions {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     /* background-color: darksalmon; */
-    margin: 0 25% 20% 25%;
+    margin: 0 25% 20% 5%;
     padding: 2% 0;
 }
 .gameOption{
@@ -116,7 +129,7 @@ button.gameOption{
 }
 
 button:hover {
-    background-color: #F16B6C;
+    background-color: rgba(107, 107, 107, 0.815);
 }
 
 
@@ -177,7 +190,42 @@ button#exit {
     font-family: 'Acme', sans-serif;
     font-size: 20px;
 }
+input[type='submit']:hover {
+  background-color: rgba(107, 107, 107, 0.815);
+}
   
+input[type='text'], input[type='number']{
+  width: 40%;
+  font-size: 30px;
+  height: 35px;
+  background-color: white;
+  border-style:solid;
+
+}
+
+.styled-select {
+  background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+  height: 29px;
+  overflow: hidden;
+  width: 240px;
+}
+
+.styled-select select {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  height: 29px;
+  padding: 5px; /* If you add too much padding here, the options won't show in IE */
+  width: 268px;
+}
+
+.semi-square {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.white   { background-color: #fff; }
+
   
 @media (max-width: 700px) {
     .grid {

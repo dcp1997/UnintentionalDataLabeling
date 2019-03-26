@@ -95,25 +95,29 @@ class Create extends Component {
     render() { 
         return   (
             <div>
-            <header>Create a new game </header>
+            <header>Create a New Game </header>
             <div id="gameOptions">
                 <form>
                     <p>Enter Your Nickname </p>
                     <input type="text" onChange={this.updateUserName}></input>
 
-                    <p>Number of Players                     
-                        <input type="number" min="3" max="8" default="3" name="players" onChange={this.updateNumberOfPlayers}></input>
+                    <p>Number of Players (3-8)                     
+                        <br></br><input type="number" min="3" max="8" default="3" name="players" onChange={this.updateNumberOfPlayers}></input>
                     </p>
 
-                    <p>Number of Rounds
-                    <input type="number" min="3" max="50" default="3" name="rounds" onChange={this.updateNumberOfRounds}></input>
+                    <p>Number of Rounds (min 3)
+                        <br></br><input type="number" min="3" max="50" default="3" name="rounds" onChange={this.updateNumberOfRounds}></input>
                     </p>
 
-                    <p>Play with </p>
-                    <select name="prompt">
-                        <option value="image">Image</option>
-                        <option value="caption">Caption</option>
-                    </select>
+                    <p>Play with 
+                        <div class='styled-select white semi-square '>
+                            <select name="prompt">
+                                <option value="image">Image</option>
+                                <option value="caption">Caption</option>
+                            </select>
+                        </div>
+                    </p>
+                    
                 </form>
 
                 <input type="submit" onClick={this.handleSubmit} ></input>
