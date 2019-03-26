@@ -116,7 +116,7 @@ button {
     width: 150px;
     /* height: 25px; */
     margin: 1%;
-    padding: 3%;
+    padding: 1%;
     background-color: transparent;
     border: solid #F16B6C;
     color: #F16B6C;
@@ -217,7 +217,7 @@ input[type='text'], input[type='number']{
 
 .styled-select {
   background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
-  height: 29px;
+  height: 35px;
   overflow: hidden;
   width: 240px;
 }
@@ -226,8 +226,8 @@ input[type='text'], input[type='number']{
   background: transparent;
   border: none;
   font-size: 14px;
-  height: 29px;
-  padding: 5px; /* If you add too much padding here, the options won't show in IE */
+  height: 30px;
+  padding: 5px; 
   width: 268px;
 }
 
