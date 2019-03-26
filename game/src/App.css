@@ -33,12 +33,13 @@
     transform: rotate(360deg);
   }
 }
-@import url('https://fonts.googleapis.com/css?family=Acme');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
 
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Acme', sans-serif;
+    font-family: 'Raleway', sans-serif;
+    background: #17C490;
     }
 
   body {
@@ -79,12 +80,12 @@ form {
 
 .caption {
     text-align: center;
-
+    background-color: #17C490;
     padding: 2.5%;
     font-size: 35px;
     border-style: solid;
     border-color: #17C490;
-    color: #17C490;
+    color: white;
 }
 
 #description {
@@ -95,8 +96,9 @@ form {
 
 #gameOptions {
     display: flex;
-    flex-direction: column;
-    /* align-items: center; */
+    flex-direction: line;
+    align-items: center;
+    justify-content: center;
     /* background-color: darksalmon; */
     margin: 0 25% 20% 5%;
     padding: 2% 0;
@@ -107,7 +109,7 @@ form {
 button {
     width: 150px;
     /* height: 25px; */
-    margin: 1%;
+    margin: 0.5vw;
     padding: 3%;
     background-color: transparent;
     border: solid #F16B6C;
@@ -125,7 +127,8 @@ button.option {
 
 button.gameOption{
     padding: 2%;
-    margin-left: 1%;
+    margin-left: 25%;
+    
 }
 
 button:hover {
@@ -139,6 +142,8 @@ button:hover {
 #a {
     /* background-color: darkred; */
     height: 50vh;
+    align-items: center;
+    justify-content: center;
 }
 
 #gameplay {
@@ -169,6 +174,7 @@ button#exit {
 
 .grid {
     display: flex;
+    margin-top: 1%;
 }
 
 .grid .grid-item {
@@ -230,6 +236,7 @@ input[type='text'], input[type='number']{
 @media (max-width: 700px) {
     .grid {
         display: block;
+
         
     }
     .grid.grid-item {
