@@ -5,7 +5,7 @@ import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
-class Game extends Component{
+class Voting extends Component{
 
 
 
@@ -27,11 +27,6 @@ class Game extends Component{
             console.log(snapshot.val().caption);
             window.caption = snapshot.val().caption
             document.getElementById('caption').innerHTML = snapshot.val().caption
-            //when not hardcoding we will have to replace "oneGame" with the sessionID
-            //also will have to keep trak of the round number so it is not 1 each time
-            firebase.database().ref('game-session/oneGame/round/1/submissions/').update({
-                promptID: randomIndex,
-                });
             
         })
     }
@@ -60,33 +55,20 @@ class Game extends Component{
           document.getElementById("grid").appendChild(elem)
           elem.addEventListener('click', function(){
             console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            let imageNumber = document.getElementById('img'+currentCardNumber).getAttribute('alt')
             if (clicks[currentCardNumber] === 0){
                 console.log(clicks[currentCardNumber])
-                //this makes it so that if you click a picture it submits it and over writes if you click another picture
-                //so when you click submit all it does is go to the voting page and the submit button does not really 
-                //push anything to the database in a submission way
-                //the voting page will grab the images from the database 
-                //currently this is hard coded so we have to make the "oneGame" and actual dynamic sessionID
-                //and make the username and the child dynamic as well
-                firebase.database().ref('game-session/oneGame/round/1/submissions/players/').child(1).update({
-                    nickname: "Alex",
-                    submissionID: {imageNumber},
-                    });
                 this.style.border = "solid";
                 this.style.borderColor = "#17C490";
                 for(var l=0; l<clicks.length; l++){
                     if(clicks[l]===1){
-                         document.getElementById(l).style.border = 'none';
-                         clicks[l]--;
+                        document.getElementById(l).style.border = 'none';
+                        clicks[l]--;
                     }
                 }
                 clicks[currentCardNumber]++;
 
             }
             else if (clicks[currentCardNumber]=== 1){
-                
-                
                 console.log(clicks[currentCardNumber])
                 this.style.border = 'none';
                 clicks[currentCardNumber]--;
@@ -119,9 +101,9 @@ class Game extends Component{
                 </Link>   
                 </div>
                 <header>
-                    Round 1 
+                    Round 1 Voting
                 </header>
-                <div className="gameInfo"><h2>Your Score: 0<span id="gameCode">  Game Code: <span id="sessionID">oneGame</span></span></h2></div>
+                <div className="gameInfo"><span id="gameCode">  Game Code: <span id="sessionID">gameOne</span></span></div>
                 <div className="container">
 
                     <div className="caption" id="caption">
@@ -129,7 +111,7 @@ class Game extends Component{
 
                     <div className="grid" id="grid">
                        </div> 
-                    <Link to="/vote">
+                    <Link to="/">
                     <Button id="Submit">Submit</Button>
                 </Link>  
             </div>
@@ -137,4 +119,4 @@ class Game extends Component{
         );
       }
     }
-export default Game;
+export default Voting;

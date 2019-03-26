@@ -8,6 +8,7 @@ import Create from './components/Create';
 import Join from './components/Join';
 import Game from './components/Game';
 import Home from './components/Home';
+import Voting from './components/vote';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 const routing = (
@@ -17,6 +18,7 @@ const routing = (
         <Route path="/create" component={Create} />
         <Route path="/join" component={Join} />
         <Route path="/game" component={Game} />
+        <Route path="/vote" component={Voting} />
       </div>
     </Router>
   )

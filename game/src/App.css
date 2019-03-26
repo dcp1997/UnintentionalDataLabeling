@@ -8,6 +8,7 @@
   pointer-events: none;
 }
 
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -175,12 +176,17 @@ button#exit {
 
 }
 
+
+
 .gameInfo {
     background-color: #182B4a;
     text-align: left;
     font-size: 16px;
     color: white;
     padding: 1%;
+}
+.gameCode{
+  float: right;
 }
 
 .grid {
