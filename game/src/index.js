@@ -9,6 +9,7 @@ import Join from './components/Join';
 import GameScreen from './components/GameScreen';
 import Home from './components/Home';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import Lobby from './components/Lobby'
 
 const routing = (
     <Router>
@@ -20,7 +21,8 @@ const routing = (
       </div>
     </Router>
   )
-  ReactDOM.render(routing, document.getElementById('root'))
+  ReactDOM.render(<Lobby/>, document.getElementById('root'))
+  ReactDOM.render(routing, document.getElementById('main'))
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

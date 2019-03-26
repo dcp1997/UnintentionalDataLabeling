@@ -38,6 +38,7 @@ class Lobby extends Component {
       <div>
       <ul>
         {this.props.hostUserName}
+        Your Username: ___________
         {
           this.state.players.map((player)=>
           {
@@ -51,6 +52,10 @@ class Lobby extends Component {
           })
         }
       </ul>
+
+      <div id = "main">
+
+      </div>
       </div>
     );
   }
