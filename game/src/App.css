@@ -33,14 +33,14 @@
     transform: rotate(360deg);
   }
 }
-@import url('https://fonts.googleapis.com/css?family=Acme');
-@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
-
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Raleway', sans-serif;
+    background: #17C490;
     }
 
   body {
@@ -81,14 +81,13 @@ form {
 
 .caption {
     text-align: center;
-
+    background-color: #17C490;
     padding: 2.5%;
+    margin-bottom: 2vh;
     font-size: 35px;
     border-style: solid;
     border-color: #17C490;
-    color: #17C490;
-    background-color:#182B4a
-
+    color: white;
 }
 
 #description {
@@ -104,7 +103,9 @@ form {
 
 #gameOptions {
     display: flex;
-    flex-direction: column;
+    flex-direction: line;
+    align-items: center;
+    justify-content: center;
     /* background-color: darksalmon; */
     margin: 0 25% 20% 5%;
     padding: 2% 0;
@@ -118,11 +119,15 @@ button {
     margin: 1%;
     padding: 1%;
     background-color: transparent;
+    margin: 0.5vw;
+    padding:1vmin;
+    background-color: rgba(150, 150, 150, 0.215);
     border: solid #F16B6C;
     color: #F16B6C;
     border-radius: 15px;
     font-size: 30px;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Open Sans', serif;
+    text-align: center;
 
 
 }
@@ -134,7 +139,10 @@ button.option {
 
 button.gameOption{
     padding: 2%;
-    margin-left: 1%;
+    margin-left: 25%;
+    border-width: thick;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
 }
 
 button:hover {
@@ -147,7 +155,9 @@ button:hover {
 }
 #a {
     /* background-color: darkred; */
-    height: 50vh;
+    height: 73vh;
+    align-items: center;
+    justify-content: center;
 }
 
 #gameplay {
@@ -177,9 +187,8 @@ button#exit {
 }
 
 .grid {
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(auto-fit, 300px);
+    display: flex;
+    margin-top: 1%;
 }
 
 .grid>* {
@@ -238,7 +247,18 @@ input[type='text'], input[type='number']{
 }
 .white   { background-color: #fff; }
 
+  
+@media (max-width: 700px) {
+    .grid {
+        display: block;
 
+        
+    }
+    .grid.grid-item {
+        width: 100%;
+        margin: 0 0 10px 0;
+    }
+}
   
   
   * {
@@ -251,9 +271,10 @@ input[type='text'], input[type='number']{
     justify-content: center;
   }
   .grid-item {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 1vw;
+    margin-right: 1vw;
     padding: 10px;
+    width: 22vw;
   }
 
   img {

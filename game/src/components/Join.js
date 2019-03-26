@@ -71,6 +71,11 @@ class Join extends Component {
     render() { 
         return   (
             <div>
+                <div>
+                <Link to="/">
+                    <Button id="exit">Home</Button>
+                </Link>   
+                </div>
                 <header>Join A Game</header>
                 <div id="gameOptions">
                     <form>

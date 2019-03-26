@@ -99,6 +99,11 @@ class Create extends Component {
     render() { 
         return   (
             <div>
+                <div>
+                <Link to="/">
+                    <Button id="exit">Home</Button>
+                </Link>   
+                </div>
             <header>Create a New Game </header>
             <div id="gameOptions">
                 <form>
