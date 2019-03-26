@@ -17,6 +17,8 @@ class Create extends Component {
           numberofRounds:'',
           mode:'image',
           dbKey: '',
+          showStart:false,
+          showSubmit:true,
         }
 
         this.updateUserName = this.updateUserName.bind(this);
@@ -80,6 +82,8 @@ class Create extends Component {
                     const key = snap.key;
                     console.log(key);
                     this.setState({dbKey: key});
+                    this.setState({showStart: true});
+                    this.setState({showSubmit: false});
                  }); 
                  this.start = true;
             }
@@ -118,18 +122,19 @@ class Create extends Component {
                         <div class='styled-select white semi-square '>
                             <select name="prompt">
                                 <option value="image">Image</option>
-                                <option value="caption">Caption</option>
+                                {/* <option value="caption">Caption</option> */}
                             </select>
                         </div>
                     </p>
                     
                 </form>
-
-                <input type="submit" onClick={this.handleSubmit} ></input>
+                {this.state.showSubmit ?
+                    <Button type="submit" onClick={this.handleSubmit} >Submit</Button> : null
+                }
+                {this.state.showStart ?
+                        <Link to="/game"><Button >Start</Button></Link> :null
+                }
                 <p> Your Shareable GameCode: {this.state.dbKey}</p>
-                <Link to="/game">
-                    <Button id ="startGame" variant="primary" disabled={!this.start}>Start Game</Button>
-                </Link>  
             </div>
         </div>
         );
