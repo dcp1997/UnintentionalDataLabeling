@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import firebase from '../firebase'
-import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import Lobby from './Lobby';
 
 
 class Setup extends Component {
@@ -15,8 +15,8 @@ class Setup extends Component {
           hostUserName:'',
           numberOfPlayers: '',
           numberofRounds:'',
-          mode:'image',
-          dbKey: '',
+          dbKey: 'oneGame',
+          settingUpGame: true
         }
 
         this.updateUserName = this.updateUserName.bind(this);
@@ -46,18 +46,13 @@ class Setup extends Component {
     
     handleSubmit()
     {
-        alert('Your favorite flavor is: ' + this.state.value);
-        // var additional = "";
-        // for (var i=0; i<this.state.numberOfPlayers-1; i++){
-        //     additional = additional + "{nickname : '',powerups : 0,score : 0},";
-        // }
-        if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
+
+        if (this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!=null && 
-            this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
-                firebase.database().ref('game-session/').push({
+            this.state.numberOfPlayers>=3 && this.state.numberofRounds>=1){
+                firebase.database().ref('game-session/oneGame').update({
                     currentRoundNumber : 1,
                     imagesUsed : null,
-                    mode : this.state.mode,
                     numberPlayers : this.state.numberOfPlayers,
                     numberRounds : this.state.numberofRounds,
                     players : 
@@ -91,25 +86,29 @@ class Setup extends Component {
                           winner : ""
                         }
                     } ],
-                }).then((snap) => {
-                    const key = snap.key;
-                    console.log(key);
-                    this.setState({dbKey: key});
-                 }); 
+                });
                  this.start = true;
             }
-        
+
+                  
         if (this.state.numberOfPlayers<3){
             alert("Not enough players")
         }
         if (this.state.numberOfRounds<3){
             alert("Not enough rounds")
-        }    
+        } 
+        
     }
 
     render() { 
         return   (
+            
             <div>
+                    <div>
+                <Link to="/">
+                    <Button id="exit">Exit</Button>
+                </Link>   
+                </div>
             <header>Create a new game </header>
             <div id="gameOptions">
                 <form>
@@ -133,11 +132,16 @@ class Setup extends Component {
 
                 <input type="submit" onClick={this.handleSubmit} ></input>
                 <p> Your Shareable GameCode: {this.state.dbKey}</p>
+
                 <Link to="/game">
                     <Button id ="startGame" variant="primary" disabled={!this.start}>Start Game</Button>
                 </Link>  
+                Current Players in Your Game:
+                
             </div>
-        </div>
+            <Lobby hostUserName = {this.state.hostUserName} />
+
+            </div>
         );
     }
 }
