@@ -43,8 +43,9 @@ class Voting extends Component{
                     let imageNumber = document.getElementById('img'+currentCardNumber).getAttribute('alt')
                     if (clicks[currentCardNumber] === 0){
                         console.log(clicks[currentCardNumber])
+                        
                         firebase.database().ref('game-session/oneGame/round/1/submissions/').update({
-                            winner: imageNumber,
+                            winner: index,
                             });
                         this.style.border = "solid";
                         this.style.borderColor = "#17C490";
