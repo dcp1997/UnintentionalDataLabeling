@@ -10,14 +10,19 @@ class Voting extends Component{
 
 
     readDB(){
+        var numberOfPics = 0;
+        //have to make this not hard coded to the 'oneGame' sessionID
+        firebase.database().ref('game-session/oneGame/numberPlayers').once('value', function(snapshot) {
+            numberOfPics = snapshot.val()
+        });
         var clicks = [0, 0, 0, 0];
         this.appendCaption()
-        for(var i = 0; i < 4; i++){
+        console.log(numberOfPics)
+        for(var i = 0; i < numberOfPics; i++){
             var randomIndex = this.getRandomInt(0,833);
             this.appendImage(randomIndex, i, clicks);
         };
-        
-        
+       
     }
     appendCaption(){
         var randomIndex = this.getRandomInt(1,27);
