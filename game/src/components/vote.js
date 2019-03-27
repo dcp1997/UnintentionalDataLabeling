@@ -18,7 +18,7 @@ class Voting extends Component{
         query.once("value").then(function (snapshot) {
             snapshot.forEach(child => {
             console.log(child.val().submissionID.imageNumber);
-            const index = child.val().submissionID.imageNumber;
+            const index = parseInt(child.val().submissionID.imageNumber);
                 
             firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
                 //pictureURL = (snapshot.val().url);
