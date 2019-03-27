@@ -9,35 +9,32 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class Winning extends Component {
 
-    // getWinningImage(){
+    getWinningImage(){
 
-    //     this.getRoundCaption()
-    //     firebase.database().ref('game-session/oneGame/round/1/submissions/players/winner').once('value').then(function(winning) {
-    //         var winningPic = winning.val()
-    //         console.log(winningPic.val())
-    //         firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
-    //             console.log(snapshot.val().url)
-    //             window.url = snapshot.val().url
-    //             var pic = document.createElement("img");
-    //             pic.setAttribute("class", "randomPictures");
-    //             pic.setAttribute("src", snapshot.val().url)
-    //             pic.setAttribute('alt', winningPic);
+        this.getRoundCaption()
+        firebase.database().ref('game-session/oneGame/round/1/submissions/players/').once('value').then(function(snapshot){
+            console.log(snapshot.val())
+            //var winningPic = parseInt(snapshot.val())
+            //console.log(winningPic)
+            // firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
+            //     console.log(snapshot.val().url)
+            //     window.url = snapshot.val().url
+            //     var pic = document.createElement("img");
+            //     pic.setAttribute("class", "randomPictures");
+            //     pic.setAttribute("src", snapshot.val().url)
+            //     pic.setAttribute('alt', winningPic);
                 
-    //             var elem = document.createElement("div")
-    //             elem.setAttribute('height', '200px')
-    //             elem.setAttribute('width', '200px')
-    //             elem.setAttribute("class", "grid-item");
-    //             elem.appendChild(pic);
-    //             document.getElementById("grid").appendChild(elem)
+            //     var elem = document.createElement("div")
+            //     elem.setAttribute('height', '200px')
+            //     elem.setAttribute('width', '200px')
+            //     elem.setAttribute("class", "grid-item");
+            //     elem.appendChild(pic);
+            //     document.getElementById("grid").appendChild(elem)
 
-    //         });
-
-
-
-                     
-                  
-    //      });
-    // }
+            // });               
+         });
+         
+    }
 
 
     getRoundCaption(){
@@ -67,9 +64,9 @@ class Winning extends Component {
          });
     }
 
-    // componentDidMount(){
-    //     window.addEventListener('load', this.getWinningImage());
-    //     }
+    componentDidMount(){
+        window.addEventListener('load', this.getWinningImage());
+        }
 
     render() { 
         return   (
