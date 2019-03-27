@@ -36,6 +36,7 @@
 }
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 html, body {
     margin: 0;
@@ -226,30 +227,26 @@ img.winnerPicture {
   
   
 }
-/* .grid-item {
-  margin-left: 1vw;
-  margin-right: 1vw;
-  padding:4vmin;
-  height:25vw;
-  width: 25vw;
-  /* object-fit: scale-down; 
+.grid-item {
+  object-fit: scale-down; 
   justify-content: center;
-  min-width: 300px;
-  min-height: 300px;
-  align-items: center;
-} */
+  align-content: center;
+  padding: 3%;
+}  
 
 img {
-  align-content: center;
+  
   min-width: 200px;
   min-height: 200px;
-  /* display: block; */
+  display: block;
   opacity: 0.8;
   object-fit: scale-down;
   height: 25%;
   width: 25%;
-  margin-top: 5%;
-  margin-left: 2%;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
 }
 
 img:hover {
@@ -277,7 +274,7 @@ input[type='text'], input[type='number']{
   height: 35px;
   background-color: white;
   border-style:solid;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Montserrat', sans-serif;
 
 
 }
