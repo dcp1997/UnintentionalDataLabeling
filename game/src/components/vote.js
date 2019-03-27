@@ -10,6 +10,7 @@ class Voting extends Component{
 
 
     readDB(){
+
         var clicks = [0, 0, 0, 0];
         this.appendCaption()
         var currentCardNumber = 0;
