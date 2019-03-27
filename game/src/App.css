@@ -267,23 +267,26 @@ input[type='text'], input[type='number']{
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fit, 300px);
   }
-  .grid>* {
-    align-content: center;
-    background-color: #57364F;
-    border-radius: 15px;
-    height: 300px;
+  .grid-item {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    padding:8vmin;
+    height:30vw;
+    width: 22vw;
+    object-fit: scale-down;
+    justify-content: center
   }
 
   img {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
     opacity: 0.7;
-    object-fit: contain;
-    max-height: 190px;
-    max-width: 190px;
+    object-fit: scale-down;
+    max-height: 22vw;
+    max-width: 14vw;
+    margin-top:auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right:auto;
   }
 
   img:hover {
