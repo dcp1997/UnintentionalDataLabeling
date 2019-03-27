@@ -121,7 +121,7 @@ class Game extends Component{
                 <header>
                     Round 1 
                 </header>
-                <div className="gameInfo"><h2>Your Score: 0<span id="gameCode">  Game Code: <span id="sessionID">oneGame</span></span></h2></div>
+                <div className="gameInfo"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">

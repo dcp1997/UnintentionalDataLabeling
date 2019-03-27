@@ -107,7 +107,7 @@ class Voting extends Component{
                 <header>
                     Round 1 Voting
                 </header>
-                <div className="gameInfo"><span id="gameCode">  Game Code: <span id="sessionID">gameOne</span></span></div>
+                <div className="gameInfo"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">
