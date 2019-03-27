@@ -279,7 +279,7 @@ input[type='text'], input[type='number']{
   .grid-item {
     margin-left: 1vw;
     margin-right: 1vw;
-    padding: 10px;
+    padding:8vmin;
     width: 22vw;
   }
 
@@ -291,8 +291,8 @@ input[type='text'], input[type='number']{
     margin-bottom: auto;
     opacity: 0.7;
     object-fit: contain;
-    max-height: 190px;
-    max-width: 190px;
+    max-height: 200px;
+    max-width: 200px;
   }
 
   img:hover {
