@@ -12,26 +12,27 @@ class Winning extends Component {
     getWinningImage(){
 
         this.getRoundCaption()
-        firebase.database().ref('game-session/oneGame/round/1/submissions/players/').once('value').then(function(snapshot){
-            console.log(snapshot.val())
-            //var winningPic = parseInt(snapshot.val())
-            //console.log(winningPic)
-            // firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
-            //     console.log(snapshot.val().url)
-            //     window.url = snapshot.val().url
-            //     var pic = document.createElement("img");
-            //     pic.setAttribute("class", "randomPictures");
-            //     pic.setAttribute("src", snapshot.val().url)
-            //     pic.setAttribute('alt', winningPic);
+        firebase.database().ref('game-session/oneGame/round/1/submissions/winner').once('value').then(function(snapshot){
+            console.log(snapshot)
+            console.log(parseInt(snapshot.val()))
+            var winningPic = parseInt(snapshot.val())
+            console.log(winningPic)
+            firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
+                console.log(snapshot.val().url)
+                window.url = snapshot.val().url
+                var pic = document.createElement("img");
+                pic.setAttribute("class", "randomPictures");
+                pic.setAttribute("src", snapshot.val().url)
+                pic.setAttribute('alt', winningPic);
                 
-            //     var elem = document.createElement("div")
-            //     elem.setAttribute('height', '200px')
-            //     elem.setAttribute('width', '200px')
-            //     elem.setAttribute("class", "grid-item");
-            //     elem.appendChild(pic);
-            //     document.getElementById("grid").appendChild(elem)
+                var elem = document.createElement("div")
+                elem.setAttribute('height', '200px')
+                elem.setAttribute('width', '200px')
+                elem.setAttribute("class", "grid-item");
+                elem.appendChild(pic);
+                document.getElementById("grid").appendChild(elem)
 
-            // });               
+            });               
          });
          
     }
