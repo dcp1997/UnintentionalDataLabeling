@@ -291,8 +291,8 @@ input[type='text'], input[type='number']{
     margin-bottom: auto;
     opacity: 0.7;
     object-fit: contain;
-    max-height: 250px;
-    max-width: 250px;
+    max-height: 190px;
+    max-width: 190px;
   }
 
   img:hover {
