@@ -26,6 +26,7 @@ class Create extends Component {
         this.updateNumberOfRounds = this.updateNumberOfRounds.bind(this);
         this.updateMode = this.updateMode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.continueSetup = this.continueSetup.bind(this);
     }
 
     updateMode(event) {
@@ -44,10 +45,47 @@ class Create extends Component {
     updateNumberOfRounds(event)
     {
         this.setState({numberofRounds : event.target.value})
-    }   
+    }  
+    
+    continueSetup(k){
+        var prompt = Math.floor(Math.random() * (833 - 1 + 1)) + 1;
+        var submissions = {
+              players : [ null, {
+                nickname : "",
+                submissionID : 1
+              },],
+              promptID : prompt,
+              type : "",
+              voting : [null, {
+                nickname : 0
+              },],
+              winner : ""
+            }
+        
+        alert(k)
+        for (var i = 1; i < this.state.numberofRounds; i++){
+            firebase.database().ref('game-session/' + k + '/round/' + (i+1)).update({submissions})
+        }
+    }
     
     handleSubmit()
     {
+        var oneRound = {
+            submissions : {
+              players : [ null, {
+                nickname : "",
+                submissionID : 1
+              },],
+              promptID : 1,
+              type : "",
+              voting : [null, {
+                nickname : 0
+              },],
+              winner : ""
+            }
+        };
+        
+
         if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!='' && 
             this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
@@ -64,28 +102,17 @@ class Create extends Component {
                         score : 0
                         },
                     ],
-                    round : [ null, {
-                        submissions : {
-                          players : [ null, {
-                            nickname : "",
-                            submissionID : 1
-                          }, {
-                            nickname : "",
-                            submissionID : 2
-                          } ],
-                          promptID : 1,
-                          type : "",
-                          winner : ""
-                        }
-                    } ],
+                    round : [ null, oneRound ],
                 }).then((snap) => {
                     const key = snap.key;
                     console.log(key);
                     this.setState({dbKey: key});
                     this.setState({showStart: true});
                     this.setState({showSubmit: false});
+                    this.continueSetup(key);
                  }); 
                  this.start = true;
+                //  this.continueSetup();
             }
         
         if (this.state.numberOfPlayers<3){
