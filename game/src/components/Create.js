@@ -49,7 +49,7 @@ class Create extends Component {
     handleSubmit()
     {
         if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
-            this.state.numberofRounds!=null && this.state.hostUserName!=null && 
+            this.state.numberofRounds!=null && this.state.hostUserName!='' && 
             this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
                 firebase.database().ref('game-session/').push({
                     currentRoundNumber : 1,
@@ -93,7 +93,10 @@ class Create extends Component {
         }
         if (this.state.numberOfRounds<3){
             alert("Not enough rounds")
-        }  
+        } 
+        if (this.state.hostUserName==''){
+            alert("Enter a valid nickname")
+        }
     }
 
     render() { 

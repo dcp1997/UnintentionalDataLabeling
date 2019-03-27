@@ -41,13 +41,14 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Raleway', sans-serif;
-    background: #17C490;
     }
 
   body {
     background-image: url(http://weinbergerickson.com/wp-content/uploads/2018/01/white-marble-wallpaper-19.jpg);
     background-size: cover;
     background-repeat: repeat;
+    background-color: #17C490;
+
   }
 
 header {
@@ -68,6 +69,7 @@ h2 {
 
 div#description {
     font-size: 30px;
+    background-color: rgba(107, 107, 107, 0.75); 
 }
 p {
     font-size: 28px;
@@ -78,6 +80,7 @@ form {
   background-color: lightgray;
   opacity: .85;
   padding-left: 2%;
+  width: 600px;
 }
 
 .caption {
@@ -220,7 +223,7 @@ input[type='submit']:hover {
 }
   
 input[type='text'], input[type='number']{
-  width: 40%;
+  width: 80%;
   font-size: 30px;
   height: 35px;
   background-color: white;
@@ -254,27 +257,15 @@ input[type='text'], input[type='number']{
 .white   { background-color: #fff; }
 
   
-@media (max-width: 700px) {
-    .grid {
-        display: block;
-
-        
-    }
-    .grid.grid-item {
-        width: 100%;
-        margin: 0 0 10px 0;
-    }
-}
-  
   
   * {
     box-sizing: border-box;
   }
   
   .grid { 
-    margin: 0 0 20px 0;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fit, 300px);
   }
   .grid-item {
     margin-left: 1vw;

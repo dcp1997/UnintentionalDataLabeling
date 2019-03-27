@@ -9,75 +9,79 @@ class Voting extends Component{
 
 
 
-    readDB(){
+    getSubmittedImages(){
+
         var clicks = [0, 0, 0, 0];
-        this.appendCaption()
-        for(var i = 0; i < 4; i++){
-            var randomIndex = this.getRandomInt(0,833);
-            this.appendImage(randomIndex, i, clicks);
-        };
-        
+        this.getRoundCaption()
+        var currentCardNumber = 0;
+        var query = firebase.database().ref("game-session/oneGame/round/1/submissions/players").orderByKey();
+        query.once("value").then(function (snapshot) {
+            snapshot.forEach(child => {
+            console.log(child.val().submissionID.imageNumber);
+            const index = parseInt(child.val().submissionID.imageNumber);
+                
+            firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
+                window.url = snapshot.val().url
+                var pic = document.createElement("img");
+                pic.setAttribute("class", "randomPictures");
+                pic.setAttribute("src", snapshot.val().url);
+                pic.setAttribute('id', "img"+currentCardNumber)
+                pic.setAttribute('alt', index);
+                
+                var elem = document.createElement("div")
+                elem.setAttribute('height', '200px')
+                elem.setAttribute('width', '200px')
+                elem.setAttribute("class", "grid-item");
+                elem.setAttribute('id', currentCardNumber)
+                elem.appendChild(pic);
+                document.getElementById("grid").appendChild(elem)
+            //     elem.addEventListener('click', function(){
+            //       console.log("wtf" + document.getElementById('img'+currentCardNumber).getAttribute('alt'));
+            //       if (clicks[currentCardNumber] === 0){
+            //           this.style.border = "solid";
+            //           this.style.borderColor = "#17C490";
+            //           for(var l=0; l<clicks.length; l++){
+            //               if(clicks[l]===1){
+            //                   document.getElementById(l).style.border = 'none';
+            //                   clicks[l]--;
+            //               }
+            //           }
+            //           clicks[currentCardNumber]++;
+      
+            //       }
+            //       else if (clicks[currentCardNumber]=== 1){
+            //           console.log(clicks[currentCardNumber])
+            //           this.style.border = 'none';
+            //           clicks[currentCardNumber]--;
+            //       }
+                  
+            //   })
+             });
+      
+            });
+            currentCardNumber++;
+        });
+            
         
     }
-    appendCaption(){
-        var randomIndex = this.getRandomInt(1,27);
-        return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
-            console.log(snapshot);
+    getRoundCaption(){
+
+        firebase.database().ref('game-session/oneGame/round/1/submissions/promptID').once('value').then(function(snapshot){
             console.log(snapshot.val());
-            console.log(snapshot.val().caption);
-            window.caption = snapshot.val().caption
-            document.getElementById('caption').innerHTML = snapshot.val().caption
-            
+            var index = snapshot.val();
+            firebase.database().ref('captions/'+index).once('value').then(function(snapshot){
+                console.log(snapshot);
+                console.log(snapshot.val());
+                console.log(snapshot.val().caption);
+                window.caption = snapshot.val().caption
+                document.getElementById('caption').innerHTML = snapshot.val().caption
+                
+        });
+      
         })
     }
     
-    
-      appendImage(index, currentCardNumber, clicks)
-    {
-        // var pictureURL;
-        
-        return firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
-          //pictureURL = (snapshot.val().url);
-          console.log(snapshot.val().url)
-          window.url = snapshot.val().url
-          var pic = document.createElement("img");
-          pic.setAttribute("class", "randomPictures");
-          pic.setAttribute("src", snapshot.val().url);
-          pic.setAttribute('id', "img"+currentCardNumber)
-          pic.setAttribute('alt', index);
-          
-          var elem = document.createElement("div")
-          elem.setAttribute('height', '200px')
-          elem.setAttribute('width', '200px')
-          elem.setAttribute("class", "grid-item");
-          elem.setAttribute('id', currentCardNumber)
-          elem.appendChild(pic);
-          document.getElementById("grid").appendChild(elem)
-          elem.addEventListener('click', function(){
-            console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            if (clicks[currentCardNumber] === 0){
-                console.log(clicks[currentCardNumber])
-                this.style.border = "solid";
-                this.style.borderColor = "#17C490";
-                for(var l=0; l<clicks.length; l++){
-                    if(clicks[l]===1){
-                        document.getElementById(l).style.border = 'none';
-                        clicks[l]--;
-                    }
-                }
-                clicks[currentCardNumber]++;
 
-            }
-            else if (clicks[currentCardNumber]=== 1){
-                console.log(clicks[currentCardNumber])
-                this.style.border = 'none';
-                clicks[currentCardNumber]--;
-            }
-            
-        })     
-       });
-
-    }  
 
     getRandomInt(min, max) 
     {
@@ -87,7 +91,7 @@ class Voting extends Component{
     }
     
     componentDidMount(){
-        window.addEventListener('load', this.readDB());
+        window.addEventListener('load', this.getSubmittedImages());
         }
     
 
@@ -103,7 +107,7 @@ class Voting extends Component{
                 <header>
                     Round 1 Voting
                 </header>
-                <div className="gameInfo"><span id="gameCode">  Game Code: <span id="sessionID">gameOne</span></span></div>
+                <div className="gameInfo"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">
