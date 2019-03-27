@@ -65,14 +65,19 @@ class Voting extends Component{
         
     }
     appendCaption(){
-        var randomIndex = this.getRandomInt(1,27);
-        return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
-            console.log(snapshot);
+
+        firebase.database().ref('game-session/oneGame/round/1/submissions/promptID').once('value').then(function(snapshot){
             console.log(snapshot.val());
-            console.log(snapshot.val().caption);
-            window.caption = snapshot.val().caption
-            document.getElementById('caption').innerHTML = snapshot.val().caption
-            
+            var index = snapshot.val();
+            firebase.database().ref('captions/'+index).once('value').then(function(snapshot){
+                console.log(snapshot);
+                console.log(snapshot.val());
+                console.log(snapshot.val().caption);
+                window.caption = snapshot.val().caption
+                document.getElementById('caption').innerHTML = snapshot.val().caption
+                
+        });
+      
         })
     }
     
