@@ -9,10 +9,10 @@ class Voting extends Component{
 
 
 
-    readDB(){
+    getSubmittedImages(){
 
         var clicks = [0, 0, 0, 0];
-        this.appendCaption()
+        this.getRoundCaption()
         var currentCardNumber = 0;
         var query = firebase.database().ref("game-session/oneGame/round/1/submissions/players").orderByKey();
         query.once("value").then(function (snapshot) {
@@ -64,7 +64,7 @@ class Voting extends Component{
             
         
     }
-    appendCaption(){
+    getRoundCaption(){
 
         firebase.database().ref('game-session/oneGame/round/1/submissions/promptID').once('value').then(function(snapshot){
             console.log(snapshot.val());
@@ -81,13 +81,7 @@ class Voting extends Component{
         })
     }
     
-    
-      appendImage(index, currentCardNumber, clicks)
-    {
-        // var pictureURL;
-        
-       
-    }  
+
 
     getRandomInt(min, max) 
     {
@@ -97,7 +91,7 @@ class Voting extends Component{
     }
     
     componentDidMount(){
-        window.addEventListener('load', this.readDB());
+        window.addEventListener('load', this.getSubmittedImages());
         }
     
 
