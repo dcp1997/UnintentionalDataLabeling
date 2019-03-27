@@ -148,10 +148,10 @@ class Create extends Component {
                         <br></br><input type="number" min="3" max="50" default="3" name="rounds" onChange={this.updateNumberOfRounds}></input>
                     </p>
 
-                    <p>Play with 
+                    <p>Prompt with: 
                         <div class='styled-select white semi-square '>
                             <select name="prompt">
-                                <option value="image">Image</option>
+                                <option value="image">Caption</option>
                                 {/* <option value="caption">Caption</option> */}
                             </select>
                         </div>
