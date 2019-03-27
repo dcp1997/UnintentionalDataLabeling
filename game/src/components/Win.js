@@ -21,7 +21,7 @@ class Winning extends Component {
                 console.log(snapshot.val().url)
                 window.url = snapshot.val().url
                 var pic = document.createElement("img");
-                pic.setAttribute("class", "randomPictures");
+                pic.setAttribute("class", "winnerPicture");
                 pic.setAttribute("src", snapshot.val().url)
                 pic.setAttribute('alt', winningPic);
                 
@@ -30,7 +30,7 @@ class Winning extends Component {
                 elem.setAttribute('width', '200px')
                 elem.setAttribute("class", "grid-item");
                 elem.appendChild(pic);
-                document.getElementById("grid").appendChild(elem)
+                document.getElementById("winner").appendChild(elem)
 
             });               
          });
@@ -86,7 +86,7 @@ class Winning extends Component {
                     <div className="caption" id="caption">
                     </div>
 
-                    <div className="grid" id="grid">
+                    <div className="grid" id="winner">
                        </div>  
             </div>
             </div>

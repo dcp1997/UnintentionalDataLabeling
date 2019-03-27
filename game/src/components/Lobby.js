@@ -36,7 +36,7 @@ class Lobby extends Component {
     return (
       <div>
       <ul>
-        {this.props.hostUserName}
+        {/* {this.props.hostUserName}
         Your Username: ___________
         {
           this.state.players.map((player)=>
@@ -49,7 +49,7 @@ class Lobby extends Component {
             )
            
           })
-        }
+        } */}
       </ul>
 
       <div id = "main">
