@@ -20,7 +20,10 @@ class Home extends Component {
                         </Link>            
                         <Link to="/join">
                             <Button>Join Game</Button>
-                        </Link>        
+                        </Link>
+                        <Link to="/Game">
+                            <Button>Sample Round</Button>
+                        </Link>         
                     </div>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from '../firebase'
-import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
@@ -29,7 +28,7 @@ class Join extends Component {
 
     updateUserName(event)
     {
-        this.setState({hostUserName: event.target.value})
+        this.setState({userName: event.target.value})
     }
 
     handleSubmit()

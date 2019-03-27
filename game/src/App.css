@@ -8,6 +8,7 @@
   pointer-events: none;
 }
 
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -181,12 +182,17 @@ button#exit {
 
 }
 
+
+
 .gameInfo {
     background-color: #182B4a;
     text-align: left;
     font-size: 16px;
     color: white;
     padding: 1%;
+}
+.gameCode{
+  float: right;
 }
 
 .grid {
@@ -276,8 +282,8 @@ input[type='text'], input[type='number']{
     margin-bottom: auto;
     opacity: 0.7;
     object-fit: contain;
-    max-height: 250px;
-    max-width: 250px;
+    max-height: 190px;
+    max-width: 190px;
   }
 
   img:hover {
