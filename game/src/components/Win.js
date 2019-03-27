@@ -11,6 +11,7 @@ class Winning extends Component {
 
     // getWinningImage(){
 
+    //     this.getRoundCaption()
     //     firebase.database().ref('game-session/oneGame/round/1/submissions/players/winner').once('value').then(function(winning) {
     //         var winningPic = winning.val()
     //         console.log(winningPic.val())
@@ -37,6 +38,24 @@ class Winning extends Component {
                   
     //      });
     // }
+
+
+    getRoundCaption(){
+
+        firebase.database().ref('game-session/oneGame/round/1/submissions/promptID').once('value').then(function(snapshot){
+            console.log(snapshot.val());
+            var index = snapshot.val();
+            firebase.database().ref('captions/'+index).once('value').then(function(snapshot){
+                console.log(snapshot);
+                console.log(snapshot.val());
+                console.log(snapshot.val().caption);
+                window.caption = snapshot.val().caption
+                document.getElementById('caption').innerHTML = snapshot.val().caption
+                
+        });
+      
+        })
+    }
 
     getScore(){
         
