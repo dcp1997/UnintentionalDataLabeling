@@ -12,11 +12,57 @@ class Voting extends Component{
     readDB(){
         var clicks = [0, 0, 0, 0];
         this.appendCaption()
-        for(var i = 0; i < 4; i++){
-            var randomIndex = this.getRandomInt(0,833);
-            this.appendImage(randomIndex, i, clicks);
-        };
-        
+        var currentCardNumber = 0;
+        var query = firebase.database().ref("game-session/oneGame/round/1/submissions/players").orderByKey();
+        query.once("value").then(function (snapshot) {
+            snapshot.forEach(child => {
+            console.log(child.val().submissionID.imageNumber);
+            const index = child.val().submissionID.imageNumber;
+                
+            firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
+                //pictureURL = (snapshot.val().url);
+                console.log(snapshot.val().url)
+                window.url = snapshot.val().url
+                var pic = document.createElement("img");
+                pic.setAttribute("class", "randomPictures");
+                pic.setAttribute("src", snapshot.val().url);
+                pic.setAttribute('id', "img"+currentCardNumber)
+                pic.setAttribute('alt', index);
+                
+                var elem = document.createElement("div")
+                elem.setAttribute('height', '200px')
+                elem.setAttribute('width', '200px')
+                elem.setAttribute("class", "grid-item");
+                elem.setAttribute('id', currentCardNumber)
+                elem.appendChild(pic);
+                document.getElementById("grid").appendChild(elem)
+                elem.addEventListener('click', function(){
+                  console.log("wtf" + document.getElementById('img'+currentCardNumber).getAttribute('alt'));
+                  if (clicks[currentCardNumber] === 0){
+                      this.style.border = "solid";
+                      this.style.borderColor = "#17C490";
+                      for(var l=0; l<clicks.length; l++){
+                          if(clicks[l]===1){
+                              document.getElementById(l).style.border = 'none';
+                              clicks[l]--;
+                          }
+                      }
+                      clicks[currentCardNumber]++;
+      
+                  }
+                  else if (clicks[currentCardNumber]=== 1){
+                      console.log(clicks[currentCardNumber])
+                      this.style.border = 'none';
+                      clicks[currentCardNumber]--;
+                  }
+                  
+              })     
+             });
+      
+            });
+            currentCardNumber++;
+        });
+            
         
     }
     appendCaption(){
@@ -36,47 +82,7 @@ class Voting extends Component{
     {
         // var pictureURL;
         
-        return firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
-          //pictureURL = (snapshot.val().url);
-          console.log(snapshot.val().url)
-          window.url = snapshot.val().url
-          var pic = document.createElement("img");
-          pic.setAttribute("class", "randomPictures");
-          pic.setAttribute("src", snapshot.val().url);
-          pic.setAttribute('id', "img"+currentCardNumber)
-          pic.setAttribute('alt', index);
-          
-          var elem = document.createElement("div")
-          elem.setAttribute('height', '200px')
-          elem.setAttribute('width', '200px')
-          elem.setAttribute("class", "grid-item");
-          elem.setAttribute('id', currentCardNumber)
-          elem.appendChild(pic);
-          document.getElementById("grid").appendChild(elem)
-          elem.addEventListener('click', function(){
-            console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            if (clicks[currentCardNumber] === 0){
-                console.log(clicks[currentCardNumber])
-                this.style.border = "solid";
-                this.style.borderColor = "#17C490";
-                for(var l=0; l<clicks.length; l++){
-                    if(clicks[l]===1){
-                        document.getElementById(l).style.border = 'none';
-                        clicks[l]--;
-                    }
-                }
-                clicks[currentCardNumber]++;
-
-            }
-            else if (clicks[currentCardNumber]=== 1){
-                console.log(clicks[currentCardNumber])
-                this.style.border = 'none';
-                clicks[currentCardNumber]--;
-            }
-            
-        })     
-       });
-
+       
     }  
 
     getRandomInt(min, max) 
