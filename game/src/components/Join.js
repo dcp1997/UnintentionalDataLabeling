@@ -11,7 +11,7 @@ class Join extends Component {
         super(props);
 
         this.state = {
-            hostUserName:'',
+            userName:'',
             gameCode: '',
             showStart: false,
             showSubmit: true,
@@ -34,7 +34,7 @@ class Join extends Component {
     handleSubmit()
     {   
         var gc = this.state.gameCode;
-        var user = this.state.hostUserName;
+        var user = this.state.userName;
         var maxPlayers = 0;
         var current = 0;
         firebase.database().ref('game-session/' + gc + '/numberPlayers').once('value', function(snapshot) {

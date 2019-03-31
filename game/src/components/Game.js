@@ -19,12 +19,12 @@ class Game extends Component{
         
         
     }
+    
+    //TODO: need to put caption indexes for each round in the init in setup, then this function will just pull that out from the correct gamecode
     appendCaption(){
         var randomIndex = this.getRandomInt(1,27);
         return firebase.database().ref('captions/'+randomIndex).once('value').then(function(snapshot){
-            console.log(snapshot);
-            console.log(snapshot.val());
-            console.log(snapshot.val().caption);
+            console.log("Caption Index: " + randomIndex);
             window.caption = snapshot.val().caption
             document.getElementById('caption').innerHTML = snapshot.val().caption
             //when not hardcoding we will have to replace "oneGame" with the sessionID
@@ -43,7 +43,7 @@ class Game extends Component{
         
         return firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
           //pictureURL = (snapshot.val().url);
-          console.log(snapshot.val().url)
+          console.log("Image Url: " + snapshot.val().url)
           window.url = snapshot.val().url
           var pic = document.createElement("img");
           pic.setAttribute("class", "randomPictures");
