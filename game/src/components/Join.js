@@ -14,9 +14,9 @@ class Join extends Component {
             userName:'',
             gameCode: '',
             showStart: false,
-            showSubmit: true,
+            showSubmit: true
         }
-
+                
         this.updateUserName = this.updateUserName.bind(this);
         this.updateGameCode = this.updateGameCode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,6 +68,8 @@ class Join extends Component {
     }
 
     render() { 
+        var lobbyLink = "/lobby/" + this.state.userName + "/" + this.state.gameCode ;
+
         return   (
             <div>
                 <div>
@@ -88,7 +90,7 @@ class Join extends Component {
                         }
                     </form>
                     {this.state.showStart ?
-                        <Link to="/game"><Button >Start</Button></Link> :null
+                        <Link to={lobbyLink}><Button >Go To Lobby</Button></Link>:null
                     }
                 </div>
         </div>

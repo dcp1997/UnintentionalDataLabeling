@@ -2,6 +2,10 @@ import React, {
   Component
 } from 'react';
 import firebase from '../firebase'
+import Button from 'react-bootstrap/Button'
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+
+
 
 class Lobby extends Component {
 
@@ -9,52 +13,66 @@ class Lobby extends Component {
     super(props);
 
     this.state = {
-      players: [],
-      dbKey: ""
+      username: "",
+      dbKey: "",
+      players:[],
+      playerRef: ''
     };
   }
 
-  getPlayers() {
-    var query = firebase.database().ref("game-session/oneGame/players").orderByKey();
-    query.once("value")
-      .then(function (snapshot) {
-        snapshot.forEach(child => {
-          //console.log(child.val().nickname);
-          this.setState({
-            players: this.state.players.concat(['test'])
-          });
+  updatePlayers() {
+    var i = 0;
+    var query = firebase.database().ref("game-session/"+ this.state.dbKey + "/players").orderByKey();
+    query.on("value" , snap => {
+      this.state.players = [];
+      snap.forEach(child => {
+        this.setState({
+          players : this.state.players.concat([child.val().nickname])
+        });
+
+        const playerList = this.state.players.map((player) =>
+          <p>
+            {player}
+            <br/>
+          </p>
+        );
+
+        this.setState({
+          playerRef: playerList
         });
       });
+    });
+
+
   }
   
+
+
   componentDidMount() {
-    //this.getPlayers();
+    this.updatePlayers();
   }
 
   render() {
+    var pathname = window.location.pathname.split('/');
+    this.state.username = pathname[2];
+    this.state.dbKey = pathname[3];
 
+    
+    console.log(this.state.players);
+        
     return (
       <div>
-      <ul>
-        {/* {this.props.hostUserName}
-        Your Username: ___________
-        {
-          this.state.players.map((player)=>
-          {
-            return (
-              <tr key = {player}>
-                <td> {player}</td>
-              </tr>
-             
-            )
-           
-          })
-        } */}
-      </ul>
+        
+        <div class = "App">
+        <h1>Lobby</h1>
+        <h3>Game ID: {this.state.dbKey}</h3>
+        <p> Current Players:</p>
+        {this.state.playerRef}
+        </div>
 
-      <div id = "main">
+        <Link to="/game"><Button >dufuq</Button></Link>
 
-      </div>
+
       </div>
     );
   }

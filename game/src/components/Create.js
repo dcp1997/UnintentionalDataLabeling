@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import firebase from '../firebase'
 import { storage } from 'firebase';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
-
+import Lobby from './Lobby';
 
 class Create extends Component {
     
@@ -62,7 +62,6 @@ class Create extends Component {
               winner : ""
             }
         
-        alert(k)
         for (var i = 1; i < this.state.numberofRounds; i++){
             firebase.database().ref('game-session/' + k + '/round/' + (i+1)).update({submissions})
         }
@@ -127,10 +126,13 @@ class Create extends Component {
     }
 
     render() { 
+        
+        var lobbyLink = "/lobby/" + this.state.hostUserName + "/" + this.state.dbKey ;
+
         return   (
             <div>
                 <div>
-                <Link to="/">
+                <Link to="/"> 
                     <Button id="exit">Home</Button>
                 </Link>   
                 </div>
@@ -164,6 +166,9 @@ class Create extends Component {
                 {this.state.showStart ?
                         <Link to="/game"><Button >Start</Button></Link> :null
                 }
+                
+                <Link to={lobbyLink}><Button >Go To Lobby</Button></Link>
+    
                 <p> Your Shareable GameCode: {this.state.dbKey}</p>
             </div>
         </div>
