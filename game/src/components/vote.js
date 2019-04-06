@@ -7,14 +7,25 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class Voting extends Component{
 
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          username: "",
+          dbKey: "",
+          round:1,
+          allSubmitted: false,
+          numberOfPlayers: ''
+        };
+      }
 
 
     getSubmittedImages(){
 
         var clicks = [0, 0, 0, 0];
-        this.getRoundCaption()
+        this.getRoundCaption();
         var currentCardNumber = 0;
-        var query = firebase.database().ref("game-session/oneGame/round/1/submissions/players").orderByKey();
+        var query = firebase.database().ref("game-session/"+ this.state.dbKey +"/round/1/submissions/players").orderByKey();
         query.once("value").then(function (snapshot) {
             snapshot.forEach(child => {
             console.log(child.val().submissionID.imageNumber);
@@ -44,7 +55,7 @@ class Voting extends Component{
                     if (clicks[currentCardNumber] === 0){
                         console.log(clicks[currentCardNumber])
                         
-                        firebase.database().ref('game-session/oneGame/round/1/submissions/').update({
+                        firebase.database().ref('game-session/'+  this.state.dbKey +'/round/1/submissions/').update({
                             winner: index,
                             });
                         this.style.border = "solid";
@@ -96,39 +107,59 @@ class Voting extends Component{
             
         
     }
-    getRoundCaption(){
 
-        firebase.database().ref('game-session/oneGame/round/1/submissions/promptID').once('value').then(function(snapshot){
-            console.log(snapshot.val());
+    //gets this rounds caption and appends it to the current page
+    getRoundCaption(){
+        firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/promptID').once('value').then(function(snapshot){
             var index = snapshot.val();
             firebase.database().ref('captions/'+index).once('value').then(function(snapshot){
-                console.log(snapshot);
-                console.log(snapshot.val());
-                console.log(snapshot.val().caption);
                 window.caption = snapshot.val().caption
-                document.getElementById('caption').innerHTML = snapshot.val().caption
-                
-        });
-      
-        })
+                document.getElementById('caption').innerHTML = snapshot.val().caption      
+            });
+        }); 
     }
     
-
-
     getRandomInt(min, max) 
     {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    //this doesnt work how it needs to yet
+    waitForAllSubmitted(){
+        firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/submittedAmount').once('value').then(function(snapshot){
+            var currentAmountofSubmissions = snapshot.val();
+            if(currentAmountofSubmissions >= this.state.numberOfPlayers)
+            {
+                this.setState({allSubmitted: true});
+            }
+            else
+            {
+                this.setState({allSubmitted: false})
+            }
+        }.bind(this)); 
+    }
+
+    getNumberOfPlayers(){
+        firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snapshot){
+            this.setState({numberOfPlayers: snapshot.val().numberPlayers});
+        }.bind(this));
+    }
     
     componentDidMount(){
-        window.addEventListener('load', this.getSubmittedImages());
-        }
-    
-
+        //window.addEventListener('load', this.getSubmittedImages());
+        //this.getNumberOfPlayers();
+    }
     
     render() {
+        var pathname = window.location.pathname.split('/');
+        this.state.username = pathname[2];
+        this.state.dbKey = pathname[3];
+        //this.waitForAllSubmitted();
+        
+        var winLink = "/win/" + this.state.username + "/" + this.state.dbKey ;
+
         return (
             <div>
                 <div>
@@ -137,17 +168,18 @@ class Voting extends Component{
                 </Link>   
                 </div>
                 <header>
-                    Round 1 Voting
+                    Round {this.state.round} Voting
                 </header>
                 <div className="gameInfo"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">
+                    {this.state.allSubmitted ? null :<h4>*Waiting on other players...*</h4>}
                     </div>
 
                     <div className="grid" id="grid">
                        </div> 
-                    <Link to="/win">
+                    <Link to={winLink}>
                     <Button id="Submit">Submit</Button>
                 </Link>  
             </div>

@@ -14,7 +14,8 @@ class Join extends Component {
             userName:'',
             gameCode: '',
             showStart: false,
-            showSubmit: true
+            showSubmit: true,
+            userKey: '2'
         }
                 
         this.updateUserName = this.updateUserName.bind(this);
@@ -47,7 +48,10 @@ class Join extends Component {
                        nickname : user,
                        powerups : 0,
                        score : 0
-                       }).then(() => {
+                       }).then((snap) => {
+                         //   console.log(snap);
+                        //    this.state.userKey = snap.key;
+                        //trying to find a way to log the userKey, as in the number associated with this user in the db
                         alert("You have been added to this game."); 
                      });
                } else {
@@ -68,7 +72,7 @@ class Join extends Component {
     }
 
     render() { 
-        var lobbyLink = "/lobby/" + this.state.userName + "/" + this.state.gameCode ;
+        var lobbyLink = "/lobby/" + this.state.userKey + "/" + this.state.gameCode ;
 
         return   (
             <div>

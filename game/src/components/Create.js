@@ -48,39 +48,46 @@ class Create extends Component {
     }  
     
     continueSetup(k){
-        var prompt = Math.floor(Math.random() * (833 - 1 + 1)) + 1;
-        var submissions = {
-              players : [ null, {
-                nickname : "",
-                submissionID : 1
-              },],
-              promptID : prompt,
-              type : "",
-              voting : [null, {
-                nickname : 0
-              },],
-              winner : ""
-            }
+
+      
         
         for (var i = 1; i < this.state.numberofRounds; i++){
+
+            var submissions = {
+                players : [ null, {
+                  nickname : "",
+                  submissionID : 1
+                },],
+                promptID : this.getRandomInt(1,27),
+                type : "",
+                voting : [null, {
+                  nickname : 0
+                },],
+                winner : "",
+                submittedAmount: 0
+          }
+
             firebase.database().ref('game-session/' + k + '/round/' + (i+1)).update({submissions})
         }
     }
     
     handleSubmit()
     {
+        var captionIndex = this.getRandomInt(1,27);
+        
         var oneRound = {
             submissions : {
               players : [ null, {
                 nickname : "",
                 submissionID : 1
               },],
-              promptID : 1,
+              promptID : this.getRandomInt(1,27),
               type : "",
               voting : [null, {
                 nickname : 0
               },],
-              winner : ""
+              winner : "",
+              submittedAmount: 0
             }
         };
         
@@ -125,9 +132,16 @@ class Create extends Component {
         }
     }
 
+    getRandomInt(min, max) 
+    {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     render() { 
         
-        var lobbyLink = "/lobby/" + this.state.hostUserName + "/" + this.state.dbKey ;
+        var lobbyLink = "/lobby/1/" + this.state.dbKey ;
 
         return   (
             <div>

@@ -58,8 +58,8 @@ class Lobby extends Component {
     this.state.dbKey = pathname[3];
 
     
-    console.log(this.state.players);
-        
+    var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey ;
+
     return (
       <div>
         
@@ -70,7 +70,7 @@ class Lobby extends Component {
         {this.state.playerRef}
         </div>
 
-        <Link to="/game"><Button >dufuq</Button></Link>
+        <Link to={gameLink}><Button >dufuq</Button></Link>
 
 
       </div>

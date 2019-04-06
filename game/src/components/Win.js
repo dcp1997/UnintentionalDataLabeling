@@ -9,10 +9,20 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class Winning extends Component {
 
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          username: "",
+          dbKey: "",
+          round: 1
+        };
+      }
+
     getWinningImage(){
 
         this.getRoundCaption()
-        firebase.database().ref('game-session/oneGame/round/1/submissions/winner').once('value').then(function(snapshot){
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/round/1/submissions/winner').once('value').then(function(snapshot){
             console.log(snapshot)
             console.log(parseInt(snapshot.val()))
             var winningPic = parseInt(snapshot.val())
@@ -40,7 +50,7 @@ class Winning extends Component {
 
     getRoundCaption(){
 
-        firebase.database().ref('game-session/oneGame/round/1/submissions/promptID').once('value').then(function(snapshot){
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/round/1/submissions/promptID').once('value').then(function(snapshot){
             console.log(snapshot.val());
             var index = snapshot.val();
             firebase.database().ref('captions/'+index).once('value').then(function(snapshot){
@@ -57,7 +67,7 @@ class Winning extends Component {
 
     getScore(){
         
-        firebase.database().ref('game-session/oneGame/players/1/score').once('value').then(function(snapshot){
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/1/score').once('value').then(function(snapshot){
             console.log(snapshot.val());
             
             document.getElementById('winScore').innerHTML = "Your Score: " + snapshot.val()
@@ -70,6 +80,10 @@ class Winning extends Component {
         }
 
     render() { 
+        var pathname = window.location.pathname.split('/');
+        this.state.username = pathname[2];
+        this.state.dbKey = pathname[3];
+
         return   (
             <div>
                 <div>
@@ -78,7 +92,7 @@ class Winning extends Component {
                 </Link>   
                 </div>
                 <header>
-                    Round 1 Winner
+                    Round {this.state.round} Winner
                 </header>
                 <div className="gameInfo"><h2 id = "winScore">{this.getScore()}</h2></div>
                 <div className="container">

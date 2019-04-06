@@ -19,9 +19,9 @@ const routing = (
         <Route exact path="/" component={Home} />
         <Route path="/create" component={Create} />
         <Route path="/join" component={Join} />
-        <Route path="/game" component={Game} />
-        <Route path="/vote" component={Voting} />
-        <Route path="/win" component={Winning} />
+        <Route path="/game/:gameKey" component={Game} />
+        <Route path="/vote/:gameKey" component={Voting} />
+        <Route path="/win/:gameKey" component={Winning} />
         <Route path="/lobby/:gameKey" component={Lobby} />
       </div>
     </Router>
