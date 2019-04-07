@@ -163,6 +163,7 @@ class Create extends Component {
                         },
                     ],
                     round : [ null, oneRound ],
+                    playersJoined: 1
                 }).then((snap) => {
                     const key = snap.key;
                     console.log(key);
@@ -235,12 +236,12 @@ class Create extends Component {
                     <Button type="submit" onClick={this.handleSubmit} >Submit</Button> : null
                 }
                 {this.state.showStart ?
-                        <Link to="/game"><Button >Start</Button></Link> :null
+                    <div>
+                    <p> Your Shareable GameCode: {this.state.dbKey}</p>
+                    <Link to={lobbyLink}><Button >Go To Lobby</Button></Link> </div>
+                    :null
+                        
                 }
-                
-                <Link to={lobbyLink}><Button >Go To Lobby</Button></Link>
-    
-                <p> Your Shareable GameCode: {this.state.dbKey}</p>
             </div>
         </div>
         );
