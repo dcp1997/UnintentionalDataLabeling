@@ -26,7 +26,10 @@ class Create extends Component {
         this.updateNumberOfRounds = this.updateNumberOfRounds.bind(this);
         this.updateMode = this.updateMode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.continueSetup = this.continueSetup.bind(this);
+        this.addSubmissions = this.addSubmissions.bind(this);
+        this.addPlayersToSubmissions = this.addPlayersToSubmissions.bind(this);
+        this.addPlayers = this.addPlayers.bind(this);
+        this.addPlayersToVoting = this.addPlayersToVoting.bind(this);
     }
 
     updateMode(event) {
@@ -47,17 +50,11 @@ class Create extends Component {
         this.setState({numberofRounds : event.target.value})
     }  
     
-    continueSetup(k){
-
-      
-        
+    addSubmissions(k){
+        // add submissions part to each round
         for (var i = 1; i < this.state.numberofRounds; i++){
-
             var submissions = {
-                players : [ null, {
-                  nickname : "",
-                  submissionID : 1
-                },],
+                players : [ null],
                 promptID : this.getRandomInt(1,27),
                 type : "",
                 voting : [null, {
@@ -65,22 +62,51 @@ class Create extends Component {
                 },],
                 winner : "",
                 submittedAmount: 0
-          }
+            }
 
-            firebase.database().ref('game-session/' + k + '/round/' + (i+1)).update({submissions})
+        firebase.database().ref('game-session/' + k + '/round/' + (i+1)).update({submissions})
+        }
+    }
+
+    addPlayers(k){
+        var player = {
+            nickname: "",
+            powerups: 0,
+            score: 0
+        }
+        for (var i = 2; i <= this.state.numberOfPlayers; i++){
+            firebase.database().ref('game-session/' + k + '/players/' + (i)).update(player)
+        }
+    }
+
+    addPlayersToSubmissions(k){
+        var playerSubmission = {
+            nickname : "",
+            submissionID: 0
+        }
+        for (var roundNum=0; roundNum<this.state.numberofRounds; roundNum++){
+            for (var playerNum=0; playerNum<this.state.numberOfPlayers; playerNum++){
+                firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/players/' + (playerNum+1)).update({playerSubmission})
+            }
+        }
+    }
+
+    addPlayersToVoting(k){
+        var playerVoted = {
+            nickname : 0
+        }
+        for (var roundNum=0; roundNum<this.state.numberofRounds; roundNum++){
+            for (var playerNum=0; playerNum<this.state.numberOfPlayers; playerNum++){
+                firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/voting/' + (playerNum+1)).update(playerVoted)
+            }
         }
     }
     
     handleSubmit()
-    {
-        var captionIndex = this.getRandomInt(1,27);
-        
+    {        
         var oneRound = {
             submissions : {
-              players : [ null, {
-                nickname : "",
-                submissionID : 1
-              },],
+              players : [ null],
               promptID : this.getRandomInt(1,27),
               type : "",
               voting : [null, {
@@ -91,7 +117,6 @@ class Create extends Component {
             }
         };
         
-
         if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!='' && 
             this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
@@ -115,7 +140,10 @@ class Create extends Component {
                     this.setState({dbKey: key});
                     this.setState({showStart: true});
                     this.setState({showSubmit: false});
-                    this.continueSetup(key);
+                    this.addPlayers(key);
+                    this.addSubmissions(key);
+                    this.addPlayersToSubmissions(key);
+                    this.addPlayersToVoting(key);
                  }); 
                  this.start = true;
                 //  this.continueSetup();
