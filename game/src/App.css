@@ -80,8 +80,9 @@ p {
 form {
   background-color: lightgray;
   opacity: .85;
-  padding-left: 2%;
-  width: 600px;
+  padding-left: 1vw;
+  width: 75vw;
+  
 }
 
 .caption {
@@ -108,12 +109,13 @@ form {
 
 #gameOptions {
     display: flex;
-    flex-direction: line;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     /* background-color: darksalmon; */
-    margin: 0 25% 20% 5%;
-    padding: 2% 0;
+    margin-left: 0vw;
+    margin-top: 0vw;
+    padding: 1vh;
 }
 .gameOption{
   align-items: center;
