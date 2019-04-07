@@ -84,23 +84,51 @@ class Create extends Component {
             nickname : "",
             submissionID: 0
         }
+        
         for (var roundNum=0; roundNum<this.state.numberofRounds; roundNum++){
             for (var playerNum=0; playerNum<this.state.numberOfPlayers; playerNum++){
-                firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/players/' + (playerNum+1)).update({playerSubmission})
+                if (playerNum==0){
+                    playerSubmission = {
+                        nickname : this.state.hostUserName,
+                        submissionID: 0
+                    }
+                    firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/players/' + (playerNum+1)).update({playerSubmission})
+                    playerSubmission = {
+                        nickname : "",
+                        submissionID: 0
+                    }
+                } else{
+                    firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/players/' + (playerNum+1)).update({playerSubmission})
+                }
             }
         }
     }
 
     addPlayersToVoting(k){
         var playerVoted = {
-            nickname : 0
+            nickname : "",
+            ballot: 0
         }
         for (var roundNum=0; roundNum<this.state.numberofRounds; roundNum++){
             for (var playerNum=0; playerNum<this.state.numberOfPlayers; playerNum++){
-                firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/voting/' + (playerNum+1)).update(playerVoted)
+                if (playerNum==0){
+                    playerVoted = {
+                        nickname : this.state.hostUserName,
+                        ballot: 0
+                    }
+                    firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/voting/' + (playerNum+1)).update(playerVoted)
+                    playerVoted = {
+                        nickname : "",
+                        ballot: 0
+                    }
+                } else{
+                    firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/voting/' + (playerNum+1)).update(playerVoted)
+                }
+            
             }
         }
     }
+
     
     handleSubmit()
     {        
@@ -110,7 +138,8 @@ class Create extends Component {
               promptID : this.getRandomInt(1,27),
               type : "",
               voting : [null, {
-                nickname : 0
+                nickname : "",
+                ballot: 0
               },],
               winner : "",
               submittedAmount: 0
