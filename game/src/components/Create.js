@@ -30,6 +30,7 @@ class Create extends Component {
         this.addPlayersToSubmissions = this.addPlayersToSubmissions.bind(this);
         this.addPlayers = this.addPlayers.bind(this);
         this.addPlayersToVoting = this.addPlayersToVoting.bind(this);
+        this.addHands = this.addHands.bind(this);
     }
 
     updateMode(event) {
@@ -65,6 +66,17 @@ class Create extends Component {
             }
 
         firebase.database().ref('game-session/' + k + '/round/' + (i+1)).update({submissions})
+        }
+    }
+
+    addHands(k){
+        var user = this.state.hostUserName;
+        
+        for (var i = 1; i < this.state.numberofRounds; i++){
+            var hands = {
+                [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
+            }
+            firebase.database().ref('game-session/' + k + '/round/' + (i+1)).update({hands})
         }
     }
 
@@ -131,8 +143,12 @@ class Create extends Component {
 
     
     handleSubmit()
-    {        
+    {     
+        var user = this.state.hostUserName.toString();   
         var oneRound = {
+            hands : {
+                [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
+            },
             submissions : {
               players : [ null],
               promptID : this.getRandomInt(1,27),
@@ -172,6 +188,7 @@ class Create extends Component {
                     this.setState({showSubmit: false});
                     this.addPlayers(key);
                     this.addSubmissions(key);
+                    this.addHands(key);
                     this.addPlayersToSubmissions(key);
                     this.addPlayersToVoting(key);
                  }); 

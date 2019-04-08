@@ -105,10 +105,7 @@ class Join extends Component {
                 }
             }); 
         }
-        
-
     }
-
 
     render() { 
         var lobbyLink = "/lobby/" + this.state.userKey + "/" + this.state.gameCode ;
