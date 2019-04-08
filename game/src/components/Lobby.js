@@ -70,7 +70,7 @@ class Lobby extends Component {
         {this.state.playerRef}
         </div>
 
-        <Link to={gameLink}><Button >dufuq</Button></Link>
+        <Link to={gameLink}><Button >Enter Game</Button></Link>
 
 
       </div>
