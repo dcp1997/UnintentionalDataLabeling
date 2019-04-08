@@ -22,6 +22,8 @@ class Join extends Component {
         this.updateGameCode = this.updateGameCode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.updatePlayer = this.updatePlayer.bind(this);
+        this.addHands = this.addHands.bind(this);
+        this.getRandomInt = this.getRandomInt.bind(this);
     }
 
     updateGameCode(event) {
@@ -31,6 +33,13 @@ class Join extends Component {
     updateUserName(event)
     {
         this.setState({userName: event.target.value})
+    }
+
+    getRandomInt(min, max) 
+    {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     updatePlayer(k, i){
@@ -55,6 +64,26 @@ class Join extends Component {
                 firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/voting/' + (i+1)).update(playerVoted)
             }
         });
+    }
+
+    addHands(k, i){
+        var user = this.state.userName;
+        var numberofRounds = 3;
+        alert("HERE")
+        firebase.database().ref('game-session/' + k + '/numberRounds').once('value').then(function(snapshot) {
+            numberofRounds = snapshot.val()
+            for (var round = 1; round <= numberofRounds; round++){   
+                alert(numberofRounds)
+                var hand = {
+                    username: user,
+                    tile1: Math.floor(Math.random() * (800 - 1 + 1)) + 1,
+                    tile2: Math.floor(Math.random() * (800 - 1 + 1)) + 1,
+                    tile3: Math.floor(Math.random() * (800 - 1 + 1)) + 1,
+                    tile4: Math.floor(Math.random() * (800 - 1 + 1)) + 1
+                }         
+                firebase.database().ref('game-session/' + k + '/round/' + round + '/hand/' +(i+1)).update(hand);
+            } 
+        }); 
     }
 
     handleSubmit()
@@ -99,7 +128,8 @@ class Join extends Component {
                 console.log(joined)
                 console.log(current)
                 if (current >= joined){
-                    this.updatePlayer(gc, joined) 
+                    this.updatePlayer(gc, joined);
+                    this.addHands(gc, joined);
                     this.setState({showStart: true});  
                     this.setState({showSubmit:false});
                 }

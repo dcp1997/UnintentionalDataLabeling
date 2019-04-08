@@ -71,12 +71,17 @@ class Create extends Component {
 
     addHands(k){
         var user = this.state.hostUserName;
-        
-        for (var i = 1; i < this.state.numberofRounds; i++){
-            var hands = {
-                [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
-            }
-            firebase.database().ref('game-session/' + k + '/round/' + (i+1)).update({hands})
+        alert("HERE")
+        for (var i = 1; i <= this.state.numberofRounds; i++){   
+            alert("aqui")
+            var hand = {
+                username: user,
+                tile1: this.getRandomInt(1,800),
+                tile2: this.getRandomInt(1,800),
+                tile3: this.getRandomInt(1,800),
+                tile4: this.getRandomInt(1,800)
+            }         
+            firebase.database().ref('game-session/' + k + '/round/' + i + '/hand/1').update(hand)
         }
     }
 
@@ -146,9 +151,10 @@ class Create extends Component {
     {     
         var user = this.state.hostUserName.toString();   
         var oneRound = {
-            hands : {
-                [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
-            },
+            hands : [null],
+            // {
+            //     // [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
+            // },
             submissions : {
               players : [ null],
               promptID : this.getRandomInt(1,27),
