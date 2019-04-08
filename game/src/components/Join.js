@@ -69,11 +69,9 @@ class Join extends Component {
     addHands(k, i){
         var user = this.state.userName;
         var numberofRounds = 3;
-        alert("HERE")
         firebase.database().ref('game-session/' + k + '/numberRounds').once('value').then(function(snapshot) {
             numberofRounds = snapshot.val()
             for (var round = 1; round <= numberofRounds; round++){   
-                alert(numberofRounds)
                 var hand = {
                     username: user,
                     tile1: Math.floor(Math.random() * (800 - 1 + 1)) + 1,
@@ -127,7 +125,7 @@ class Join extends Component {
                 current = snapshot.numChildren();
                 console.log(joined)
                 console.log(current)
-                if (current >= joined){
+                if (current > joined){
                     this.updatePlayer(gc, joined);
                     this.addHands(gc, joined);
                     this.setState({showStart: true});  
