@@ -109,7 +109,6 @@ class Join extends Component {
                         }).then((snap) => {
                             // this.state.userKey = snap.key;
                             //trying to find a way to log the userKey, as in the number associated with this user in the db
-                            alert("You have been added to this game.");
                             joined++;
                             var playersJoined = joined;
                             firebase.database().ref('game-session/' + gc).update({playersJoined});
