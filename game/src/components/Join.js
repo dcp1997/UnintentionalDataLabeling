@@ -21,6 +21,7 @@ class Join extends Component {
         this.updateUserName = this.updateUserName.bind(this);
         this.updateGameCode = this.updateGameCode.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.updatePlayer = this.updatePlayer.bind(this);
     }
 
     updateGameCode(event) {
@@ -32,44 +33,82 @@ class Join extends Component {
         this.setState({userName: event.target.value})
     }
 
+    updatePlayer(k, i){
+        // alert("Updating player")
+        // alert("Key" + k)
+        // alert("Player " + i)
+        var numberofRounds = 0;
+        var user = this.state.userName;
+        firebase.database().ref('game-session/' + k + '/numberRounds').once('value', function(snapshot) {
+            numberofRounds = snapshot.val()
+            // alert("Rounds " + numberofRounds)
+            for (var roundNum=0; roundNum<numberofRounds; roundNum++){
+                var playerSubmission = {
+                    nickname : user,
+                    submissionID: 0
+                }
+                var playerVoted = {
+                    nickname : user,
+                    ballot: 0
+                }
+                firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/players/' + (i+1)).update({playerSubmission});
+                firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/voting/' + (i+1)).update(playerVoted)
+            }
+        });
+    }
+
     handleSubmit()
     {   
         var gc = this.state.gameCode;
         var user = this.state.userName;
+        var joined = 0;
         var maxPlayers = 0;
         var current = 0;
+        
         firebase.database().ref('game-session/' + gc + '/numberPlayers').once('value', function(snapshot) {
             maxPlayers = snapshot.val()
         });
+
         if (gc!=null && user!=null){
-            firebase.database().ref('game-session/' + gc + '/players').once('value', function(snapshot) {
-                if (snapshot.numChildren()<maxPlayers){ 
-                   firebase.database().ref('game-session/' + gc + '/players').child(snapshot.numChildren()+1).update({
-                       nickname : user,
-                       powerups : 0,
-                       score : 0
-                       }).then((snap) => {
-                         //   console.log(snap);
-                        //    this.state.userKey = snap.key;
-                        //trying to find a way to log the userKey, as in the number associated with this user in the db
-                        alert("You have been added to this game."); 
-                     });
-               } else {
-                   alert("You cannot join this game")
-                    
-               }  
-           })
+            firebase.database().ref('game-session/' + gc + '/playersJoined').once('value', function(snapshot) {
+                joined = snapshot.val()
+                // console.log(joined);
+                // console.log(maxPlayers);
+                if (joined < maxPlayers) {
+                    firebase.database().ref('game-session/' + gc + '/players').child(joined+1).update({
+                        nickname : user,
+                        powerups : 0,
+                        score : 0
+                        }).then((snap) => {
+                            // this.state.userKey = snap.key;
+                            //trying to find a way to log the userKey, as in the number associated with this user in the db
+                            alert("You have been added to this game.");
+                            joined++;
+                            var playersJoined = joined;
+                            firebase.database().ref('game-session/' + gc).update({playersJoined});
+                      });
+                }
+                else {
+                    alert("You cannot join this game")
+                } 
+            });
+            
             firebase.database().ref('game-session/' + gc + '/players').once('value', function(snapshot) {
             }).then((snapshot)=>{
                 current = snapshot.numChildren();
-                if (current!=0){
+                console.log(joined)
+                console.log(current)
+                if (current >= joined){
+                    this.updatePlayer(gc, joined) 
                     this.setState({showStart: true});  
                     this.setState({showSubmit:false});
                 }
-            });
-           
+            }); 
         }
+        
+
     }
+
 
     render() { 
         var lobbyLink = "/lobby/" + this.state.userKey + "/" + this.state.gameCode ;
