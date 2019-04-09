@@ -98,7 +98,7 @@ class Game extends Component{
     submitImage(){
         console.log(this.state.submittedImage);
         //updates db with players submitted image index, this.state.username is actually the users id key 
-        firebase.database().ref('game-session/'+  this.state.dbKey +'/round/'+ this.state.round +'/submissions/players/' + this.state.username).update({
+        firebase.database().ref('game-session/'+  this.state.dbKey +'/round/'+ this.state.round +'/submissions/players/' + this.state.username + '/playerSubmission').update({
             submissionID: this.state.submittedImage
         });
 
@@ -134,13 +134,16 @@ class Game extends Component{
         window.addEventListener('load', this.readDB());
         
     }
+    componentWillMount(){
+        var pathname = window.location.pathname.split('/');
+        this.state.username = pathname[2];
+        this.state.dbKey = pathname[3];
+    }
     
 
     
     render() {
-        var pathname = window.location.pathname.split('/');
-        this.state.username = pathname[2];
-        this.state.dbKey = pathname[3];
+
 
         var voteLink = "/vote/" + this.state.username + "/" + this.state.dbKey ;
 

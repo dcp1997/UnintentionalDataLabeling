@@ -71,9 +71,7 @@ class Create extends Component {
 
     addHands(k){
         var user = this.state.hostUserName;
-        alert("HERE")
         for (var i = 1; i <= this.state.numberofRounds; i++){   
-            alert("aqui")
             var hand = {
                 username: user,
                 tile1: this.getRandomInt(1,800),

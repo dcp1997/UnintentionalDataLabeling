@@ -15,8 +15,10 @@ class Voting extends Component{
           dbKey: "",
           round:1,
           allSubmitted: false,
-          numberOfPlayers: ''
+          numberOfPlayers: 3,
+          init: 1
         };
+        this.test = this.test.bind(this);
       }
 
 
@@ -25,11 +27,10 @@ class Voting extends Component{
         var clicks = [0, 0, 0, 0];
         this.getRoundCaption();
         var currentCardNumber = 0;
-        var query = firebase.database().ref("game-session/"+ this.state.dbKey +"/round/1/submissions/players").orderByKey();
+        var query = firebase.database().ref("game-session/"+ this.state.dbKey +"/round/" + this.state.round +"/submissions/players").orderByKey();
         query.once("value").then(function (snapshot) {
             snapshot.forEach(child => {
-            console.log(child.val().submissionID.imageNumber);
-            const index = parseInt(child.val().submissionID.imageNumber);
+            const index = parseInt(child.val().playerSubmission.submissionID);
                 
             firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
                 window.url = snapshot.val().url
@@ -39,73 +40,71 @@ class Voting extends Component{
                 pic.setAttribute('id', "img"+currentCardNumber)
                 pic.setAttribute('alt', index);
                 
-                var elem = document.createElement("div")
-                elem.setAttribute('height', '200px')
-                elem.setAttribute('width', '200px')
+                var elem = document.createElement("div");
+                elem.setAttribute('height', '200px');
+                elem.setAttribute('width', '200px');
                 elem.setAttribute("class", "grid-item");
-                elem.setAttribute('id', currentCardNumber)
+                elem.setAttribute('id', currentCardNumber);
                 elem.appendChild(pic);
-                document.getElementById("grid").appendChild(elem)
-                //we really need to rethink how we do this in the database
-                //we need to store what each person votes for and then choose the pic with the most votes
-                //right now we are only hardcoding what the image that we are voting for is and setting that as the winner
-                elem.addEventListener('click', function(){
-                    console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-                    let imageNumber = document.getElementById('img'+currentCardNumber).getAttribute('alt')
-                    if (clicks[currentCardNumber] === 0){
-                        console.log(clicks[currentCardNumber])
-                        
-                        firebase.database().ref('game-session/'+  this.state.dbKey +'/round/1/submissions/').update({
-                            winner: index,
-                            });
-                        this.style.border = "solid";
-                        this.style.borderColor = "#17C490";
-                        for(var l=0; l<clicks.length; l++){
-                            if(clicks[l]===1){
-                                 document.getElementById(l).style.border = 'none';
-                                 clicks[l]--;
-                            }
-                        }
-                        clicks[currentCardNumber]++;
-        
-                    }
-                    else if (clicks[currentCardNumber]=== 1){
-                        
-                        
-                        console.log(clicks[currentCardNumber])
-                        this.style.border = 'none';
-                        clicks[currentCardNumber]--;
-                    }
-                    
-                })
+                document.getElementById("grid").appendChild(elem);
+            //     //we really need to rethink how we do this in the database
+            //     //we need to store what each person votes for and then choose the pic with the most votes
+            //     //right now we are only hardcoding what the image that we are voting for is and setting that as the winner
             //     elem.addEventListener('click', function(){
-            //       console.log("wtf" + document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            //       if (clicks[currentCardNumber] === 0){
-            //           this.style.border = "solid";
-            //           this.style.borderColor = "#17C490";
-            //           for(var l=0; l<clicks.length; l++){
-            //               if(clicks[l]===1){
-            //                   document.getElementById(l).style.border = 'none';
-            //                   clicks[l]--;
-            //               }
-            //           }
-            //           clicks[currentCardNumber]++;
+            //         console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
+            //         let imageNumber = document.getElementById('img'+currentCardNumber).getAttribute('alt')
+            //         if (clicks[currentCardNumber] === 0){
+            //             console.log(clicks[currentCardNumber])
+                        
+            //             firebase.database().ref('game-session/'+  this.state.dbKey +'/round/1/submissions/').update({
+            //                 winner: index,
+            //                 });
+            //             this.style.border = "solid";
+            //             this.style.borderColor = "#17C490";
+            //             for(var l=0; l<clicks.length; l++){
+            //                 if(clicks[l]===1){
+            //                      document.getElementById(l).style.border = 'none';
+            //                      clicks[l]--;
+            //                 }
+            //             }
+            //             clicks[currentCardNumber]++;
+        
+            //         }
+            //         else if (clicks[currentCardNumber]=== 1){
+                        
+                        
+            //             console.log(clicks[currentCardNumber])
+            //             this.style.border = 'none';
+            //             clicks[currentCardNumber]--;
+            //         }
+                    
+            //     });
+            // //     elem.addEventListener('click', function(){
+            // //       console.log("wtf" + document.getElementById('img'+currentCardNumber).getAttribute('alt'));
+            // //       if (clicks[currentCardNumber] === 0){
+            // //           this.style.border = "solid";
+            // //           this.style.borderColor = "#17C490";
+            // //           for(var l=0; l<clicks.length; l++){
+            // //               if(clicks[l]===1){
+            // //                   document.getElementById(l).style.border = 'none';
+            // //                   clicks[l]--;
+            // //               }
+            // //           }
+            // //           clicks[currentCardNumber]++;
       
-            //       }
-            //       else if (clicks[currentCardNumber]=== 1){
-            //           console.log(clicks[currentCardNumber])
-            //           this.style.border = 'none';
-            //           clicks[currentCardNumber]--;
-            //       }
+            // //       }
+            // //       else if (clicks[currentCardNumber]=== 1){
+            // //           console.log(clicks[currentCardNumber])
+            // //           this.style.border = 'none';
+            // //           clicks[currentCardNumber]--;
+            // //       }
                   
-            //   })
+            // //   })
              });
       
             });
             currentCardNumber++;
         });
-            
-        
     }
 
     //gets this rounds caption and appends it to the current page
@@ -126,10 +125,10 @@ class Voting extends Component{
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    //this doesnt work how it needs to yet
     waitForAllSubmitted(){
-        firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/submittedAmount').once('value').then(function(snapshot){
+        firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/submittedAmount').on('value', snapshot => {
             var currentAmountofSubmissions = snapshot.val();
+            console.log("current amount submit: " + currentAmountofSubmissions + "|number players: " + this.state.numberOfPlayers)
             if(currentAmountofSubmissions >= this.state.numberOfPlayers)
             {
                 this.setState({allSubmitted: true});
@@ -138,26 +137,46 @@ class Voting extends Component{
             {
                 this.setState({allSubmitted: false})
             }
-        }.bind(this)); 
+        }); 
     }
 
     getNumberOfPlayers(){
         firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snapshot){
+            console.log(snapshot.val().numberPlayers);
             this.setState({numberOfPlayers: snapshot.val().numberPlayers});
         }.bind(this));
+
     }
     
     componentDidMount(){
         //window.addEventListener('load', this.getSubmittedImages());
-        //this.getNumberOfPlayers();
+
+        this.waitForAllSubmitted();
+        
     }
-    
-    render() {
+    componentWillMount(){
         var pathname = window.location.pathname.split('/');
         this.state.username = pathname[2];
         this.state.dbKey = pathname[3];
-        //this.waitForAllSubmitted();
-        
+        this.getNumberOfPlayers();
+    }
+
+
+    componentDidUpdate(){
+        if(this.state.allSubmitted === true && this.state.init === 1)
+        {
+            this.getSubmittedImages();
+            this.setState({init: 0});
+        }
+    }
+    test(){
+        console.log("#players: " + this.state.numberOfPlayers);
+        console.log("allsubmitted: " + this.state.allSubmitted); 
+    }
+    
+    render() {
+
+
         var winLink = "/win/" + this.state.username + "/" + this.state.dbKey ;
 
         return (
@@ -170,6 +189,7 @@ class Voting extends Component{
                 <header>
                     Round {this.state.round} Voting
                 </header>
+        
                 <div className="gameInfo"><h2>Your Score: 0</h2></div>
                 <div className="container">
 

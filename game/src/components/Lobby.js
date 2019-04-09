@@ -51,13 +51,14 @@ class Lobby extends Component {
   componentDidMount() {
     this.updatePlayers();
   }
-
-  render() {
+  componentWillMount(){
     var pathname = window.location.pathname.split('/');
     this.state.username = pathname[2];
     this.state.dbKey = pathname[3];
+  }
 
-    
+  render() {
+
     var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey ;
 
     return (
