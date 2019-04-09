@@ -11,6 +11,7 @@ class Home extends Component {
     render() { 
         return   (
             <div>
+            <header></header>
             <header>Memes For Machines </header>
                 <div id="a">
                     <div id="description">Who will find the best caption/picture combo?</div>
@@ -20,10 +21,7 @@ class Home extends Component {
                         </Link>            
                         <Link to="/join">
                             <Button>Join Game</Button>
-                        </Link>
-                        <Link to="/Game">
-                            <Button>Sample Round</Button>
-                        </Link>         
+                        </Link>       
                     </div>
                 </div>
             </div>

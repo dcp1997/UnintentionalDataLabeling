@@ -139,12 +139,16 @@ class Join extends Component {
 
         return   (
             <div>
-                <div>
-                <Link to="/">
-                    <Button id="exit">Home</Button>
-                </Link>   
-                </div>
-                <header>Join A Game</header>
+                <header class='icon'> 
+                    <div>
+                        <Link to="/"> 
+                            <i class="fas fa-home"></i>
+                        </Link>   
+                    </div>
+                </header>
+                <header>
+                    Join A Game
+                </header>
                 <div id="gameOptions">
                     <form>
                         <p>Enter Your Nickname </p>

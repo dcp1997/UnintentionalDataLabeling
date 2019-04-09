@@ -8,7 +8,6 @@
   pointer-events: none;
 }
 
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -19,9 +18,7 @@
   font-size: calc(10px + 2vmin);
   color: #17C490;
 }
-/* .container{
-  background-color:#182B4a
-} */
+
 .App-link {
   color: #61dafb;
 }
@@ -39,22 +36,22 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 html, body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Raleway', sans-serif;
-    }
+  margin: 0;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+}
 
-  body {
-    background-image: url(http://weinbergerickson.com/wp-content/uploads/2018/01/white-marble-wallpaper-19.jpg);
-    background-size: cover;
-    background-repeat: repeat;
-    background-color: #17C490;
+body {
+  background-image: url(http://weinbergerickson.com/wp-content/uploads/2018/01/white-marble-wallpaper-19.jpg);
+  background-size: cover;
+  background-repeat: repeat;
+  background-color: #17C490;
 
-  }
+}
 
 header {
     font-size: 40px;
-    padding-top: 2.5%;
+    padding-top: 1.5%;
     padding-bottom: 1.5%;
     padding-left: 15%;
     padding-right: 15%;
@@ -63,7 +60,18 @@ header {
     color: white;
 }
 
+.fa-home, .fa-sign-out-alt {
+  color: white;
+  float: right;
+  font-size: 18px;
+}
+
+.icon {
+  padding-right:2%;
+  right:0;
+}
 h2 {
+  font-size: 18px;
     text-align: left;
     margin:0;
 }
@@ -73,7 +81,7 @@ div#description {
     background-color: rgba(107, 107, 107, 0.75); 
 }
 p {
-    font-size: 28px;
+    font-size: 24px;
     padding-right: 1%;
 }
 
@@ -90,7 +98,8 @@ form {
     background-color: #17C490;
     padding: 2.5%;
     margin-bottom: 2vh;
-    font-size: 35px;
+    font-size: 30px;
+    font-weight: 800;
     border-style: solid;
     border-color: #17C490;
     color: white;
@@ -102,8 +111,9 @@ form {
     padding: 2%;
 }
 #menuOptions {
+  margin-top: 5%;
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -157,9 +167,6 @@ button:hover {
 }
 
 
-.body{
-  background-color: #182B4A;
-}
 #a {
     /* background-color: darkred; */
     height: 73vh;
@@ -203,9 +210,10 @@ button#exit {
   grid-gap: 10px;
   grid-template-columns: repeat(auto-fill, 250px);
   align-items: center;
-  width:80vw;
-  margin-left: 7vw;
-  margin-right:7%;
+  width:90vw;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  justify-items: end;
 }
 
 .grid>* {
