@@ -47,38 +47,38 @@ class Voting extends Component{
                 elem.setAttribute('id', currentCardNumber);
                 elem.appendChild(pic);
                 document.getElementById("grid").appendChild(elem);
-            //     //we really need to rethink how we do this in the database
-            //     //we need to store what each person votes for and then choose the pic with the most votes
-            //     //right now we are only hardcoding what the image that we are voting for is and setting that as the winner
-            //     elem.addEventListener('click', function(){
-            //         console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            //         let imageNumber = document.getElementById('img'+currentCardNumber).getAttribute('alt')
-            //         if (clicks[currentCardNumber] === 0){
-            //             console.log(clicks[currentCardNumber])
+                //we really need to rethink how we do this in the database
+                //we need to store what each person votes for and then choose the pic with the most votes
+                //right now we are only hardcoding what the image that we are voting for is and setting that as the winner
+                elem.addEventListener('click', function(){
+                    console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
+                    let imageNumber = document.getElementById('img'+currentCardNumber).getAttribute('alt')
+                    if (clicks[currentCardNumber] === 0){
+                        console.log(clicks[currentCardNumber])
                         
-            //             firebase.database().ref('game-session/'+  this.state.dbKey +'/round/1/submissions/').update({
-            //                 winner: index,
-            //                 });
-            //             this.style.border = "solid";
-            //             this.style.borderColor = "#17C490";
-            //             for(var l=0; l<clicks.length; l++){
-            //                 if(clicks[l]===1){
-            //                      document.getElementById(l).style.border = 'none';
-            //                      clicks[l]--;
-            //                 }
-            //             }
-            //             clicks[currentCardNumber]++;
+                        firebase.database().ref('game-session/'+  this.state.dbKey +'/round/1/submissions/').update({
+                            winner: index,
+                            });
+                        this.style.border = "solid";
+                        this.style.borderColor = "#17C490";
+                        for(var l=0; l<clicks.length; l++){
+                            if(clicks[l]===1){
+                                 document.getElementById(l).style.border = 'none';
+                                 clicks[l]--;
+                            }
+                        }
+                        clicks[currentCardNumber]++;
         
-            //         }
-            //         else if (clicks[currentCardNumber]=== 1){
+                    }
+                    else if (clicks[currentCardNumber]=== 1){
                         
                         
-            //             console.log(clicks[currentCardNumber])
-            //             this.style.border = 'none';
-            //             clicks[currentCardNumber]--;
-            //         }
+                        console.log(clicks[currentCardNumber])
+                        this.style.border = 'none';
+                        clicks[currentCardNumber]--;
+                    }
                     
-            //     });
+                });
             // //     elem.addEventListener('click', function(){
             // //       console.log("wtf" + document.getElementById('img'+currentCardNumber).getAttribute('alt'));
             // //       if (clicks[currentCardNumber] === 0){

@@ -250,8 +250,8 @@ class Create extends Component {
                     <p>Prompt with: 
                         <div class='styled-select white semi-square '>
                             <select name="prompt">
-                                <option value="image">Caption</option>
-                                {/* <option value="caption">Caption</option> */}
+                                <option value="caption">Caption</option>
+                                <option value="image">Image</option>
                             </select>
                         </div>
                     </p>

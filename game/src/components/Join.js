@@ -107,8 +107,8 @@ class Join extends Component {
                         powerups : 0,
                         score : 0
                         }).then((snap) => {
-                            this.setState({userKey: joined});
                             joined++;
+                            this.setState({userKey: joined});
                             var playersJoined = joined;
                             firebase.database().ref('game-session/' + gc).update({playersJoined});
                       });
