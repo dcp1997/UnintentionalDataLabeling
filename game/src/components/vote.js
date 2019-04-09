@@ -79,27 +79,27 @@ class Voting extends Component{
                     }
                     
                 });
-            // //     elem.addEventListener('click', function(){
-            // //       console.log("wtf" + document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            // //       if (clicks[currentCardNumber] === 0){
-            // //           this.style.border = "solid";
-            // //           this.style.borderColor = "#17C490";
-            // //           for(var l=0; l<clicks.length; l++){
-            // //               if(clicks[l]===1){
-            // //                   document.getElementById(l).style.border = 'none';
-            // //                   clicks[l]--;
-            // //               }
-            // //           }
-            // //           clicks[currentCardNumber]++;
+                elem.addEventListener('click', function(){
+                  console.log("wtf" + document.getElementById('img'+currentCardNumber).getAttribute('alt'));
+                  if (clicks[currentCardNumber] === 0){
+                      this.style.border = "solid";
+                      this.style.borderColor = "#17C490";
+                      for(var l=0; l<clicks.length; l++){
+                          if(clicks[l]===1){
+                              document.getElementById(l).style.border = 'none';
+                              clicks[l]--;
+                          }
+                      }
+                      clicks[currentCardNumber]++;
       
-            // //       }
-            // //       else if (clicks[currentCardNumber]=== 1){
-            // //           console.log(clicks[currentCardNumber])
-            // //           this.style.border = 'none';
-            // //           clicks[currentCardNumber]--;
-            // //       }
+                  }
+                  else if (clicks[currentCardNumber]=== 1){
+                      console.log(clicks[currentCardNumber])
+                      this.style.border = 'none';
+                      clicks[currentCardNumber]--;
+                  }
                   
-            // //   })
+              })
              });
       
             });
