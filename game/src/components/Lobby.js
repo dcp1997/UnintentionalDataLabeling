@@ -63,17 +63,16 @@ class Lobby extends Component {
 
     return (
       <div>
-        
+        <header></header>
+        <header>Lobby </header>
         <div class = "App">
-        <h1>Lobby</h1>
         <h3>Game ID: {this.state.dbKey}</h3>
-        <p> Current Players:</p>
-        {this.state.playerRef}
+        <div class='joinedPlayers'>
+          <p> Current Players:</p>
+          {this.state.playerRef}
+          </div>
+          <Link to={gameLink}><Button >Enter Game</Button></Link>
         </div>
-
-        <Link to={gameLink}><Button >Enter Game</Button></Link>
-
-
       </div>
     );
   }

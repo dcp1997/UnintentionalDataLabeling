@@ -289,6 +289,13 @@ input[type='text'], input[type='number']{
 
 }
 
+.joinedPlayers{
+  background-color: lightgray;
+  opacity: .85;
+  width: 45vw;
+  margin-left: 27.5vw;
+}
+
 .styled-select {
   background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
   height: 35px;
