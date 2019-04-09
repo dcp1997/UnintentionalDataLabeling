@@ -15,7 +15,7 @@ class Join extends Component {
             gameCode: '',
             showStart: false,
             showSubmit: true,
-            userKey: '2'
+            userKey: ''
         }
                 
         this.updateUserName = this.updateUserName.bind(this);
@@ -107,8 +107,7 @@ class Join extends Component {
                         powerups : 0,
                         score : 0
                         }).then((snap) => {
-                            // this.state.userKey = snap.key;
-                            //trying to find a way to log the userKey, as in the number associated with this user in the db
+                            this.setState({userKey: joined});
                             joined++;
                             var playersJoined = joined;
                             firebase.database().ref('game-session/' + gc).update({playersJoined});
@@ -117,7 +116,7 @@ class Join extends Component {
                 else {
                     alert("You cannot join this game")
                 } 
-            });
+            }.bind(this));
             
             firebase.database().ref('game-session/' + gc + '/players').once('value', function(snapshot) {
             }).then((snapshot)=>{
@@ -136,7 +135,7 @@ class Join extends Component {
 
     render() { 
         var lobbyLink = "/lobby/" + this.state.userKey + "/" + this.state.gameCode ;
-
+        console.log("userkey " + this.state.userKey);
         return   (
             <div>
                 <header class='icon'> 
