@@ -16,19 +16,26 @@ class Game extends Component{
           dbKey: "",
           round: 1,
           submittedImage: "",
-          selected: false
+          selected: false,
+          Score: 0
         };
 
         this.submitImage = this.submitImage.bind(this);
       }
 
-    readDB(){
+      readDB(){
         var clicks = [0, 0, 0, 0];
         this.appendCaption();
-        for(var i = 0; i < 4; i++){
-            var randomIndex = this.getRandomInt(0,833);
-            this.appendImage(randomIndex, i, clicks);
-        };  
+        var game = this;
+        return firebase.database().ref(`game-session/` +  this.state.dbKey +`/round/` + this.state.round+`/hand/`+this.state.username).once('value').then(function(snapshot)
+        {
+                    console.log(game);
+                    game.appendImage(snapshot.child(`tile1`).val(), 0, clicks);
+                    game.appendImage(snapshot.child(`tile2`).val(), 1, clicks);
+                    game.appendImage(snapshot.child(`tile3`).val(), 2, clicks);
+                    game.appendImage(snapshot.child(`tile4`).val(), 3, clicks);
+                
+        });
     }
 
     
@@ -123,7 +130,9 @@ class Game extends Component{
     }
     
     componentDidMount(){
+        console.log(this.state.username);
         window.addEventListener('load', this.readDB());
+        
     }
     
 
