@@ -29,27 +29,28 @@ class Winning extends Component{
         this.getRoundCaption()
         var playersVoted = 0;
         var playerNumber = this.state.numberOfPlayers
-       
+        var winArray = new Array(playerNumber);
+        var winningPic = 0;
         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/1/submissions/voting/').once('value').then(function(snapshot){
             console.log(snapshot)
             console.log(snapshot.val())
-            console.log(snapshot.numChildren())
-            
-            var winArray = new Array(playerNumber-1);
+            console.log(snapshot.val().numVoted)
+            playersVoted = snapshot.val().numVoted
             var i = 0;
             if(playerNumber === playersVoted){
                 snapshot.forEach(child => {
                     const indexofPic = parseInt(child.val().ballot);
                     console.log(indexofPic);
                     console.log(child.val())
-                    if(i !== playerNumber+1){
+                    if(i !== playerNumber){
                         winArray[i] = indexofPic;
                     }
-                    
+                    console.log(winArray)
                     i++;
 
 
                 });
+                console.log(winArray)
             }
             console.log(winArray)
             function mode(arr){
@@ -58,27 +59,24 @@ class Winning extends Component{
                     - arr.filter(v => v===b).length
                 ).pop();
             }
-            var winner = mode(winArray)
-            console.log(winner)
-            
-            //var winningPic = parseInt(snapshot.val())
-            // console.log(winningPic)
-            // firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
-            //     console.log(snapshot)
-            //     window.url = snapshot.val()
-            //     var pic = document.createElement("img");
-            //     pic.setAttribute("class", "winnerPicture");
-            //     pic.setAttribute("src", snapshot.val().url)
-            //     pic.setAttribute('alt', winningPic);
-                
-            //     var elem = document.createElement("div")
-            //     elem.setAttribute('height', '200px')
-            //     elem.setAttribute('width', '200px')
-            //     elem.setAttribute("class", "grid-item");
-            //     elem.appendChild(pic);
-            //     document.getElementById("winner").appendChild(elem)
+            winningPic = mode(winArray)
 
-            // });               
+            firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
+                console.log(snapshot)
+                window.url = snapshot.val()
+                var pic = document.createElement("img");
+                pic.setAttribute("class", "winnerPicture");
+                pic.setAttribute("src", snapshot.val().url)
+                pic.setAttribute('alt', winningPic);
+                
+                var elem = document.createElement("div")
+                elem.setAttribute('height', '200px')
+                elem.setAttribute('width', '200px')
+                elem.setAttribute("class", "grid-item");
+                elem.appendChild(pic);
+                document.getElementById("winner").appendChild(elem)
+
+            });               
          });
         
         // var gc = this.state.dbKey
@@ -256,8 +254,8 @@ class Winning extends Component{
                     {this.state.allSubmitted ? null :<h4>*Waiting on other players...*</h4>}
                     </div>
 
-                    <div className="grid" id="grid">
-                       </div> 
+                    <div className="grid" id="winner">
+                       </div>  
                     {/* <Link to={winLink}>
                     <Button id="Submit">Submit</Button>
                 </Link>   */}
