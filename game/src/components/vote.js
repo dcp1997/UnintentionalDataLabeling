@@ -132,7 +132,7 @@ class Voting extends Component{
                 {
                     this.setState({allSubmitted: true});
                 }
-                if(this.state.numberOfPlayers != snapshot.val().numberOfPlayers){
+                if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
                     this.setState({numberOfPlayers: snapshot.val().numberPlayers});
                 }
             }.bind(this));
