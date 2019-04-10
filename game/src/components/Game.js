@@ -138,6 +138,16 @@ class Game extends Component{
         var pathname = window.location.pathname.split('/');
         this.state.username = pathname[2];
         this.state.dbKey = pathname[3];
+
+
+        this.getCurrentRound();
+    }
+
+    getCurrentRound(){
+        firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
+            console.log("current round: " + snapshot.val().currentRoundNumber);
+            this.setState({round: snapshot.val().currentRoundNumber});
+        }.bind(this));
     }
     
 
