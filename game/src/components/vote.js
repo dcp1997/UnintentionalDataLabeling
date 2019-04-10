@@ -178,11 +178,13 @@ class Voting extends Component{
 
         return (
             <div>
-                <div>
-                <Link to="/">
-                    <Button id="exit">Exit Game</Button>
-                </Link>   
-                </div>
+                <header class='icon'>
+                    <div>
+                    <Link to="/">
+                        <i class="fas fa-sign-out-alt fa-xs"></i>
+                    </Link>   
+                    </div>
+                </header>
                 <header>
                     Round {this.state.round} Voting
                 </header>
