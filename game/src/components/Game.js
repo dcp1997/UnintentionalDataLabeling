@@ -7,7 +7,6 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class Game extends Component{
 
-    //can prob keep track of rounds in the url {^o^}
     constructor(props) {
         super(props);
     
