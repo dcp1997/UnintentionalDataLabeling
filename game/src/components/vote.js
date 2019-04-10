@@ -125,22 +125,27 @@ class Voting extends Component{
     waitForAllSubmitted(){
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/submittedAmount').on('value', snapshot => {
             var currentAmountofSubmissions = snapshot.val();
-            console.log("current amount submit: " + currentAmountofSubmissions + "|number players: " + this.state.numberOfPlayers)
-            if(currentAmountofSubmissions >= this.state.numberOfPlayers)
-            {
-                this.setState({allSubmitted: true});
-            }
-            else
-            {
-                this.setState({allSubmitted: false})
-            }
+            firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snap){
+                //console.log(snap.val().numberPlayers);
+                //console.log("current amount submit: " + currentAmountofSubmissions + "|number players: " + snap.val().numberPlayers)
+                if(currentAmountofSubmissions >= snap.val().numberPlayers)
+                {
+                    this.setState({allSubmitted: true});
+                }
+                if(this.state.numberOfPlayers != snapshot.val().numberOfPlayers){
+                    this.setState({numberOfPlayers: snapshot.val().numberPlayers});
+                }
+            }.bind(this));
+
         }); 
     }
 
     getNumberOfPlayers(){
         firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snapshot){
             console.log(snapshot.val().numberPlayers);
-            this.setState({numberOfPlayers: snapshot.val().numberPlayers});
+            if(this.state.numberOfPlayers != snapshot.val().numberOfPlayers){
+                this.setState({numberOfPlayers: snapshot.val().numberPlayers});
+            }
         }.bind(this));
 
     }
@@ -160,11 +165,14 @@ class Voting extends Component{
 
 
     componentDidUpdate(){
+        this.waitForAllSubmitted();
         if(this.state.allSubmitted === true && this.state.init === 1)
         {
             this.getSubmittedImages();
             this.setState({init: 0});
         }
+        //this.getNumberOfPlayers();
+
     }
     test(){
         console.log("#players: " + this.state.numberOfPlayers);
