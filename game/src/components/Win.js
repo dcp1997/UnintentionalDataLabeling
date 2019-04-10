@@ -161,8 +161,8 @@ class Winning extends Component{
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/promptID').once('value').then(function(snapshot){
             var index = snapshot.val();
             firebase.database().ref('captions/'+index).once('value').then(function(snapshot){
-                window.caption = snapshot.val().caption
-                document.getElementById('caption').innerHTML = snapshot.val().caption      
+                window.caption = snapshot.val().caption;
+                document.getElementById('caption').innerHTML = snapshot.val().caption;    
             });
         }); 
     }

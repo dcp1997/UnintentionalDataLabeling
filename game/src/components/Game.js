@@ -86,7 +86,7 @@ class Game extends Component{
             else if (clicks[currentCardNumber]=== 1){
                 elem.style.border = 'none';
                 clicks[currentCardNumber]--;
-                this.setState({selected:false})
+                this.setState({selected:false});
             }
             
         }.bind(this));     
