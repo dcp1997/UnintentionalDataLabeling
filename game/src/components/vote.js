@@ -15,9 +15,9 @@ class Voting extends Component{
           dbKey: "",
           round:1,
           allSubmitted: false,
-          numberOfPlayers: 3,
           init: 1,
-          voteImage: 0
+          voteImage: 0,
+          round: 1
         };
         this.test = this.test.bind(this);
         this.getSubmittedImages = this.getSubmittedImages.bind(this);
@@ -72,19 +72,19 @@ class Voting extends Component{
                             }
                         }
                         clicks[currentCardNumber]++;
-                        console.log(gc)
                         //updates db with players submitted image index, this.state.username is actually the users id key 
-                        firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/'+ usern +"/" ).update({
+                        console.log("round " + this.state.round);
+                        firebase.database().ref('game-session/'+ gc +'/round/'+this.state.round +'/submissions/voting/'+ usern +"/" ).update({
                             ballot: index
                         });
                 
                         //updates round with the amount of submitted images
-                        firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/numVoted/' ).once('value').then(function(snapshot){
+                        firebase.database().ref('game-session/'+ gc +'/round/'+this.state.round +'/submissions/voting/numVoted/' ).once('value').then(function(snapshot){
                             console.log(snapshot.val())
-                            firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/').update({
+                            firebase.database().ref('game-session/'+ gc +'/round/'+this.state.round +'/submissions/voting/').update({
                                 numVoted: snapshot.val() + 1
                             });
-                        })
+                        }.bind(this));
                         
                         
         
@@ -94,12 +94,12 @@ class Voting extends Component{
                         clicks[currentCardNumber]--;
                     }
                     
-                })
-             });
+                }.bind(this));
+             }.bind(this));
       
             });
             currentCardNumber++;
-        });
+        }.bind(this));
     }
 
     //gets this rounds caption and appends it to the current page
@@ -140,15 +140,6 @@ class Voting extends Component{
         }); 
     }
 
-    getNumberOfPlayers(){
-        firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snapshot){
-            console.log(snapshot.val().numberPlayers);
-            if(this.state.numberOfPlayers != snapshot.val().numberOfPlayers){
-                this.setState({numberOfPlayers: snapshot.val().numberPlayers});
-            }
-        }.bind(this));
-
-    }
     
     componentDidMount(){
         //window.addEventListener('load', this.getSubmittedImages());
@@ -160,7 +151,6 @@ class Voting extends Component{
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
-        this.getNumberOfPlayers();
     }
 
 
@@ -171,11 +161,9 @@ class Voting extends Component{
             this.getSubmittedImages();
             this.setState({init: 0});
         }
-        //this.getNumberOfPlayers();
 
     }
     test(){
-        console.log("#players: " + this.state.numberOfPlayers);
         console.log("allsubmitted: " + this.state.allSubmitted); 
     }
     
