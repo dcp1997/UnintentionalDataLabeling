@@ -25,20 +25,20 @@ class Voting extends Component{
 
 
     getSubmittedImages(){
-        console.log(this.state.dbKey)
+        
         var gc = this.state.dbKey
         var usern = this.state.username;
         var clicks = [0, 0, 0, 0];
         this.getRoundCaption();
         var currentCardNumber = 0;
-        console.log("gc zero: "+gc)
+        
         var query = firebase.database().ref("game-session/"+ this.state.dbKey +"/round/" + this.state.round +"/submissions/players").orderByKey();
         query.once("value").then(function (snapshot) {
             snapshot.forEach(child => {
             const index = parseInt(child.val().playerSubmission.submissionID);
-            console.log("gc fisrt: "+gc)
+            
             firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
-                console.log("second: "+gc)
+                
                 window.url = snapshot.val().url
                 var pic = document.createElement("img");
                 pic.setAttribute("class", "randomPictures");
@@ -74,13 +74,14 @@ class Voting extends Component{
                         clicks[currentCardNumber]++;
                         console.log(gc)
                         //updates db with players submitted image index, this.state.username is actually the users id key 
-                        firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting'+ usern +"/" ).update({
+                        firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/'+ usern +"/" ).update({
                             ballot: index
                         });
                 
                         //updates round with the amount of submitted images
-                        firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/numVoted' ).once('value').then(function(snapshot){
-                            firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/numVoted').update({
+                        firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/numVoted/' ).once('value').then(function(snapshot){
+                            console.log(snapshot.val())
+                            firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/').update({
                                 numVoted: snapshot.val() + 1
                             });
                         })
