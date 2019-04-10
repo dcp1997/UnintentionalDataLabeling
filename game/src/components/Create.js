@@ -124,7 +124,11 @@ class Create extends Component {
             nickname : "",
             ballot: 0
         }
+        var numVoted = {
+            numVoted:0
+        }
         for (var roundNum=0; roundNum<this.state.numberofRounds; roundNum++){
+            firebase.database().ref('game-session/' + k + '/round/' + (roundNum+1) + '/submissions/voting/').update(numVoted);
             for (var playerNum=0; playerNum<this.state.numberOfPlayers; playerNum++){
                 if (playerNum==0){
                     playerVoted = {
@@ -250,8 +254,8 @@ class Create extends Component {
                     <p>Prompt with: 
                         <div class='styled-select white semi-square '>
                             <select name="prompt">
-                                <option value="image">Caption</option>
-                                {/* <option value="caption">Caption</option> */}
+                                <option value="caption">Caption</option>
+                                <option value="image">Image</option>
                             </select>
                         </div>
                     </p>

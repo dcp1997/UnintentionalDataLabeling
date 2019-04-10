@@ -63,7 +63,13 @@ class Lobby extends Component {
 
     return (
       <div>
-        <header></header>
+        <header class='icon'> 
+          <div>
+              <Link to="/"> 
+                  <i class="fas fa-home"></i>
+              </Link>   
+          </div>
+        </header>
         <header>Lobby </header>
         <div class = "App">
         <h3>Game ID: {this.state.dbKey}</h3>

@@ -16,23 +16,29 @@ class Voting extends Component{
           round:1,
           allSubmitted: false,
           numberOfPlayers: 3,
-          init: 1
+          init: 1,
+          voteImage: 0
         };
         this.test = this.test.bind(this);
+        this.getSubmittedImages = this.getSubmittedImages.bind(this);
       }
 
 
     getSubmittedImages(){
-
+        
+        var gc = this.state.dbKey
+        var usern = this.state.username;
         var clicks = [0, 0, 0, 0];
         this.getRoundCaption();
         var currentCardNumber = 0;
+        
         var query = firebase.database().ref("game-session/"+ this.state.dbKey +"/round/" + this.state.round +"/submissions/players").orderByKey();
         query.once("value").then(function (snapshot) {
             snapshot.forEach(child => {
             const index = parseInt(child.val().playerSubmission.submissionID);
-                
+            
             firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
+                
                 window.url = snapshot.val().url
                 var pic = document.createElement("img");
                 pic.setAttribute("class", "randomPictures");
@@ -47,59 +53,48 @@ class Voting extends Component{
                 elem.setAttribute('id', currentCardNumber);
                 elem.appendChild(pic);
                 document.getElementById("grid").appendChild(elem);
-            //     //we really need to rethink how we do this in the database
-            //     //we need to store what each person votes for and then choose the pic with the most votes
-            //     //right now we are only hardcoding what the image that we are voting for is and setting that as the winner
-            //     elem.addEventListener('click', function(){
-            //         console.log(document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            //         let imageNumber = document.getElementById('img'+currentCardNumber).getAttribute('alt')
-            //         if (clicks[currentCardNumber] === 0){
-            //             console.log(clicks[currentCardNumber])
-                        
-            //             firebase.database().ref('game-session/'+  this.state.dbKey +'/round/1/submissions/').update({
-            //                 winner: index,
-            //                 });
-            //             this.style.border = "solid";
-            //             this.style.borderColor = "#17C490";
-            //             for(var l=0; l<clicks.length; l++){
-            //                 if(clicks[l]===1){
-            //                      document.getElementById(l).style.border = 'none';
-            //                      clicks[l]--;
-            //                 }
-            //             }
-            //             clicks[currentCardNumber]++;
+                //we really need to rethink how we do this in the database
+                //we need to store what each person votes for and then choose the pic with the most votes
+                //right now we are only hardcoding what the image that we are voting for is and setting that as the winner
+                elem.addEventListener('click', function(e) {
+                    //let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt');       
         
-            //         }
-            //         else if (clicks[currentCardNumber]=== 1){
+                    //meaning the card selected has not been clicked
+                    if (clicks[currentCardNumber] === 0){
+        
+                        elem.style.border = "solid";
+                        elem.style.borderColor = "#17C490";
+                        //all other images lose their borders
+                        for(var l=0; l<clicks.length; l++){
+                            if(clicks[l]===1){
+                                 document.getElementById(l).style.border = 'none';
+                                 clicks[l]--;
+                            }
+                        }
+                        clicks[currentCardNumber]++;
+                        console.log(gc)
+                        //updates db with players submitted image index, this.state.username is actually the users id key 
+                        firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/'+ usern +"/" ).update({
+                            ballot: index
+                        });
+                
+                        //updates round with the amount of submitted images
+                        firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/numVoted/' ).once('value').then(function(snapshot){
+                            console.log(snapshot.val())
+                            firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/').update({
+                                numVoted: snapshot.val() + 1
+                            });
+                        })
                         
                         
-            //             console.log(clicks[currentCardNumber])
-            //             this.style.border = 'none';
-            //             clicks[currentCardNumber]--;
-            //         }
+        
+                    }
+                    else if (clicks[currentCardNumber]=== 1){
+                        elem.style.border = 'none';
+                        clicks[currentCardNumber]--;
+                    }
                     
-            //     });
-            // //     elem.addEventListener('click', function(){
-            // //       console.log("wtf" + document.getElementById('img'+currentCardNumber).getAttribute('alt'));
-            // //       if (clicks[currentCardNumber] === 0){
-            // //           this.style.border = "solid";
-            // //           this.style.borderColor = "#17C490";
-            // //           for(var l=0; l<clicks.length; l++){
-            // //               if(clicks[l]===1){
-            // //                   document.getElementById(l).style.border = 'none';
-            // //                   clicks[l]--;
-            // //               }
-            // //           }
-            // //           clicks[currentCardNumber]++;
-      
-            // //       }
-            // //       else if (clicks[currentCardNumber]=== 1){
-            // //           console.log(clicks[currentCardNumber])
-            // //           this.style.border = 'none';
-            // //           clicks[currentCardNumber]--;
-            // //       }
-                  
-            // //   })
+                })
              });
       
             });
@@ -117,6 +112,8 @@ class Voting extends Component{
             });
         }); 
     }
+
+   
     
     getRandomInt(min, max) 
     {
@@ -156,8 +153,8 @@ class Voting extends Component{
     }
     componentWillMount(){
         var pathname = window.location.pathname.split('/');
-        this.state.username = pathname[2];
-        this.state.dbKey = pathname[3];
+        this.setState({username: pathname[2]});
+        this.setState({dbKey: pathname[3]});
         this.getNumberOfPlayers();
     }
 
