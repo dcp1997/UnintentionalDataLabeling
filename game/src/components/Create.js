@@ -31,6 +31,8 @@ class Create extends Component {
         this.addPlayers = this.addPlayers.bind(this);
         this.addPlayersToVoting = this.addPlayersToVoting.bind(this);
         this.addHands = this.addHands.bind(this);
+        this.checkHand = this.checkHand.bind(this);
+        this.checkImage = this.checkImage.bind(this);
     }
 
     updateMode(event) {
@@ -78,11 +80,63 @@ class Create extends Component {
                 tile2: this.getRandomInt(1,2020),
                 tile3: this.getRandomInt(1,2020),
                 tile4: this.getRandomInt(1,2020)
-            }         
+            }      
             firebase.database().ref('game-session/' + k + '/round/' + i + '/hand/1').update(hand)
+            this.checkHand(k, i);
+            console.log(hand); 
         }
     }
+    checkHand(k, i){
+        var game = this;
+        firebase.database().ref('game-session/' + k + '/round/'+ i + '/hand/1').once('value').then(function(snapshot){
+            game.checkImage(snapshot.val().tile1, 'tile1', k, i);
+            game.checkImage(snapshot.val().tile2, 'tile2', k, i);
+            game.checkImage(snapshot.val().tile3, 'tile3', k, i);
+            game.checkImage(snapshot.val().tile4, 'tile4', k, i);
+        })
+        firebase.database().ref('game-session/'+k+'/round/'+i+'/hand/1').once('value').then(function(snapshot){console.log(snapshot.val())});
+    }
+    checkImage(index, tile, k, i){
+        var game = this;
+        firebase.database().ref('images/'+index).once('value').then(function(snapshot){
+            if(snapshot.exists()){
+                console.log(index);
+                console.log(snapshot.val())
+                var source = snapshot.val().url;
+                fetch('https://cors-anywhere.herokuapp.com/'+source).then((response)=>{
+                    console.log(response.ok);
+                    if(!response.ok){
+                        var ind = game.getRandomInt(1,2020);
+                        game.checkImage(ind, tile, k, i);
+                        console.log(index+" had a 404");
+                    }
+                    else if(response.ok){
+                        console.log(index+" is okay");
+                        var fix;
+                        if(tile==='tile1'){
+                            fix={'tile1':index};
+                        }
+                        if(tile==='tile2'){
+                            fix={'tile2':index};
+                        }
+                        if(tile==='tile3'){
+                            fix={'tile3':index};
+                        }
+                        if(tile==='tile4'){
+                            fix={'tile4':index};
+                        }
+                        return firebase.database().ref('game-session/'+k+'/round/'+i+'/hand/1').update(fix)
+                    }
+                })
+        }
+            else{
+                var ind = game.getRandomInt(1,2020);
+                game.checkImage(ind, tile, k, i);
+                console.log(index+" no longer exists");
+            }})
+        };
 
+    
     addPlayers(k){
         var player = {
             nickname: "",
