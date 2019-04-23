@@ -24,6 +24,8 @@ class Join extends Component {
         this.updatePlayer = this.updatePlayer.bind(this);
         this.addHands = this.addHands.bind(this);
         this.getRandomInt = this.getRandomInt.bind(this);
+        this.checkImage = this.checkImage.bind(this);
+        this.checkHand = this.checkHand.bind(this);
     }
 
     updateGameCode(event) {
@@ -67,6 +69,7 @@ class Join extends Component {
     }
 
     addHands(k, i){
+        var game = this;
         var user = this.state.userName;
         var numberofRounds = 3;
         firebase.database().ref('game-session/' + k + '/numberRounds').once('value').then(function(snapshot) {
@@ -80,10 +83,62 @@ class Join extends Component {
                     tile4: Math.floor(Math.random() * (800 - 1 + 1)) + 1
                 }         
                 firebase.database().ref('game-session/' + k + '/round/' + round + '/hand/' +(i+1)).update(hand);
+                game.checkHand(k, round, i);
+                console.log("made it past check hand");
             } 
         }); 
     }
-
+    checkHand(k, round, i){
+        console.log('made it into check hand');
+        var game = this;
+        firebase.database().ref('game-session/' + k + '/round/'+ round + '/hand/'+(i+1)).once('value').then(function(snapshot){
+            game.checkImage(snapshot.val().tile1, 'tile1', k, round, i);
+            game.checkImage(snapshot.val().tile2, 'tile2', k, round, i);
+            game.checkImage(snapshot.val().tile3, 'tile3', k, round, i);
+            game.checkImage(snapshot.val().tile4, 'tile4', k, round, i);
+        })
+        firebase.database().ref('game-session/'+k+'/round/'+round+'/hand/'+(i+1)).once('value').then(function(snapshot){console.log(snapshot.val())});
+    }
+    checkImage(index, tile, k, round, i){
+        console.log('checking image');
+        var game = this;
+        firebase.database().ref('images/'+index).once('value').then(function(snapshot){
+            if(snapshot.exists()){
+                console.log(index);
+                console.log(snapshot.val())
+                var source = snapshot.val().url;
+                fetch('https://cors-anywhere.herokuapp.com/'+source).then((response)=>{
+                    console.log(response.ok);
+                    if(!response.ok){
+                        var ind = game.getRandomInt(1,2020);
+                        game.checkImage(ind, tile, k, round, i);
+                        console.log(index+" had a 404");
+                    }
+                    else if(response.ok){
+                        console.log(index+" is okay");
+                        var fix;
+                        if(tile==='tile1'){
+                            fix={'tile1':index};
+                        }
+                        if(tile==='tile2'){
+                            fix={'tile2':index};
+                        }
+                        if(tile==='tile3'){
+                            fix={'tile3':index};
+                        }
+                        if(tile==='tile4'){
+                            fix={'tile4':index};
+                        }
+                        return firebase.database().ref('game-session/'+k+'/round/'+round+'/hand/'+(i+1)).update(fix)
+                    }
+                })
+        }
+            else{
+                var ind = game.getRandomInt(1,2020);
+                game.checkImage(ind, tile, k, round, i);
+                console.log(index+" no longer exists");
+            }})
+        };
     handleSubmit()
     {   
         var gc = this.state.gameCode;
