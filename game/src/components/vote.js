@@ -61,7 +61,7 @@ class Voting extends Component{
                     //let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt');       
         
                     //meaning the card selected has not been clicked
-                    if (clicks[currentCardNumber] === 0){
+                    if (this.state.clicks[currentCardNumber] === 0){
         
                         elem.style.border = "solid";
                         elem.style.borderColor = "#17C490";
@@ -69,9 +69,9 @@ class Voting extends Component{
                         this.setState({selected:true});
 
                         //all other images lose their borders
-                        console.log(clicks);
-                        for(var l=0; l<clicks.length; l++){
-                            if(clicks[l]===1){
+                        console.log(this.state.clicks);
+                        for(var l=0; l<this.state.clicks.length; l++){
+                            if(this.state.clicks[l]===1){
                                  document.getElementById(l).style.border = 'none';
                                  clicks[l]--;
                                  console.log("here");
@@ -80,7 +80,7 @@ class Voting extends Component{
                         clicks[currentCardNumber]++;
                         console.log(clicks);
                     }
-                    else if (clicks[currentCardNumber]=== 1){
+                    else if (this.state.clicks[currentCardNumber]=== 1){
                         elem.style.border = 'none';
                         clicks[currentCardNumber]--;
                         this.setState({selected:false});
