@@ -136,7 +136,6 @@ class Winning extends Component{
                             var upscore = {"score": updateScore}
                             firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+i).update(upscore)
                         i++
-                        document.getElementById("score").innerHTML = "Score of "+nickname+": " + updateScore;
                     }.bind(this));
                     
                    }
@@ -146,9 +145,18 @@ class Winning extends Component{
              
             }.bind(this));
             
+
+            
                      
         }.bind(this));
-        }.bind(this))
+        //now to append the scores
+       
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+                    var currentScore = parseInt(snapshot.val())
+                    document.getElementById("score").innerHTML = "Score: " + currentScore;
+                })
+
+        }.bind(this));
         
     }
 
