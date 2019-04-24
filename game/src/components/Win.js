@@ -122,28 +122,23 @@ class Winning extends Component{
          firebase.database().ref('game-session/'+ this.state.dbKey +'/round/1/submissions/players/').once('value').then(function(snapshot){
             
             var i = 1
-            console.log("this is i 1: "+i )
             snapshot.forEach(function(childSnapshot) {
-                console.log("this is i: "+i)
                 var indexofPic = parseInt(childSnapshot.val().playerSubmission.submissionID);
                 console.log(indexofPic)
                 var nickname = childSnapshot.val().playerSubmission.nickname;
                 console.log(nickname)
                 if(indexofPic === winPic){
-                    console.log("i number 3: "+i)
                     firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ i + '/score/').once('value').then(function(snapshot){
                             var currentScore = parseInt(snapshot.val())
                             console.log(" currecnt score:"+ currentScore)
                             var updateScore = currentScore + 1
                             console.log(updateScore)
-                            console.log("this is i 4: "+ i)
                             var upscore = {"score": updateScore}
                             firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+i).update(upscore)
-                            // firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ i ).update({
-                            //     score: updateScore
-                            // }) 
                         i++
-                    }.bind(this)); 
+                        document.getElementById("score").innerHTML = "Score of "+nickname+": " + updateScore;
+                    }.bind(this));
+                    
                    }
                    
               
@@ -287,7 +282,7 @@ class Winning extends Component{
                     Round {this.state.round} Winner
                 </header>
         
-                <div className="gameInfo"><h2>Your Score: 0</h2></div>
+                <div className="gameInfo" id = "score"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">
