@@ -26,24 +26,17 @@ class Winning extends Component{
         };
         this.test = this.test.bind(this);
         this.getSubmittedImages = this.getSubmittedImages.bind(this);
-        this.getNumberOfPlayers = this.getNumberOfPlayers.bind(this);
-        this.waitForAllSubmitted = this.waitForAllSubmitted.bind(this);
-        this.getRoundCaption = this.getRoundCaption.bind(this);
-        this.addWinScore = this.addWinScore.bind(this);
-        this.updateRoundNumber = this.updateRoundNumber.bind(this);
       }
 
 
     getSubmittedImages(){
-        var game = this;
-        game.getRoundCaption()
+
+        this.getRoundCaption()
         var playersVoted = 0;
-        var playerNumber = game.state.numberOfPlayers
-        console.log(playerNumber);
+        var playerNumber = this.state.numberOfPlayers
         var winArray = new Array(playerNumber);
-        console.log(winArray);
         var winningPic = 0;
-        firebase.database().ref('game-session/'+ game.state.dbKey +'/round/1/submissions/voting/').once('value').then(function(snapshot){
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/voting/').once('value').then(function(snapshot){
             console.log(snapshot.val().numVoted);
             console.log(playerNumber);
             playersVoted = snapshot.val().numVoted
@@ -71,11 +64,11 @@ class Winning extends Component{
                 ).pop();
             }
             winningPic = mode(winArray)
-            console.log(winningPic)
-            var winner = {'winner': winningPic}
-            firebase.database().ref('game-session/'+ game.state.dbKey +'/round/'+game.state.round).child('submissions').update(winner)
+            var winner = {"winner": winningPic}
+            firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round + '/submissions/').update(winner)
             
-            game.setState({winningIndex: winningPic});
+            console.log(winningPic);
+            this.setState({winningIndex: winningPic});
 
             if(winningPic != null)
             {
@@ -95,13 +88,12 @@ class Winning extends Component{
                 });    
             }
                     
-         });
+         }.bind(this));
     }
 
     //gets this rounds caption and appends it to the current page
     getRoundCaption(){
-        var game = this;
-        firebase.database().ref('game-session/' +  game.state.dbKey +'/round/' + game.state.round+'/submissions/promptID').once('value').then(function(snapshot){
+        firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/promptID').once('value').then(function(snapshot){
             var index = snapshot.val();
             firebase.database().ref('captions/'+index).once('value').then(function(snapshot){
                 window.caption = snapshot.val().caption;
@@ -120,14 +112,14 @@ class Winning extends Component{
     //
 
     addWinScore(){
-        var game = this;
-        console.log(game.state.round)
-        console.log(game.state.dbKey)
-        firebase.database().ref('game-session/'+ game.state.dbKey +'/round/'+game.state.round+'/submissions/winner/').once('value').then(function(snapshot){
+        
+        console.log(this.state.round)
+        console.log(this.state.dbKey)
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round+'/submissions/winner/').once('value').then(function(snapshot){
             var winPic = parseInt(snapshot.val())
             console.log(winPic)
 
-         firebase.database().ref('game-session/'+ game.state.dbKey +'/round/1/submissions/players/').once('value').then(function(snapshot){
+         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/players/').once('value').then(function(snapshot){
             
             var i = 1
             snapshot.forEach(function(childSnapshot) {
@@ -136,51 +128,48 @@ class Winning extends Component{
                 var nickname = childSnapshot.val().playerSubmission.nickname;
                 console.log(nickname)
                 if(indexofPic === winPic){
-                    firebase.database().ref('game-session/'+ game.state.dbKey +'/players/'+ i + '/score/').once('value').then(function(snapshot){
+                    firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ i + '/score/').once('value').then(function(snapshot){
                             var currentScore = parseInt(snapshot.val())
                             console.log(" currecnt score:"+ currentScore)
                             var updateScore = currentScore + 1
                             console.log(updateScore)
                             var upscore = {"score": updateScore}
-                            firebase.database().ref('game-session/'+ game.state.dbKey +'/players/'+i).update(upscore)
+                            firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+i).update(upscore)
                         i++
                         document.getElementById("score").innerHTML = "Score of "+nickname+": " + updateScore;
-                    });
+                    }.bind(this));
                     
                    }
                    
               
 
              
-            });
-            
-
+            }.bind(this));
             
                      
-        });
-        })
+        }.bind(this));
+        }.bind(this))
         
     }
 
     waitForAllSubmitted(){
-        var game = this;
-        firebase.database().ref('game-session/' +  game.state.dbKey +'/round/' + game.state.round+'/submissions/voting/numVoted/').on('value', snapshot => {
+        firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/voting/numVoted/').on('value', snapshot => {
             var currentAmountofSubmissions = snapshot.val();
-            firebase.database().ref('game-session/' + game.state.dbKey).once('value').then(function(snap){
+            firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snap){
                 //console.log(snap.val().numberPlayers);
                 //console.log("current amount submit: " + currentAmountofSubmissions + "|number players: " + snap.val().numberPlayers)
                 if(currentAmountofSubmissions >= snap.val().numberPlayers)
                 {
-                    game.setState({allSubmitted: true});
+                    this.setState({allSubmitted: true});
                     //console.log("all submitted");
                    
                     //console.log(win);
                     
-                    if(game.state.allSubmitted === true && game.state.init === 1)
+                    if(this.state.allSubmitted === true && this.state.init === 1)
                     {
-                        game.getSubmittedImages();
-                        game.setState({init: 0});
-                        game.addWinScore();
+                        this.getSubmittedImages();
+                        this.setState({init: 0});
+                        this.addWinScore();
                         //this.updateRoundNumber();
                         //this.setState({nextRoundReady: true});
                     }
@@ -189,24 +178,23 @@ class Winning extends Component{
                     
                 }
                 //this is where the error is 
-                if(game.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
-                    game.setState({numberOfPlayers: snapshot.val().numberPlayers});
+                if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
+                    this.setState({numberOfPlayers: snapshot.val().numberPlayers});
                 }
-            });
+            }.bind(this));
 
         }); 
     }
 
     updateRoundNumber(){
-        var game  = this;
-        console.log("username : " + game.state.username);
-        firebase.database().ref('game-session/' + game.state.dbKey).once('value').then(function(snap){
+        console.log("username : " + this.state.username);
+        firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snap){
             if(snap.val().currentRoundNumber >= snap.val().numberRounds)
             {
-                game.setState({endGame: true});
+                this.setState({endGame: true});
             }
 
-            if(game.state.username == 1 && game.state.changedRound == false && game.state.endGame == false)
+            if(this.state.username == 1 && this.state.changedRound == false && this.state.endGame == false)
             {
                 console.log(snap.val().currentRoundNumber);
                 //SHOULD ONLY UPDATE VALUE ONCE, YET KEEPS SAYING ROUND 3 FUCK THIS SHIT BULLSHIT
@@ -214,32 +202,36 @@ class Winning extends Component{
                 var nextRound = {
                     currentRoundNumber: 2
                 }
-                firebase.database().ref('game-session/' +  game.state.dbKey).update(nextRound);
-                game.setState({changedRound: true});
+                firebase.database().ref('game-session/' +  this.state.dbKey).update(nextRound);
+                this.setState({changedRound: true});
                 console.log(nextRound);
             }
 
-            game.setState({nextRoundReady: true});
+            this.setState({nextRoundReady: true});
 
-        });
+        }.bind(this));
         
         
     }
 
     getNumberOfPlayers(){
-        var game  = this;
-        firebase.database().ref('game-session/' + game.state.dbKey).once('value').then(function(snapshot){
+        firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snapshot){
             console.log(snapshot.val().numberPlayers);
-            if(game.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
-                game.setState({numberOfPlayers: snapshot.val().numberPlayers});
+            if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
+                this.setState({numberOfPlayers: snapshot.val().numberPlayers});
             }
-        });
+        }.bind(this));
 
     }
 
     
     componentDidMount(){
-        this.updateRoundNumber();
+  
+
+        
+        window.addEventListener('load',this.updateRoundNumber());
+
+        window.addEventListener('load',this.waitForAllSubmitted());
 
         
     }
@@ -253,7 +245,6 @@ class Winning extends Component{
 
 
     componentDidUpdate(){
-        //this.getNumberOfPlayers();
         this.waitForAllSubmitted();
 
 
