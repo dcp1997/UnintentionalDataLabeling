@@ -214,9 +214,11 @@ class Join extends Component {
                             <Button onClick={this.handleSubmit}>Submit</Button>:null
                         }
                     </form>
+                    <div >
                     {this.state.showStart ?
                         <Link to={lobbyLink}><Button >Go To Lobby</Button></Link>:null
                     }
+                    </div>
                 </div>
         </div>
         );

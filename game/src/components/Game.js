@@ -158,31 +158,36 @@ class Game extends Component{
 
         return (
             <div>
-                <header class='icon'>
+                <header id="playRound" class='icon'>
                     <div>
                     <Link to="/">
                         <i class="fas fa-sign-out-alt fa-xs"></i>
                     </Link>   
                     </div>
                 </header>
-                <header>
+                <header id="playRound">
                     Round {this.state.round}
+                    <br></br>
+                    <subtitle>Select the best picture for the caption</subtitle>
                 </header>
                 <div className="gameInfo"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">
                     </div>
-
+                    <div class="grid-container">
                     <div className="grid" id="grid">
 
-                       </div> 
-
-                       {this.state.selected ?
-                         <Link to={voteLink}>
-                         <Button id="Submit" onClick={this.submitImage}>Submit</Button>
-                            </Link>   :null
-                        }
+                    </div>
+                    <div id="center">
+                    {this.state.selected ?
+                        <Link to={voteLink}>
+                        <Button onClick={this.submitImage}>Submit</Button>
+                        </Link>   :null
+                    }   
+                    </div>
+                    </div>
+                    
                    
             </div>
         </div>

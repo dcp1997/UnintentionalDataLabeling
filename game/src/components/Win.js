@@ -60,7 +60,7 @@ class Winning extends Component{
                 ).pop();
             }
             winningPic = mode(winArray)
-
+            console.log(winningPic)
             firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
                 console.log(snapshot)
                 window.url = snapshot.val()

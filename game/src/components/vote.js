@@ -182,14 +182,14 @@ class Voting extends Component{
 
         return (
             <div>
-                <header class='icon'>
+                <header id="vote" class='icon'>
                     <div>
                     <Link to="/">
                         <i class="fas fa-sign-out-alt fa-xs"></i>
                     </Link>   
                     </div>
                 </header>
-                <header>
+                <header id="vote">
                     Round {this.state.round} Voting
                 </header>
         
@@ -202,12 +202,13 @@ class Voting extends Component{
 
                     <div className="grid" id="grid">
                        </div> 
-                    
+                    <div id="center">
                        {this.state.selected ?
                     <Link to={winLink}>
                     <Button id="Submit"onClick={this.submitVote}>Submit</Button>
-                </Link> : null
+                    </Link> : null
                        } 
+                    </div>
             </div>
             </div>
         );
