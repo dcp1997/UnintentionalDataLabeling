@@ -76,6 +76,9 @@ class Voting extends Component{
                 elem.addEventListener('click', function(e) {
                     //let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt');       
         
+                
+    
+                
                     //meaning the card selected has not been clicked
                     if (this.state.clicks[currentCardNumber] === 0){
         
@@ -136,6 +139,10 @@ class Voting extends Component{
                 document.getElementById('caption').innerHTML = snapshot.val().caption      
             });
         }); 
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+            var currentScore = parseInt(snapshot.val())
+            document.getElementById("score").innerHTML = "Score: " + currentScore;
+        })
     }
 
    
@@ -217,7 +224,7 @@ class Voting extends Component{
                     Round {this.state.round} Voting
                 </header>
         
-                <div className="gameInfo"><h2>Your Score: 0</h2></div>
+                <div className="gameInfo" id = "score"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">

@@ -73,7 +73,9 @@ class Game extends Component{
           document.getElementById("grid").appendChild(elem);
 
           elem.addEventListener('click', function(e) {
-            let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt');       
+            let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt'); 
+        
+      
 
             //meaning the card selected has not been clicked
             if (clicks[currentCardNumber] === 0){
@@ -130,6 +132,10 @@ class Game extends Component{
                 document.getElementById('caption').innerHTML = snap.val().caption 
             })
         })
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+            var currentScore = parseInt(snapshot.val())
+            document.getElementById("score").innerHTML = "Score: " + currentScore;
+    })
     }
 
     getRandomInt(min, max) 
@@ -181,7 +187,7 @@ class Game extends Component{
                 <header>
                     Round {this.state.round}
                 </header>
-                <div className="gameInfo"><h2>Your Score: 0</h2></div>
+                <div className="gameInfo" id = "score"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">

@@ -144,7 +144,7 @@ class Winning extends Component{
                             var upscore = {"score": updateScore}
                             firebase.database().ref('game-session/'+ game.state.dbKey +'/players/'+i).update(upscore)
                         i++
-                        document.getElementById("score").innerHTML = "Score of "+nickname+": " + updateScore;
+                        
                     });
                     
                    }
@@ -158,7 +158,14 @@ class Winning extends Component{
             
                      
         });
+
+
+
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+            var currentScore = parseInt(snapshot.val())
+            document.getElementById("score").innerHTML = "Score: " + currentScore;
         })
+        }.bind(this))
         
     }
 
