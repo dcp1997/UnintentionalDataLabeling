@@ -64,7 +64,9 @@ class Winning extends Component{
                 ).pop();
             }
             winningPic = mode(winArray)
-
+            var winner = {"winner": winningPic}
+            firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round + '/submissions/').update(winner)
+            
             console.log(winningPic);
             this.setState({winningIndex: winningPic});
 
@@ -87,7 +89,6 @@ class Winning extends Component{
             }
                     
          }.bind(this));
-
     }
 
     //gets this rounds caption and appends it to the current page
@@ -110,7 +111,51 @@ class Winning extends Component{
     //
     //
 
+    addWinScore(){
+        
+        console.log(this.state.round)
+        console.log(this.state.dbKey)
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round+'/submissions/winner/').once('value').then(function(snapshot){
+            var winPic = parseInt(snapshot.val())
+            console.log(winPic)
 
+         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/1/submissions/players/').once('value').then(function(snapshot){
+            
+            var i = 1
+            console.log("this is i 1: "+i )
+            snapshot.forEach(function(childSnapshot) {
+                console.log("this is i: "+i)
+                var indexofPic = parseInt(childSnapshot.val().playerSubmission.submissionID);
+                console.log(indexofPic)
+                var nickname = childSnapshot.val().playerSubmission.nickname;
+                console.log(nickname)
+                if(indexofPic === winPic){
+                    console.log("i number 3: "+i)
+                    firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ i + '/score/').once('value').then(function(snapshot){
+                            var currentScore = parseInt(snapshot.val())
+                            console.log(" currecnt score:"+ currentScore)
+                            var updateScore = currentScore + 1
+                            console.log(updateScore)
+                            console.log("this is i 4: "+ i)
+                            var upscore = {"score": updateScore}
+                            firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+i).update(upscore)
+                            // firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ i ).update({
+                            //     score: updateScore
+                            // }) 
+                        i++
+                    }.bind(this)); 
+                   }
+                   
+              
+
+             
+            }.bind(this));
+            
+                     
+        }.bind(this));
+        }.bind(this))
+        
+    }
 
     waitForAllSubmitted(){
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/voting/numVoted/').on('value', snapshot => {
@@ -122,19 +167,22 @@ class Winning extends Component{
                 {
                     this.setState({allSubmitted: true});
                     //console.log("all submitted");
-                    var win = {
-                        winner : this.state.winningIndex
-                    }
+                   
                     //console.log(win);
-                    firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/').update(win);
+                    
                     if(this.state.allSubmitted === true && this.state.init === 1)
                     {
                         this.getSubmittedImages();
                         this.setState({init: 0});
+                        this.addWinScore();
                         //this.updateRoundNumber();
                         //this.setState({nextRoundReady: true});
                     }
+                    //this should be setting the winner
+                   
+                    
                 }
+                //this is where the error is 
                 if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
                     this.setState({numberOfPlayers: snapshot.val().numberPlayers});
                 }
@@ -174,7 +222,7 @@ class Winning extends Component{
     getNumberOfPlayers(){
         firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snapshot){
             console.log(snapshot.val().numberPlayers);
-            if(this.state.numberOfPlayers != snapshot.val().numberOfPlayers){
+            if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
                 this.setState({numberOfPlayers: snapshot.val().numberPlayers});
             }
         }.bind(this));
@@ -203,6 +251,8 @@ class Winning extends Component{
 
     componentDidUpdate(){
         //this.getNumberOfPlayers();
+        this.waitForAllSubmitted();
+
 
     }
     test(){
