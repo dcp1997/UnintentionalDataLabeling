@@ -67,21 +67,24 @@ class Winning extends Component{
             console.log(winningPic);
             this.setState({winningIndex: winningPic});
 
-            firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
-                window.url = snapshot.val()
-                var pic = document.createElement("img");
-                pic.setAttribute("class", "winnerPicture");
-                pic.setAttribute("src", snapshot.val().url)
-                pic.setAttribute('alt', winningPic);
-                
-                var elem = document.createElement("div")
-                elem.setAttribute('height', '200px')
-                elem.setAttribute('width', '200px')
-                elem.setAttribute("class", "grid-item");
-                elem.appendChild(pic);
-                document.getElementById("winner").appendChild(elem)
-
-            });               
+            if(winningPic != null)
+            {
+                firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
+                    window.url = snapshot.val()
+                    var pic = document.createElement("img");
+                    pic.setAttribute("class", "winnerPicture");
+                    pic.setAttribute("src", snapshot.val().url);
+                    pic.setAttribute('alt', winningPic);
+                    
+                    var elem = document.createElement("div");
+                    elem.setAttribute('height', '200px');
+                    elem.setAttribute('width', '200px');
+                    elem.setAttribute("class", "grid-item");
+                    elem.appendChild(pic);
+                    document.getElementById("winner").appendChild(elem);
+                });    
+            }
+                    
          }.bind(this));
 
     }
@@ -150,23 +153,22 @@ class Winning extends Component{
             {
                 this.setState({endGame: true});
             }
-            else
-            {
-                if(this.state.username == 1 && this.state.changedRound == false)
-                {
-                    console.log(snap.val().currentRoundNumber);
-                    //SHOULD ONLY UPDATE VALUE ONCE, YET KEEPS SAYING ROUND 3 FUCK THIS SHIT BULLSHIT
-                    var round =  parseInt(snap.val().currentRoundNumber) + 1;
-                    var nextRound = {
-                        currentRoundNumber: round
-                    }
-                    firebase.database().ref('game-session/' +  this.state.dbKey).update(nextRound);
-                    this.setState({changedRound: true});
-                    console.log(nextRound);
-                }
-                this.setState({nextRoundReady: true});
 
+            if(this.state.username == 1 && this.state.changedRound == false && this.state.endGame == false)
+            {
+                console.log(snap.val().currentRoundNumber);
+                //SHOULD ONLY UPDATE VALUE ONCE, YET KEEPS SAYING ROUND 3 FUCK THIS SHIT BULLSHIT
+                var round =  parseInt(snap.val().currentRoundNumber) + 1;
+                var nextRound = {
+                    currentRoundNumber: 2
+                }
+                firebase.database().ref('game-session/' +  this.state.dbKey).update(nextRound);
+                this.setState({changedRound: true});
+                console.log(nextRound);
             }
+
+            this.setState({nextRoundReady: true});
+
         }.bind(this));
         
         

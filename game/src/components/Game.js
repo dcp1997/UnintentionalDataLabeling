@@ -26,7 +26,13 @@ class Game extends Component{
         firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
             console.log("current round: " + snapshot.val().currentRoundNumber);
             this.setState({round: snapshot.val().currentRoundNumber});
+            console.log("inside readDB 1: " + this.state.round);
         }.bind(this));
+
+
+        console.log("inside readDB 2: " + this.state.round);
+
+
         var clicks = [0, 0, 0, 0];
         this.appendCaption();
         var game = this;
@@ -116,6 +122,7 @@ class Game extends Component{
 
     //grabs the index of the caption for the current round.
     appendCaption(){
+        console.log("round: " + this.state.round);
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round +'/submissions/promptID').once('value').then(function(snapshot){
             console.log("Caption Index: " + snapshot.val());
             return firebase.database().ref('captions/'+snapshot.val()).once('value').then(function(snap){
