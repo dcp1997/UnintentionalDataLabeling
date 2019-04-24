@@ -23,15 +23,9 @@ class Game extends Component{
       }
 
       readDB(){
-        firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
-            console.log("current round: " + snapshot.val().currentRoundNumber);
-            this.setState({round: snapshot.val().currentRoundNumber});
-            console.log("inside readDB 1: " + this.state.round);
-        }.bind(this));
 
 
         console.log("inside readDB 2: " + this.state.round);
-
 
         var clicks = [0, 0, 0, 0];
         this.appendCaption();
@@ -146,7 +140,6 @@ class Game extends Component{
     }
     
     componentDidMount(){
-        this.getCurrentRound();
         console.log(this.state.username);
         window.addEventListener('load', this.readDB());
         
@@ -158,15 +151,8 @@ class Game extends Component{
         this.state.round = pathname[4];
 
 
-        this.getCurrentRound();
     }
 
-    getCurrentRound(){
-        firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
-            console.log("current round: " + snapshot.val().currentRoundNumber);
-            this.setState({round: snapshot.val().currentRoundNumber});
-        }.bind(this));
-    }
     
 
     
