@@ -7,6 +7,7 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class Voting extends Component{
 
+
     constructor(props) {
         super(props);
     
@@ -26,6 +27,21 @@ class Voting extends Component{
         this.submitVote = this.submitVote.bind(this);
       }
 
+    //   readSubmittedImages()
+    //   {
+    //     var clicks = [0, 0, 0, 0];
+    //     this.getRoundCaption();
+    //     var game = this;
+    //     var query = firebase.database().ref(`game-session/` +  this.state.dbKey +`/round/` + this.state.round+`/submissions/players`).orderByKey();
+    //     query.once("value").then(function (snapshot){
+    //         snapshot.forEach(child =>{
+    //             const index = parseInt(child.val().playerSubmission.submissionID);
+
+    //             game.getSubmittedImages(snapshot.child(`tile1`).val(), 0, clicks);
+                
+    //         })
+    //     });
+    //   }
 
     getSubmittedImages(){
         var clicks = [0,0,0];
@@ -70,6 +86,7 @@ class Voting extends Component{
 
                         //all other images lose their borders
                         console.log(this.state.clicks);
+                        console.log(currentCardNumber);
                         for(var l=0; l<this.state.clicks.length; l++){
                             if(this.state.clicks[l]===1){
                                  document.getElementById(l).style.border = 'none';
@@ -140,9 +157,6 @@ class Voting extends Component{
                 {
                     this.setState({allSubmitted: true});
                 }
-                if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
-                    this.setState({numberOfPlayers: snapshot.val().numberPlayers});
-                }
             }.bind(this));
 
         }); 
@@ -151,7 +165,7 @@ class Voting extends Component{
     
     componentDidMount(){
         //window.addEventListener('load', this.getSubmittedImages());
-
+        this.getCurrentRound();
         this.waitForAllSubmitted();
         
     }
@@ -159,6 +173,15 @@ class Voting extends Component{
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
+
+    }
+
+    
+    getCurrentRound(){
+        firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
+            console.log("current round: " + snapshot.val().currentRoundNumber);
+            this.setState({round: snapshot.val().currentRoundNumber});
+        }.bind(this));
     }
 
 

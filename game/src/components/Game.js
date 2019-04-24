@@ -23,6 +23,10 @@ class Game extends Component{
       }
 
       readDB(){
+        firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
+            console.log("current round: " + snapshot.val().currentRoundNumber);
+            this.setState({round: snapshot.val().currentRoundNumber});
+        }.bind(this));
         var clicks = [0, 0, 0, 0];
         this.appendCaption();
         var game = this;
@@ -129,6 +133,7 @@ class Game extends Component{
     }
     
     componentDidMount(){
+        this.getCurrentRound();
         console.log(this.state.username);
         window.addEventListener('load', this.readDB());
         
