@@ -172,7 +172,6 @@ class Voting extends Component{
     
     componentDidMount(){
         //window.addEventListener('load', this.getSubmittedImages());
-        this.getCurrentRound();
         this.waitForAllSubmitted();
         
     }
@@ -184,13 +183,7 @@ class Voting extends Component{
 
     }
 
-    
-    getCurrentRound(){
-        firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
-            console.log("current round: " + snapshot.val().currentRoundNumber);
-            this.setState({round: snapshot.val().currentRoundNumber});
-        }.bind(this));
-    }
+
 
 
     componentDidUpdate(){

@@ -136,8 +136,7 @@ class Winning extends Component{
                             var upscore = {"score": updateScore}
                             firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+i).update(upscore)
                         i++
-                        
-                    });
+                    }.bind(this));
                     
                    }
                    
@@ -147,11 +146,8 @@ class Winning extends Component{
             }.bind(this));
             
                      
-        });
-
-
-
-        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+        }.bind(this));
+            firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
             var currentScore = parseInt(snapshot.val())
             document.getElementById("score").innerHTML = "Score: " + currentScore;
         })
@@ -177,8 +173,6 @@ class Winning extends Component{
                         this.getSubmittedImages();
                         this.setState({init: 0});
                         this.addWinScore();
-                        //this.updateRoundNumber();
-                        //this.setState({nextRoundReady: true});
                     }
                     //this should be setting the winner
                    
@@ -191,34 +185,6 @@ class Winning extends Component{
             }.bind(this));
 
         }); 
-    }
-
-    updateRoundNumber(){
-        console.log("username : " + this.state.username);
-        firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snap){
-            if(snap.val().currentRoundNumber >= snap.val().numberRounds)
-            {
-                this.setState({endGame: true});
-            }
-
-            if(this.state.username == 1 && this.state.changedRound == false && this.state.endGame == false)
-            {
-                console.log(snap.val().currentRoundNumber);
-                //SHOULD ONLY UPDATE VALUE ONCE, YET KEEPS SAYING ROUND 3 FUCK THIS SHIT BULLSHIT
-                var round =  parseInt(snap.val().currentRoundNumber) + 1;
-                var nextRound = {
-                    currentRoundNumber: 2
-                }
-                firebase.database().ref('game-session/' +  this.state.dbKey).update(nextRound);
-                this.setState({changedRound: true});
-                console.log(nextRound);
-            }
-
-            this.setState({nextRoundReady: true});
-
-        }.bind(this));
-        
-        
     }
 
     getNumberOfPlayers(){
@@ -234,20 +200,14 @@ class Winning extends Component{
     
     componentDidMount(){
   
-
-        
-        window.addEventListener('load',this.updateRoundNumber());
-
         window.addEventListener('load',this.waitForAllSubmitted());
 
-        
     }
     componentWillMount(){
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
         this.setState({round: pathname[4]});
-        //this.getNumberOfPlayers();
     }
 
 
