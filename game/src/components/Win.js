@@ -13,15 +13,16 @@ class Winning extends Component{
         this.state = {
           username: "",
           dbKey: "",
-          round:1,
+          round:"",
           allSubmitted: false,
           numberOfPlayers: 3,
           init: 1,
           voteImage: 0,
           winningIndex: "",
-          nextRoundReady: true,
+          nextRoundReady: false, 
           endGame: false,
-          changedRound: false
+          changedRound: false,
+          totalRounds: 3 //hardcoded rn
         };
         this.test = this.test.bind(this);
         this.getSubmittedImages = this.getSubmittedImages.bind(this);
@@ -109,11 +110,7 @@ class Winning extends Component{
     //
     //
 
-    
-    waiting(){
-        console.log("update occured");
 
-    }
 
     waitForAllSubmitted(){
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/voting/numVoted/').on('value', snapshot => {
@@ -199,13 +196,12 @@ class Winning extends Component{
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
-        this.getNumberOfPlayers();
+        this.setState({round: pathname[4]});
+        //this.getNumberOfPlayers();
     }
 
 
     componentDidUpdate(){
-        this.waiting();
-
         //this.getNumberOfPlayers();
 
     }
@@ -216,8 +212,19 @@ class Winning extends Component{
     
     render() {
 
-
-        var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey ;
+        var endGame = false;
+        var nextRound = false;
+        var newRound = parseInt(this.state.round) + 1;
+        if(newRound > this.state.totalRounds)
+        {
+            endGame = true;
+            nextRound = false;
+        }
+        else
+        {
+            nextRound = true;
+        }
+        var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey + "/" + newRound;
 
         return (
             <div>
@@ -239,8 +246,11 @@ class Winning extends Component{
 
                     <div className="grid" id="winner">
                        </div>  
-                       {this.state.nextRoundReady ?
+                       {nextRound ?
                         <Link to={gameLink}><Button >Go To Next Round</Button></Link>:null
+                    }
+                    {endGame ?
+                        <Link to='/'><Button >Go to final winner</Button></Link>:null
                     }
             </div>
             </div>

@@ -13,7 +13,7 @@ class Game extends Component{
         this.state = {
           username: "",
           dbKey: "",
-          round: 1,
+          round: "",
           submittedImage: "",
           selected: false,
           Score: 0
@@ -149,6 +149,7 @@ class Game extends Component{
         var pathname = window.location.pathname.split('/');
         this.state.username = pathname[2];
         this.state.dbKey = pathname[3];
+        this.state.round = pathname[4];
 
 
         this.getCurrentRound();
@@ -166,7 +167,7 @@ class Game extends Component{
     render() {
 
 
-        var voteLink = "/vote/" + this.state.username + "/" + this.state.dbKey ;
+        var voteLink = "/vote/" + this.state.username + "/" + this.state.dbKey + "/" + this.state.round;
 
         return (
             <div>

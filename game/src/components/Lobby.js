@@ -59,7 +59,7 @@ class Lobby extends Component {
 
   render() {
 
-    var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey ;
+    var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey +"/" + 1;
 
     return (
       <div>

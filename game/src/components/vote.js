@@ -14,7 +14,7 @@ class Voting extends Component{
         this.state = {
           username: "",
           dbKey: "",
-          round:1,
+          round:"",
           allSubmitted: false,
           init: 1,
           voteImage: 0,
@@ -173,6 +173,7 @@ class Voting extends Component{
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
+        this.setState({round: pathname[4]});
 
     }
 
@@ -201,7 +202,7 @@ class Voting extends Component{
     render() {
 
 
-        var winLink = "/win/" + this.state.username + "/" + this.state.dbKey ;
+        var winLink = "/win/" + this.state.username + "/" + this.state.dbKey + "/" + this.state.round;
 
         return (
             <div>
