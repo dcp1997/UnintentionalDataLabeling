@@ -7,13 +7,14 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class Voting extends Component{
 
+
     constructor(props) {
         super(props);
     
         this.state = {
           username: "",
           dbKey: "",
-          round:1,
+          round:"",
           allSubmitted: false,
           init: 1,
           voteImage: 0,
@@ -26,6 +27,21 @@ class Voting extends Component{
         this.submitVote = this.submitVote.bind(this);
       }
 
+    //   readSubmittedImages()
+    //   {
+    //     var clicks = [0, 0, 0, 0];
+    //     this.getRoundCaption();
+    //     var game = this;
+    //     var query = firebase.database().ref(`game-session/` +  this.state.dbKey +`/round/` + this.state.round+`/submissions/players`).orderByKey();
+    //     query.once("value").then(function (snapshot){
+    //         snapshot.forEach(child =>{
+    //             const index = parseInt(child.val().playerSubmission.submissionID);
+
+    //             game.getSubmittedImages(snapshot.child(`tile1`).val(), 0, clicks);
+                
+    //         })
+    //     });
+    //   }
 
     getSubmittedImages(){
         var clicks = [0,0,0];
@@ -60,8 +76,11 @@ class Voting extends Component{
                 elem.addEventListener('click', function(e) {
                     //let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt');       
         
+                
+    
+                
                     //meaning the card selected has not been clicked
-                    if (clicks[currentCardNumber] === 0){
+                    if (this.state.clicks[currentCardNumber] === 0){
         
                         elem.style.border = "solid";
                         elem.style.borderColor = "#17C490";
@@ -69,9 +88,10 @@ class Voting extends Component{
                         this.setState({selected:true});
 
                         //all other images lose their borders
-                        console.log(clicks);
-                        for(var l=0; l<clicks.length; l++){
-                            if(clicks[l]===1){
+                        console.log(this.state.clicks);
+                        console.log(currentCardNumber);
+                        for(var l=0; l<this.state.clicks.length; l++){
+                            if(this.state.clicks[l]===1){
                                  document.getElementById(l).style.border = 'none';
                                  clicks[l]--;
                                  console.log("here");
@@ -80,7 +100,7 @@ class Voting extends Component{
                         clicks[currentCardNumber]++;
                         console.log(clicks);
                     }
-                    else if (clicks[currentCardNumber]=== 1){
+                    else if (this.state.clicks[currentCardNumber]=== 1){
                         elem.style.border = 'none';
                         clicks[currentCardNumber]--;
                         this.setState({selected:false});
@@ -119,6 +139,10 @@ class Voting extends Component{
                 document.getElementById('caption').innerHTML = snapshot.val().caption      
             });
         }); 
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+            var currentScore = parseInt(snapshot.val())
+            document.getElementById("score").innerHTML = "Score: " + currentScore;
+        })
     }
 
    
@@ -140,9 +164,6 @@ class Voting extends Component{
                 {
                     this.setState({allSubmitted: true});
                 }
-                if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
-                    this.setState({numberOfPlayers: snapshot.val().numberPlayers});
-                }
             }.bind(this));
 
         }); 
@@ -151,7 +172,7 @@ class Voting extends Component{
     
     componentDidMount(){
         //window.addEventListener('load', this.getSubmittedImages());
-
+        this.getCurrentRound();
         this.waitForAllSubmitted();
         
     }
@@ -159,6 +180,16 @@ class Voting extends Component{
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
+        this.setState({round: pathname[4]});
+
+    }
+
+    
+    getCurrentRound(){
+        firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
+            console.log("current round: " + snapshot.val().currentRoundNumber);
+            this.setState({round: snapshot.val().currentRoundNumber});
+        }.bind(this));
     }
 
 
@@ -178,7 +209,7 @@ class Voting extends Component{
     render() {
 
 
-        var winLink = "/win/" + this.state.username + "/" + this.state.dbKey ;
+        var winLink = "/win/" + this.state.username + "/" + this.state.dbKey + "/" + this.state.round;
 
         return (
             <div>
@@ -193,7 +224,7 @@ class Voting extends Component{
                     Round {this.state.round} Voting
                 </header>
         
-                <div className="gameInfo"><h2>Your Score: 0</h2></div>
+                <div className="gameInfo" id = "score"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">

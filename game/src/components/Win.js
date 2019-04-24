@@ -13,11 +13,16 @@ class Winning extends Component{
         this.state = {
           username: "",
           dbKey: "",
-          round:1,
+          round:"",
           allSubmitted: false,
           numberOfPlayers: 3,
           init: 1,
-          voteImage: 0
+          voteImage: 0,
+          winningIndex: "",
+          nextRoundReady: false, 
+          endGame: false,
+          changedRound: false,
+          totalRounds: 3 //hardcoded rn
         };
         this.test = this.test.bind(this);
         this.getSubmittedImages = this.getSubmittedImages.bind(this);
@@ -31,10 +36,9 @@ class Winning extends Component{
         var playerNumber = this.state.numberOfPlayers
         var winArray = new Array(playerNumber);
         var winningPic = 0;
-        firebase.database().ref('game-session/'+ this.state.dbKey +'/round/1/submissions/voting/').once('value').then(function(snapshot){
-            console.log(snapshot)
-            console.log(snapshot.val())
-            console.log(snapshot.val().numVoted)
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/voting/').once('value').then(function(snapshot){
+            console.log(snapshot.val().numVoted);
+            console.log(playerNumber);
             playersVoted = snapshot.val().numVoted
             var i = 0;
             if(playerNumber === playersVoted){
@@ -60,98 +64,31 @@ class Winning extends Component{
                 ).pop();
             }
             winningPic = mode(winArray)
-            console.log(winningPic)
-            firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
-                console.log(snapshot)
-                window.url = snapshot.val()
-                var pic = document.createElement("img");
-                pic.setAttribute("class", "winnerPicture");
-                pic.setAttribute("src", snapshot.val().url)
-                pic.setAttribute('alt', winningPic);
-                
-                var elem = document.createElement("div")
-                elem.setAttribute('height', '200px')
-                elem.setAttribute('width', '200px')
-                elem.setAttribute("class", "grid-item");
-                elem.appendChild(pic);
-                document.getElementById("winner").appendChild(elem)
-
-            });               
-         });
-        
-        // var gc = this.state.dbKey
-        // var usern = this.state.username;
-        // this.getRoundCaption();
-        // var currentCardNumber = 0;
-        
-        // var query = firebase.database().ref("game-session/"+ this.state.dbKey +"/round/" + this.state.round +"/submissions/players").orderByKey();
-        // query.once("value").then(function (snapshot) {
-        //     snapshot.forEach(child => {
-        //     const index = parseInt(child.val().playerSubmission.submissionID);
+            var winner = {"winner": winningPic}
+            firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round + '/submissions/').update(winner)
             
-        //     firebase.database().ref('images/' + index).once('value').then(function(snapshot) {
-                
-        //         window.url = snapshot.val().url
-        //         var pic = document.createElement("img");
-        //         pic.setAttribute("class", "randomPictures");
-        //         pic.setAttribute("src", snapshot.val().url);
-        //         pic.setAttribute('id', "img"+currentCardNumber)
-        //         pic.setAttribute('alt', index);
-                
-        //         var elem = document.createElement("div");
-        //         elem.setAttribute('height', '200px');
-        //         elem.setAttribute('width', '200px');
-        //         elem.setAttribute("class", "grid-item");
-        //         elem.setAttribute('id', currentCardNumber);
-        //         elem.appendChild(pic);
-        //         document.getElementById("grid").appendChild(elem);
-        //         //we really need to rethink how we do this in the database
-        //         //we need to store what each person votes for and then choose the pic with the most votes
-        //         //right now we are only hardcoding what the image that we are voting for is and setting that as the winner
-        //         elem.addEventListener('click', function(e) {
-        //             //let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt');       
-        
-        //             //meaning the card selected has not been clicked
-        //             if (clicks[currentCardNumber] === 0){
-        
-        //                 elem.style.border = "solid";
-        //                 elem.style.borderColor = "#17C490";
-        //                 //all other images lose their borders
-        //                 for(var l=0; l<clicks.length; l++){
-        //                     if(clicks[l]===1){
-        //                          document.getElementById(l).style.border = 'none';
-        //                          clicks[l]--;
-        //                     }
-        //                 }
-        //                 clicks[currentCardNumber]++;
-        //                 console.log(gc)
-        //                 //updates db with players submitted image index, this.state.username is actually the users id key 
-        //                 firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/'+ usern +"/" ).update({
-        //                     ballot: index
-        //                 });
-                
-        //                 //updates round with the amount of submitted images
-        //                 firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/numVoted/' ).once('value').then(function(snapshot){
-        //                     console.log(snapshot.val())
-        //                     firebase.database().ref('game-session/'+ gc +'/round/1/submissions/voting/').update({
-        //                         numVoted: snapshot.val() + 1
-        //                     });
-        //                 })
-                        
-                        
-        
-        //             }
-        //             else if (clicks[currentCardNumber]=== 1){
-        //                 elem.style.border = 'none';
-        //                 clicks[currentCardNumber]--;
-        //             }
+            console.log(winningPic);
+            this.setState({winningIndex: winningPic});
+
+            if(winningPic != null)
+            {
+                firebase.database().ref('images/' + winningPic).once('value').then(function(snapshot) {
+                    window.url = snapshot.val()
+                    var pic = document.createElement("img");
+                    pic.setAttribute("class", "winnerPicture");
+                    pic.setAttribute("src", snapshot.val().url);
+                    pic.setAttribute('alt', winningPic);
                     
-        //         })
-        //      });
-      
-        //     });
-        //     currentCardNumber++;
-        // });
+                    var elem = document.createElement("div");
+                    elem.setAttribute('height', '200px');
+                    elem.setAttribute('width', '200px');
+                    elem.setAttribute("class", "grid-item");
+                    elem.appendChild(pic);
+                    document.getElementById("winner").appendChild(elem);
+                });    
+            }
+                    
+         }.bind(this));
     }
 
     //gets this rounds caption and appends it to the current page
@@ -174,6 +111,54 @@ class Winning extends Component{
     //
     //
 
+    addWinScore(){
+        
+        console.log(this.state.round)
+        console.log(this.state.dbKey)
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round+'/submissions/winner/').once('value').then(function(snapshot){
+            var winPic = parseInt(snapshot.val())
+            console.log(winPic)
+
+         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/players/').once('value').then(function(snapshot){
+            
+            var i = 1
+            snapshot.forEach(function(childSnapshot) {
+                var indexofPic = parseInt(childSnapshot.val().playerSubmission.submissionID);
+                console.log(indexofPic)
+                var nickname = childSnapshot.val().playerSubmission.nickname;
+                console.log(nickname)
+                if(indexofPic === winPic){
+                    firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ i + '/score/').once('value').then(function(snapshot){
+                            var currentScore = parseInt(snapshot.val())
+                            console.log(" currecnt score:"+ currentScore)
+                            var updateScore = currentScore + 1
+                            console.log(updateScore)
+                            var upscore = {"score": updateScore}
+                            firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+i).update(upscore)
+                        i++
+                        
+                    });
+                    
+                   }
+                   
+              
+
+             
+            }.bind(this));
+            
+                     
+        });
+
+
+
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+            var currentScore = parseInt(snapshot.val())
+            document.getElementById("score").innerHTML = "Score: " + currentScore;
+        })
+        }.bind(this))
+        
+    }
+
     waitForAllSubmitted(){
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/voting/numVoted/').on('value', snapshot => {
             var currentAmountofSubmissions = snapshot.val();
@@ -183,7 +168,23 @@ class Winning extends Component{
                 if(currentAmountofSubmissions >= snap.val().numberPlayers)
                 {
                     this.setState({allSubmitted: true});
+                    //console.log("all submitted");
+                   
+                    //console.log(win);
+                    
+                    if(this.state.allSubmitted === true && this.state.init === 1)
+                    {
+                        this.getSubmittedImages();
+                        this.setState({init: 0});
+                        this.addWinScore();
+                        //this.updateRoundNumber();
+                        //this.setState({nextRoundReady: true});
+                    }
+                    //this should be setting the winner
+                   
+                    
                 }
+                //this is where the error is 
                 if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
                     this.setState({numberOfPlayers: snapshot.val().numberPlayers});
                 }
@@ -192,38 +193,67 @@ class Winning extends Component{
         }); 
     }
 
+    updateRoundNumber(){
+        console.log("username : " + this.state.username);
+        firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snap){
+            if(snap.val().currentRoundNumber >= snap.val().numberRounds)
+            {
+                this.setState({endGame: true});
+            }
+
+            if(this.state.username == 1 && this.state.changedRound == false && this.state.endGame == false)
+            {
+                console.log(snap.val().currentRoundNumber);
+                //SHOULD ONLY UPDATE VALUE ONCE, YET KEEPS SAYING ROUND 3 FUCK THIS SHIT BULLSHIT
+                var round =  parseInt(snap.val().currentRoundNumber) + 1;
+                var nextRound = {
+                    currentRoundNumber: 2
+                }
+                firebase.database().ref('game-session/' +  this.state.dbKey).update(nextRound);
+                this.setState({changedRound: true});
+                console.log(nextRound);
+            }
+
+            this.setState({nextRoundReady: true});
+
+        }.bind(this));
+        
+        
+    }
+
     getNumberOfPlayers(){
         firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snapshot){
             console.log(snapshot.val().numberPlayers);
-            if(this.state.numberOfPlayers != snapshot.val().numberOfPlayers){
+            if(this.state.numberOfPlayers !== snapshot.val().numberOfPlayers){
                 this.setState({numberOfPlayers: snapshot.val().numberPlayers});
             }
         }.bind(this));
 
     }
+
     
     componentDidMount(){
-        //window.addEventListener('load', this.getSubmittedImages());
+  
 
-        this.waitForAllSubmitted();
+        
+        window.addEventListener('load',this.updateRoundNumber());
+
+        window.addEventListener('load',this.waitForAllSubmitted());
+
         
     }
     componentWillMount(){
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
-        this.getNumberOfPlayers();
+        this.setState({round: pathname[4]});
+        //this.getNumberOfPlayers();
     }
 
 
     componentDidUpdate(){
         this.waitForAllSubmitted();
-        if(this.state.allSubmitted === true && this.state.init === 1)
-        {
-            this.getSubmittedImages();
-            this.setState({init: 0});
-        }
-        //this.getNumberOfPlayers();
+
 
     }
     test(){
@@ -233,8 +263,19 @@ class Winning extends Component{
     
     render() {
 
-
-        var winLink = "/win/" + this.state.username + "/" + this.state.dbKey ;
+        var endGame = false;
+        var nextRound = false;
+        var newRound = parseInt(this.state.round) + 1;
+        if(newRound > this.state.totalRounds)
+        {
+            endGame = true;
+            nextRound = false;
+        }
+        else
+        {
+            nextRound = true;
+        }
+        var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey + "/" + newRound;
 
         return (
             <div>
@@ -247,7 +288,7 @@ class Winning extends Component{
                     Round {this.state.round} Winner
                 </header>
         
-                <div className="gameInfo"><h2>Your Score: 0</h2></div>
+                <div className="gameInfo" id = "score"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">
@@ -256,9 +297,12 @@ class Winning extends Component{
 
                     <div className="grid" id="winner">
                        </div>  
-                    {/* <Link to={winLink}>
-                    <Button id="Submit">Submit</Button>
-                </Link>   */}
+                       {nextRound ?
+                        <Link to={gameLink}><Button >Go To Next Round</Button></Link>:null
+                    }
+                    {endGame ?
+                        <Link to='/'><Button >Go to final winner</Button></Link>:null
+                    }
             </div>
             </div>
         );

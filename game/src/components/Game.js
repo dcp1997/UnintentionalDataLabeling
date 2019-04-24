@@ -13,7 +13,7 @@ class Game extends Component{
         this.state = {
           username: "",
           dbKey: "",
-          round: 1,
+          round: "",
           submittedImage: "",
           selected: false,
           Score: 0
@@ -23,6 +23,16 @@ class Game extends Component{
       }
 
       readDB(){
+        firebase.database().ref('game-session/' +  this.state.dbKey).once('value').then(function(snapshot){
+            console.log("current round: " + snapshot.val().currentRoundNumber);
+            this.setState({round: snapshot.val().currentRoundNumber});
+            console.log("inside readDB 1: " + this.state.round);
+        }.bind(this));
+
+
+        console.log("inside readDB 2: " + this.state.round);
+
+
         var clicks = [0, 0, 0, 0];
         this.appendCaption();
         var game = this;
@@ -63,7 +73,9 @@ class Game extends Component{
           document.getElementById("grid").appendChild(elem);
 
           elem.addEventListener('click', function(e) {
-            let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt');       
+            let imageIndex = document.getElementById('img'+currentCardNumber).getAttribute('alt'); 
+        
+      
 
             //meaning the card selected has not been clicked
             if (clicks[currentCardNumber] === 0){
@@ -112,6 +124,7 @@ class Game extends Component{
 
     //grabs the index of the caption for the current round.
     appendCaption(){
+        console.log("round: " + this.state.round);
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round +'/submissions/promptID').once('value').then(function(snapshot){
             console.log("Caption Index: " + snapshot.val());
             return firebase.database().ref('captions/'+snapshot.val()).once('value').then(function(snap){
@@ -119,6 +132,10 @@ class Game extends Component{
                 document.getElementById('caption').innerHTML = snap.val().caption 
             })
         })
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+            var currentScore = parseInt(snapshot.val())
+            document.getElementById("score").innerHTML = "Score: " + currentScore;
+    })
     }
 
     getRandomInt(min, max) 
@@ -129,6 +146,7 @@ class Game extends Component{
     }
     
     componentDidMount(){
+        this.getCurrentRound();
         console.log(this.state.username);
         window.addEventListener('load', this.readDB());
         
@@ -137,6 +155,7 @@ class Game extends Component{
         var pathname = window.location.pathname.split('/');
         this.state.username = pathname[2];
         this.state.dbKey = pathname[3];
+        this.state.round = pathname[4];
 
 
         this.getCurrentRound();
@@ -154,7 +173,7 @@ class Game extends Component{
     render() {
 
 
-        var voteLink = "/vote/" + this.state.username + "/" + this.state.dbKey ;
+        var voteLink = "/vote/" + this.state.username + "/" + this.state.dbKey + "/" + this.state.round;
 
         return (
             <div>
@@ -170,7 +189,7 @@ class Game extends Component{
                     <br></br>
                     <subtitle>Select the best picture for the caption</subtitle>
                 </header>
-                <div className="gameInfo"><h2>Your Score: 0</h2></div>
+                <div className="gameInfo" id = "score"><h2>Your Score: 0</h2></div>
                 <div className="container">
 
                     <div className="caption" id="caption">
