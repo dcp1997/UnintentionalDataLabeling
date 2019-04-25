@@ -120,6 +120,14 @@ class Voting extends Component{
             ballot: this.state.voteImage
         });
 
+        firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/promptID').once('value').then(function(snapshot){
+            var capIndex = snapshot.val();
+            firebase.database().ref('data').push({
+                imageIndex: this.state.voteImage,
+                captionIndex: capIndex
+            });
+        }.bind(this));
+
         //updates round with the amount of submitted images
         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round +'/submissions/voting/numVoted/' ).once('value').then(function(snapshot){
             console.log(snapshot.val())
@@ -158,8 +166,6 @@ class Voting extends Component{
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/submittedAmount').on('value', snapshot => {
             var currentAmountofSubmissions = snapshot.val();
             firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snap){
-                //console.log(snap.val().numberPlayers);
-                //console.log("current amount submit: " + currentAmountofSubmissions + "|number players: " + snap.val().numberPlayers)
                 if(currentAmountofSubmissions >= snap.val().numberPlayers)
                 {
                     this.setState({allSubmitted: true});
@@ -180,7 +186,6 @@ class Voting extends Component{
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
         this.setState({round: pathname[4]});
-
     }
 
 
