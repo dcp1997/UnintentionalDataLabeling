@@ -12,16 +12,19 @@ class Home extends Component {
         return   (
             <div>
             <header></header>
-            <header>Memes For Machines </header>
+            <header>Meme It! </header>
                 <div id="a">
-                    <div id="description">Who will find the best caption/picture combo?</div>
+                    <div id="description">Who can make the best meme?</div>
                     <div id="menuOptions">
                         <Link to="/create">
                             <Button>New Game</Button>
                         </Link>            
                         <Link to="/join">
                             <Button>Join Game</Button>
-                        </Link>       
+                        </Link>  
+                        {/* <Link to="/howtoplay">
+                            <Button>How to Play</Button>
+                        </Link>       */}
                     </div>
                 </div>
             </div>

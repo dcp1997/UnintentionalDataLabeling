@@ -319,9 +319,9 @@ class Create extends Component {
                     <Button type="submit" onClick={this.handleSubmit} >Submit</Button> : null
                 }
                 {this.state.showStart ?
-                    <div>
-                    <p> Your Shareable GameCode: {this.state.dbKey}</p>
-                    <Link to={lobbyLink}><Button >Go To Lobby</Button></Link> </div>
+                    <div> 
+                    <p> Shareable GameCode: {this.state.dbKey}</p>
+                    <div><Link to={lobbyLink}><Button >Go To Lobby</Button></Link> </div></div>
                     :null
                         
                 }

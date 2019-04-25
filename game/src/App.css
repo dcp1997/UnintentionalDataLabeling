@@ -42,11 +42,12 @@ html, body {
 }
 
 body {
-  background-image: url(http://weinbergerickson.com/wp-content/uploads/2018/01/white-marble-wallpaper-19.jpg);
+  /* background-image: url(http://weinbergerickson.com/wp-content/uploads/2018/01/white-marble-wallpaper-19.jpg); */
   background-size: cover;
   background-repeat: repeat;
-  background-color: #17C490;
-
+  /* background-color: #182B4A; */
+  /* background-blend-mode: color-burn; */
+  background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
 }
 
 header {
@@ -59,7 +60,16 @@ header {
     background-color: #57364F;
     color: white;
 }
+subtitle {
+  font-size: 30px;
+}
+#playRound {
+  background-color: #912F40;
+}
 
+#vote {
+  background-color: 
+}
 .fa-home, .fa-sign-out-alt {
   color: white;
   float: right;
@@ -95,13 +105,13 @@ form {
 
 .caption {
     text-align: center;
-    background-color: #17C490;
+    background-color: #006BA6;
     padding: 2.5%;
     margin-bottom: 2vh;
     font-size: 30px;
     font-weight: 800;
     border-style: solid;
-    border-color: #17C490;
+    border-color: #006BA6;
     color: white;
 }
 
@@ -187,7 +197,7 @@ button#exit {
     font-size: 12px;
     top:0;
     float: right;
-    color: #17C490;
+    color: #A6D49F;
     border: none;
 
 }
@@ -208,19 +218,22 @@ button#exit {
 .grid { 
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, 250px);
+  grid-template-columns: repeat(auto-fill, 300px);
   align-items: center;
-  width:90vw;
-  margin-left: 5vw;
-  margin-right: 5vw;
-  justify-items: end;
+  width:80vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  
 }
 
 .grid>* {
   align-content: center;
-  background-color: #57364F;
+  background-color: #074F57;
   border-radius: 15px;
-  height: 250px;
+  height: 300px;
 }
 div#winner.grid {
   width: 40%;
@@ -242,17 +255,23 @@ img.winnerPicture {
   justify-content: center;
   align-content: center;
   padding: 3%;
-}  
+} 
+
+#center {
+  text-align:center;
+  align-self: center;
+  left: 50;
+}
 
 img {
   
-  min-width: 200px;
-  min-height: 200px;
+  min-width: 250px;
+  min-height: 250px;
   display: block;
   opacity: 0.8;
   object-fit: scale-down;
-  height: 25%;
-  width: 25%;
+  height: 35%;
+  width: 35%;
   margin-top: auto;
   margin-left: auto;
   margin-right: auto;
@@ -281,7 +300,7 @@ input[type='submit']:hover {
 input[type='text'], input[type='number']{
   width: 80%;
   font-size: 30px;
-  height: 35px;
+  height: 40px;
   background-color: white;
   border-style:solid;
   font-family: 'Montserrat', sans-serif;
@@ -329,5 +348,5 @@ input[type='text'], input[type='number']{
   #selectedimg {
     opacity: 1.0;
     border: solid;
-    border-color:  #17C490;
+    border-color:  #F16B6C;
   }
