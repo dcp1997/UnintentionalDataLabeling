@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
 import firebase from '../firebase'
-import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
@@ -122,7 +121,7 @@ class Voting extends Component{
 
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/promptID').once('value').then(function(snapshot){
             var capIndex = snapshot.val();
-            firebase.database().ref('data').push({
+            firebase.database().ref('testData_changeWhenDone').push({
                 imageIndex: this.state.voteImage,
                 captionIndex: capIndex
             });
@@ -187,7 +186,6 @@ class Voting extends Component{
         this.setState({dbKey: pathname[3]});
         this.setState({round: pathname[4]});
     }
-
 
 
 

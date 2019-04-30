@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
 import firebase from '../firebase'
-import { storage } from 'firebase';
 import Button from 'react-bootstrap/Button';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
