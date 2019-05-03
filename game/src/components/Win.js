@@ -14,6 +14,7 @@ class Winning extends Component{
           dbKey: "",
           round:"",
           allSubmitted: false,
+          winnerFound: false,
           numberOfPlayers: 3,
           init: 1,
           voteImage: 0,
@@ -70,6 +71,7 @@ class Winning extends Component{
                 
                 console.log(winningPic);
                 this.setState({winningIndex: winningPic});
+                this.setState({winnerFound: true});
 
                 if(winningPic != null)
                 {
@@ -122,11 +124,13 @@ class Winning extends Component{
 
     addWinScore(){
         
-        console.log(this.state.round)
-        console.log(this.state.dbKey)
+        console.log(this.state.round);
+        console.log(this.state.dbKey);
+        var winPic
         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round+'/submissions/winner/').once('value').then(function(snapshot){
-            var winPic = parseInt(snapshot.val())
-            console.log(winPic)
+            console.log(snapshot)
+            winPic = snapshot.val();
+            console.log(winPic);
 
          firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/players/').once('value').then(function(snapshot){
             
@@ -201,8 +205,13 @@ class Winning extends Component{
         {
             this.getSubmittedImages();
             this.setState({init: 0});
-            this.addWinScore();
+           
         }
+        if(this.state.winnerFound){
+            this.addWinScore();
+            this.setState({winnerFound: false});
+        }
+
 
 
     }
