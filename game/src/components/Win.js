@@ -237,11 +237,13 @@ class Winning extends Component{
 
         return (
             <div>
-                <div>
-                <Link to="/">
-                    <Button id="exit">Exit Game</Button>
-                </Link>   
-                </div>
+                <header id="win" class='icon'>
+                    <div>
+                    <Link to="/">
+                        <i class="fas fa-sign-out-alt fa-xs"></i>
+                    </Link>   
+                    </div>
+                </header>
                 <header>
                     Round {this.state.round} Winner
                 </header>
@@ -254,13 +256,15 @@ class Winning extends Component{
                     </div>
 
                     <div className="grid" id="winner">
-                       </div>  
+                    </div>  
+                    <div id="center">
                        {nextRound ?
                         <Link to={gameLink}><Button >Go To Next Round</Button></Link>:null
                     }
                     {endGame ?
                         <Link to='/'><Button >Go to final winner</Button></Link>:null
                     }
+                    </div>
             </div>
             </div>
         );

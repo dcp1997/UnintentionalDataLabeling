@@ -17,9 +17,11 @@ class Create extends Component {
           dbKey: '',
           showStart:false,
           showSubmit:true,
+          gameName:'',
         }
 
         this.updateUserName = this.updateUserName.bind(this);
+        this.updateGameName = this.updateGameName.bind(this);
         this.updateNumberOfPlayers = this.updateNumberOfPlayers.bind(this);
         this.updateNumberOfRounds = this.updateNumberOfRounds.bind(this);
         this.updateMode = this.updateMode.bind(this);
@@ -40,6 +42,11 @@ class Create extends Component {
     updateUserName(event)
     {
         this.setState({hostUserName: event.target.value})
+    }
+
+    updateGameName(event)
+    {
+        this.setState({gameName: event.target.value})
     }
 
     updateNumberOfPlayers(event)
@@ -243,6 +250,8 @@ class Create extends Component {
                 }).then((snap) => {
                     const key = snap.key;
                     console.log(key);
+                    var gameNickname = key.substring(14);
+                    this.setState({gameName: gameNickname});
                     this.setState({dbKey: key});
                     this.setState({showStart: true});
                     this.setState({showSubmit: false});
@@ -302,7 +311,9 @@ class Create extends Component {
                     <p>Number of Rounds (min 3)
                         <br></br><input type="number" min="3" max="50" default="3" name="rounds" onChange={this.updateNumberOfRounds}></input>
                     </p>
-
+                    {/* <p>Game Name <br></br>
+                    <input type="text" onChange={this.updateGameName}></input>
+                    </p> */}
                     <p>Prompt with: 
                         <div class='styled-select white semi-square '>
                             <select name="prompt">
@@ -318,7 +329,7 @@ class Create extends Component {
                 }
                 {this.state.showStart ?
                     <div> 
-                    <p> Shareable GameCode: {this.state.dbKey}</p>
+                    <p> Shareable GameCode: {this.state.gameName}</p>
                     <div><Link to={lobbyLink}><Button >Go To Lobby</Button></Link> </div></div>
                     :null
                         
