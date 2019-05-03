@@ -15,7 +15,8 @@ class Join extends Component {
             gameCode: '',
             showStart: false,
             showSubmit: true,
-            userKey: ''
+            userKey: '',
+            dbKey: ''
         }
                 
         this.updateUserName = this.updateUserName.bind(this);
@@ -156,17 +157,18 @@ class Join extends Component {
         usersRef.orderByValue().on("value", function(snapshot) {
             console.log(snapshot.val());
             snapshot.forEach(function(data) {
-                var dbKey = data.key;
+                var db_Key = data.key;
                 console.log(data.key);
-                gc_sub = dbKey.substring(14);
+                gc_sub = db_Key.substring(14);
                 console.log(gc_sub);
                 if (gc_sub == user_GC){
-                    gc = dbKey;
+                    gc = db_Key;
                     found = true;
                 }
             });
-        });
+        }.bind(this));;
         if (found){
+            this.setState({dbKey: gc});
             firebase.database().ref('game-session/' + gc + '/numberPlayers').once('value', function(snapshot) {
                 maxPlayers = snapshot.val()
             });
@@ -206,13 +208,14 @@ class Join extends Component {
                     }
                 }); 
             }
-        } else {
-            alert("You cannot join this game")
         } 
+        // else {
+        //     alert("1You cannot join this game")
+        // } 
     }
 
     render() { 
-        var lobbyLink = "/lobby/" + this.state.userKey + "/" + this.state.gameCode ;
+        var lobbyLink = "/lobby/" + this.state.userKey + "/" + this.state.dbKey;
         console.log("userkey " + this.state.userKey);
         return   (
             <div>
