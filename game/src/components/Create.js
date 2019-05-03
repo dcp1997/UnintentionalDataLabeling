@@ -33,6 +33,7 @@ class Create extends Component {
         this.addHands = this.addHands.bind(this);
         this.checkHand = this.checkHand.bind(this);
         this.checkImage = this.checkImage.bind(this);
+        this.addInfo = this.addInfo.bind(this);
     }
 
     updateMode(event) {
@@ -141,7 +142,42 @@ class Create extends Component {
             }})
         };
 
-    
+    addInfo(k){
+        var oneRound = {
+            hands : [null],
+            // {
+            //     // [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
+            // },
+            submissions : {
+              players : [ null],
+              promptID : this.getRandomInt(1,99),
+              type : "",
+              voting : [null, {
+                nickname : "",
+                ballot: 0
+              },],
+              winner : "",
+              submittedAmount: 0
+            }
+        };
+        var info = {
+            currentRoundNumber : 1,
+            imagesUsed : null,
+            mode : this.state.mode,
+            numberPlayers : this.state.numberOfPlayers,
+            numberRounds : this.state.numberofRounds,
+            players : 
+            [ null, {
+                nickname : this.state.hostUserName,
+                powerups : 0,
+                score : 0
+                },
+            ],
+            round : [ null, oneRound ],
+            playersJoined: 1
+        }
+        firebase.database().ref('game-session/' + k).update(info);
+    }
     addPlayers(k){
         var player = {
             nickname: "",
@@ -210,56 +246,48 @@ class Create extends Component {
     
     handleSubmit()
     {     
-        var user = this.state.hostUserName.toString();   
-        var oneRound = {
-            hands : [null],
-            // {
-            //     // [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
-            // },
-            submissions : {
-              players : [ null],
-              promptID : this.getRandomInt(1,99),
-              type : "",
-              voting : [null, {
-                nickname : "",
-                ballot: 0
-              },],
-              winner : "",
-              submittedAmount: 0
-            }
-        };
+        var user = this.state.hostUserName.toString();  
+        var nickname = this.state.gameName; 
+        var x;
+        // var oneRound = {
+        //     hands : [null],
+        //     // {
+        //     //     // [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
+        //     // },
+        //     submissions : {
+        //       players : [ null],
+        //       promptID : this.getRandomInt(1,99),
+        //       type : "",
+        //       voting : [null, {
+        //         nickname : "",
+        //         ballot: 0
+        //       },],
+        //       winner : "",
+        //       submittedAmount: 0
+        //     }
+        // };
+        firebase.database().ref('game-session/' + nickname).once('value', function(snapshot) {
+            x = snapshot.numChildren();
+            alert(x)
+        });
         
         if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!='' && 
             this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
-                firebase.database().ref('game-session/').push({
-                    currentRoundNumber : 1,
-                    imagesUsed : null,
-                    mode : this.state.mode,
-                    numberPlayers : this.state.numberOfPlayers,
-                    numberRounds : this.state.numberofRounds,
-                    players : 
-                    [ null, {
-                        nickname : this.state.hostUserName,
-                        powerups : 0,
-                        score : 0
-                        },
-                    ],
-                    round : [ null, oneRound ],
-                    playersJoined: 1
-                }).then((snap) => {
+                firebase.database().ref('game-session/' + nickname).push().then((snap) => {
                     const key = snap.key;
                     console.log(key);
-                    var gameNickname = key.substring(14);
-                    this.setState({gameName: gameNickname});
-                    this.setState({dbKey: key});
+                    // var gameNickname = key.substring(14);
+                    this.setState({gameName: nickname});
+                    this.setState({dbKey: nickname});
                     this.setState({showStart: true});
                     this.setState({showSubmit: false});
-                    this.addPlayers(key);
-                    this.addSubmissions(key);
-                    this.addHands(key);
-                    this.addPlayersToSubmissions(key);
-                    this.addPlayersToVoting(key);
+                    this.addInfo(nickname);
+                    this.addPlayers(nickname);
+                    this.addSubmissions(nickname);
+                    this.addHands(nickname);
+                    this.addPlayersToSubmissions(nickname);
+                    this.addPlayersToVoting(nickname);
                  }); 
                  this.start = true;
                 //  this.continueSetup();
@@ -311,9 +339,9 @@ class Create extends Component {
                     <p>Number of Rounds (min 3)
                         <br></br><input type="number" min="3" max="50" default="3" name="rounds" onChange={this.updateNumberOfRounds}></input>
                     </p>
-                    {/* <p>Game Name <br></br>
+                    <p>Game Name <br></br>
                     <input type="text" onChange={this.updateGameName}></input>
-                    </p> */}
+                    </p>
                     <p>Prompt with: 
                         <div class='styled-select white semi-square '>
                             <select name="prompt">
