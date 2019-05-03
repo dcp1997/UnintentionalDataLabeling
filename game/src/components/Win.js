@@ -131,31 +131,30 @@ class Winning extends Component{
             console.log(snapshot)
             winPic = snapshot.val();
             console.log(winPic);
-
+       
          firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/players/').once('value').then(function(snapshot){
             
-            var i = 1
+            var i = 0
             snapshot.forEach(function(childSnapshot) {
+                i++
+                console.log(childSnapshot.key)
                 var indexofPic = parseInt(childSnapshot.val().playerSubmission.submissionID);
                 console.log(indexofPic)
                 var nickname = childSnapshot.val().playerSubmission.nickname;
                 console.log(nickname)
-                if(indexofPic === winPic){
-                    firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ i + '/score/').once('value').then(function(snapshot){
+                if(indexofPic === this.state.winningIndex){
+                    console.log(nickname)
+                    firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ childSnapshot.key + '/score/').once('value').then(function(snapshot){
                             var currentScore = parseInt(snapshot.val())
                             console.log(" currecnt score:"+ currentScore)
                             var updateScore = currentScore + 1
                             console.log(updateScore)
                             var upscore = {"score": updateScore}
-                            firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+i).update(upscore)
-                        i++
+                            firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+childSnapshot.key).update(upscore)
+                       
                     }.bind(this));
                     
-                   }
-                   
-              
-
-             
+                }
             }.bind(this));
             
                      
