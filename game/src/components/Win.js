@@ -14,6 +14,7 @@ class Winning extends Component{
           dbKey: "",
           round:"",
           allSubmitted: false,
+          winnerFound: false,
           numberOfPlayers: 3,
           init: 1,
           voteImage: 0,
@@ -71,6 +72,7 @@ class Winning extends Component{
                 
                 console.log(winningPic);
                 this.setState({winningIndex: winningPic});
+                this.setState({winnerFound: true});
 
                 if(winningPic != null)
                 {
@@ -123,10 +125,12 @@ class Winning extends Component{
 
     addWinScore(){
         
-        console.log(this.state.round)
-        console.log(this.state.dbKey)
+        console.log(this.state.round);
+        console.log(this.state.dbKey);
+        var winPic
         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round+'/submissions/winner/').once('value').then(function(snapshot){
-            var winPic = parseInt(snapshot.val());
+            console.log(snapshot)
+            winPic = snapshot.val();
             console.log(winPic);
 
          firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/players/').once('value').then(function(snapshot){
@@ -210,7 +214,11 @@ class Winning extends Component{
         {
             this.getSubmittedImages();
             this.setState({init: 0});
+           
+        }
+        if(this.state.winnerFound){
             this.addWinScore();
+            this.setState({winnerFound: false});
         }
         this.nextRoundHelper();
 
@@ -251,11 +259,13 @@ class Winning extends Component{
 
         return (
             <div>
-                <div>
-                <Link to="/">
-                    <Button id="exit">Exit Game</Button>
-                </Link>   
-                </div>
+                <header id="win" class='icon'>
+                    <div>
+                    <Link to="/">
+                        <i class="fas fa-sign-out-alt fa-xs"></i>
+                    </Link>   
+                    </div>
+                </header>
                 <header>
                     Round {this.state.round} Winner
                 </header>
@@ -268,17 +278,16 @@ class Winning extends Component{
                     </div>
 
                     <div className="grid" id="winner">
-                       </div>  
-
-
-                    {
-                        nextRound ?
+                    </div>  
+                    <div id="center">
+                       {nextRound ?
                         <Link to={gameLink}><Button >Go To Next Round</Button></Link>:null
                     }
                     {
                         endGame ?
                         <Link to='/'><Button >Go to final winner</Button></Link>:null
                     }
+                    </div>
             </div>
             </div>
         );
