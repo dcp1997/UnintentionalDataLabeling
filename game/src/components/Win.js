@@ -20,8 +20,9 @@ class Winning extends Component{
           winningIndex: "",
           nextRoundReady: false, 
           endGame: false,
-          changedRound: false,
-          totalRounds: 3 //hardcoded rn
+          totalRounds: "", //hardcoded rn
+          totalRoundsUpdated:false
+          
         };
         this.test = this.test.bind(this);
         this.getSubmittedImages = this.getSubmittedImages.bind(this);
@@ -125,8 +126,8 @@ class Winning extends Component{
         console.log(this.state.round)
         console.log(this.state.dbKey)
         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round+'/submissions/winner/').once('value').then(function(snapshot){
-            var winPic = parseInt(snapshot.val())
-            console.log(winPic)
+            var winPic = parseInt(snapshot.val());
+            console.log(winPic);
 
          firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/players/').once('value').then(function(snapshot){
             
@@ -157,9 +158,9 @@ class Winning extends Component{
                      
         }.bind(this));
             firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
-            var currentScore = parseInt(snapshot.val())
+            var currentScore = parseInt(snapshot.val());
             document.getElementById("score").innerHTML = "Score: " + currentScore;
-        })
+            });
         }.bind(this))
         
     }
@@ -185,12 +186,20 @@ class Winning extends Component{
   
         this.waitForAllSubmitted();
 
+        console.log("dbkey " + this.state.dbKey);
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/numberRounds/').once('value').then(function(snapshot){
+            console.log("orig totalRounds " + snapshot.val());
+            this.setState({totalRounds: snapshot.val()});
+            this.setState({totalRoundsUpdated: true});
+            }.bind(this));
     }
     componentWillMount(){
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
         this.setState({round: pathname[4]});
+
+        
     }
 
 
@@ -203,7 +212,29 @@ class Winning extends Component{
             this.setState({init: 0});
             this.addWinScore();
         }
+        this.nextRoundHelper();
 
+    }
+
+    nextRoundHelper(){
+        if(this.state.totalRoundsUpdated === true)
+        {
+            console.log("totalRounds" + this.state.totalRounds);
+
+            var newRound = parseInt(this.state.round) + 1;
+            if(newRound > this.state.totalRounds)
+            {
+                this.setState({endGame:true});
+                this.setState({nextRoundReady:false});
+                console.log(newRound);
+            }
+            else
+            {
+                this.setState({nextRoundReady:true});
+            }
+
+            this.setState({totalRoundsUpdated:false});
+        }
 
     }
     test(){
@@ -212,19 +243,11 @@ class Winning extends Component{
     
     render() {
 
-        var endGame = false;
-        var nextRound = false;
-        var newRound = parseInt(this.state.round) + 1;
-        if(newRound > this.state.totalRounds)
-        {
-            endGame = true;
-            nextRound = false;
-        }
-        else
-        {
-            nextRound = true;
-        }
-        var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey + "/" + newRound;
+        var endGame = this.state.endGame;
+        var nextRound = this.state.nextRoundReady;
+        var nextRoundValue = parseInt(this.state.round) + 1;
+
+        var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey + "/" + nextRoundValue;
 
         return (
             <div>
@@ -246,10 +269,14 @@ class Winning extends Component{
 
                     <div className="grid" id="winner">
                        </div>  
-                       {nextRound ?
+
+
+                    {
+                        nextRound ?
                         <Link to={gameLink}><Button >Go To Next Round</Button></Link>:null
                     }
-                    {endGame ?
+                    {
+                        endGame ?
                         <Link to='/'><Button >Go to final winner</Button></Link>:null
                     }
             </div>
