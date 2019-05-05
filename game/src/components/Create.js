@@ -248,47 +248,43 @@ class Create extends Component {
     {     
         var user = this.state.hostUserName.toString();  
         var nickname = this.state.gameName; 
-        var x;
-        // var oneRound = {
-        //     hands : [null],
-        //     // {
-        //     //     // [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
-        //     // },
-        //     submissions : {
-        //       players : [ null],
-        //       promptID : this.getRandomInt(1,99),
-        //       type : "",
-        //       voting : [null, {
-        //         nickname : "",
-        //         ballot: 0
-        //       },],
-        //       winner : "",
-        //       submittedAmount: 0
-        //     }
-        // };
-        firebase.database().ref('game-session/' + nickname).once('value', function(snapshot) {
-            x = snapshot.numChildren();
-            alert(x)
-        });
+        var exists;
         
-        if (this.state.mode!=null && this.state.numberOfPlayers!=null && 
+        if (this.state.gameName.toString().length == 0){
+            alert("You must enter a valid game name");
+        }
+        else if (!this.isAlphaNumeric(this.state.gameName)){
+            alert("Game names can only include letters and numbers!")
+        }
+        else if (this.state.gameName.toString().length > 0 && this.isAlphaNumeric(this.state.gameName) && 
+            this.state.mode!=null && this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!='' && 
             this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
-                firebase.database().ref('game-session/' + nickname).push().then((snap) => {
-                    const key = snap.key;
-                    console.log(key);
-                    // var gameNickname = key.substring(14);
-                    this.setState({gameName: nickname});
-                    this.setState({dbKey: nickname});
-                    this.setState({showStart: true});
-                    this.setState({showSubmit: false});
-                    this.addInfo(nickname);
-                    this.addPlayers(nickname);
-                    this.addSubmissions(nickname);
-                    this.addHands(nickname);
-                    this.addPlayersToSubmissions(nickname);
-                    this.addPlayersToVoting(nickname);
-                 }); 
+                var ref = firebase.database().ref("game-session/");
+                ref.on('value', (snapshot) => {
+                    var a = snapshot.exists();  // true
+                    exists = snapshot.child(nickname).exists(); // true
+                    if (!exists){
+                        firebase.database().ref('game-session/' + nickname).push().then((snap) => {
+                            const key = snap.key;
+                            console.log(key);
+                            var gameNickname = key.substring(14);
+                            this.setState({gameName: nickname});
+                            this.setState({dbKey: nickname});
+                            this.setState({showStart: true});
+                            this.setState({showSubmit: false});
+                            this.addInfo(nickname);
+                            this.addPlayers(nickname);
+                            this.addSubmissions(nickname);
+                            this.addHands(nickname);
+                            this.addPlayersToSubmissions(nickname);
+                            this.addPlayersToVoting(nickname);
+                        }); 
+                    } 
+                });
+                if (exists){
+                    alert("Game exists and can be joined")
+                }
                  this.start = true;
                 //  this.continueSetup();
             }
@@ -302,6 +298,7 @@ class Create extends Component {
         if (this.state.hostUserName==''){
             alert("Enter a valid nickname")
         }
+        
     }
 
     getRandomInt(min, max) 
@@ -309,6 +306,22 @@ class Create extends Component {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // from
+    // https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
+    isAlphaNumeric(str) {
+        var code, i, len;
+      
+        for (i = 0, len = str.length; i < len; i++) {
+          code = str.charCodeAt(i);
+          if (!(code > 47 && code < 58) && // numeric (0-9)
+              !(code > 64 && code < 91) && // upper alpha (A-Z)
+              !(code > 96 && code < 123)) { // lower alpha (a-z)
+            return false;
+          }
+        }
+        return true;
     }
 
     render() { 
