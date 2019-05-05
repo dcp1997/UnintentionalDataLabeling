@@ -33,9 +33,8 @@ class Final extends Component
       }
 
     updatePlayers() {
-        var i = 0;
         var query = firebase.database().ref("game-session/"+ this.state.dbKey + "/players").orderByKey();
-        query.on("value" , snap => {
+        query.once("value" , snap => {
           this.state.players = [];
           snap.forEach(child => {
             this.setState({

@@ -293,7 +293,7 @@ class Winning extends Component{
                     }
                     {
                         endGame ?
-                        <Link to={endGameLink}><Button >Final Scoreboard</Button></Link>:null
+                        <Link to={endGameLink}><Button >Final Score</Button></Link>:null
                     }
                     </div>
             </div>
