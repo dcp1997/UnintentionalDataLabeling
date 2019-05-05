@@ -36,7 +36,6 @@ class Winning extends Component{
         var playersVoted = 0;
         var winningPic = 0;
     
-   
 
         firebase.database().ref('game-session/' + this.state.dbKey).once('value').then(function(snap){
             var playerNumber = snap.val().numberPlayers;
@@ -50,11 +49,8 @@ class Winning extends Component{
                         const indexofPic = parseInt(child.val().ballot);
                         if(i != playerNumber){
                             winArray[i] = indexofPic;
-                            console.log("put index: "+ indexofPic+ " in array at index " + i);
-                           
                         }
                         i++;
-                        console.log(winArray);
                     });
                 }
 
@@ -64,13 +60,11 @@ class Winning extends Component{
                         - arr.filter(v => v===b).length
                     ).pop();
                 }
-                console.log(winArray);
                 winningPic = mode(winArray);
                 
                 var winner = {"winner": winningPic}
                 firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round + '/submissions/').update(winner)
                 
-                console.log(winningPic);
                 this.setState({winningIndex: winningPic});
                 this.setState({winnerFound: true});
 
@@ -89,7 +83,26 @@ class Winning extends Component{
                         elem.setAttribute("class", "grid-item");
                         elem.appendChild(pic);
                         document.getElementById("winner").appendChild(elem);
-                    });   
+
+                        var query = firebase.database().ref('/game-session/'+ this.state.dbKey + '/round/'+ this.state.round + '/submissions/players').orderByKey();
+                        query.once('value').then(function (snap){
+                            snap.forEach(child =>{
+                                if(child.val().playerSubmission.submissionID == winningPic)
+                                {
+                                    var winDiv = document.createElement("div");
+                                    winDiv.setAttribute("class", "winningUser");
+
+                                    var winningUser = document.createTextNode("User: " + child.val().playerSubmission.nickname);   
+                                    winDiv.appendChild(winningUser);
+                                    elem.appendChild(winDiv);
+                                }
+                            });
+                        });
+                       
+
+                    }.bind(this));
+                    
+                    
 
             
                 
@@ -125,20 +138,17 @@ class Winning extends Component{
 
     addWinScore(){
         
-        console.log(this.state.round);
-        console.log(this.state.dbKey);
         var winPic
         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round+'/submissions/winner/').once('value').then(function(snapshot){
-            console.log(snapshot)
             winPic = snapshot.val();
-            console.log(winPic);
+
        
          firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+ this.state.round+'/submissions/players/').once('value').then(function(snapshot){
             
             var i = 0
             snapshot.forEach(function(childSnapshot) {
                 i++
-                console.log(childSnapshot.key)
+
                 var indexofPic = parseInt(childSnapshot.val().playerSubmission.submissionID);
                 console.log(indexofPic)
                 var nickname = childSnapshot.val().playerSubmission.nickname;
@@ -226,14 +236,12 @@ class Winning extends Component{
     nextRoundHelper(){
         if(this.state.totalRoundsUpdated === true)
         {
-            console.log("totalRounds" + this.state.totalRounds);
 
             var newRound = parseInt(this.state.round) + 1;
             if(newRound > this.state.totalRounds)
             {
                 this.setState({endGame:true});
                 this.setState({nextRoundReady:false});
-                console.log(newRound);
             }
             else
             {
@@ -255,6 +263,7 @@ class Winning extends Component{
         var nextRoundValue = parseInt(this.state.round) + 1;
 
         var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey + "/" + nextRoundValue;
+        var endGameLink = "/final/" + this.state.username + "/" + this.state.dbKey
 
         return (
             <div>
