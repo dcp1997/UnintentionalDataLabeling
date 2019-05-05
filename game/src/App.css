@@ -355,3 +355,8 @@ input[type='text'], input[type='number']{
   #scoreFloat{
     float:left;
   }
+
+  .winningUser{
+    text-align: center;
+    color:white;
+  }
