@@ -168,8 +168,8 @@ class Voting extends Component{
     }
 
     componentDidUpdate(){
-        this.waitForAllSubmitted();
-        if(this.state.allSubmitted === true && this.state.init === 1)
+        //this.waitForAllSubmitted();
+        if(this.state.allSubmitted == true && this.state.init == 1)
         {
             this.getSubmittedImages();
             this.setState({init: 0});

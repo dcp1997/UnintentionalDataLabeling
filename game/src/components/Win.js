@@ -217,7 +217,7 @@ class Winning extends Component{
 
 
     componentDidUpdate(){
-        this.waitForAllSubmitted();
+        //this.waitForAllSubmitted();
 
         if(this.state.allSubmitted === true && this.state.init === 1)
         {

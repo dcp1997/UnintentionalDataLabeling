@@ -16,7 +16,8 @@ class Final extends Component
           players:[],
           scores:[],
           playerRef: '',
-          scoreList:""
+          scoreList:"",
+          scoreUpdated: false
         };
 
       }
@@ -32,10 +33,19 @@ class Final extends Component
         this.updatePlayers();
       }
 
+      componentDidUpdate(){
+        if(this.state.scoreUpdated === false)
+        {
+          this.updatePlayers();
+        }
+
+      }
+
     updatePlayers() {
         var query = firebase.database().ref("game-session/"+ this.state.dbKey + "/players").orderByKey();
         query.once("value" , snap => {
           this.state.players = [];
+          this.state.scores = [];
           snap.forEach(child => {
             this.setState({
               players : this.state.players.concat([child.val().nickname]),
@@ -45,7 +55,7 @@ class Final extends Component
     
             const playerList = this.state.players.map((player) =>
               <p>
-                {player}:                
+                {player}:                       
                 <br/>
               </p>
             );
@@ -61,7 +71,8 @@ class Final extends Component
     
             this.setState({
               playerRef: playerList,
-              scoreList: scoreL
+              scoreList: scoreL,
+              scoreUpdated:true
             });
           });
         });
