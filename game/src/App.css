@@ -70,6 +70,7 @@ subtitle {
 #vote {
   background-color: 
 }
+
 .fa-home, .fa-sign-out-alt {
   color: white;
   float: right;
@@ -349,4 +350,8 @@ input[type='text'], input[type='number']{
     opacity: 1.0;
     border: solid;
     border-color:  #F16B6C;
+  }
+
+  #scoreFloat{
+    float:left;
   }

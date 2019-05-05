@@ -255,6 +255,7 @@ class Winning extends Component{
         var nextRoundValue = parseInt(this.state.round) + 1;
 
         var gameLink = "/game/" + this.state.username + "/" + this.state.dbKey + "/" + nextRoundValue;
+        var endGameLink = "/final/" + this.state.username + "/" + this.state.dbKey
 
         return (
             <div>

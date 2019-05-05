@@ -19,31 +19,15 @@ class Voting extends Component{
           voteImage: 0,
           round: 1,
           selected: false,
-          clicks: [0,0,0]
+          clicks: [0,0,0,0,0,0,0,0]
         };
         this.test = this.test.bind(this);
         this.getSubmittedImages = this.getSubmittedImages.bind(this);
         this.submitVote = this.submitVote.bind(this);
-      }
-
-    //   readSubmittedImages()
-    //   {
-    //     var clicks = [0, 0, 0, 0];
-    //     this.getRoundCaption();
-    //     var game = this;
-    //     var query = firebase.database().ref(`game-session/` +  this.state.dbKey +`/round/` + this.state.round+`/submissions/players`).orderByKey();
-    //     query.once("value").then(function (snapshot){
-    //         snapshot.forEach(child =>{
-    //             const index = parseInt(child.val().playerSubmission.submissionID);
-
-    //             game.getSubmittedImages(snapshot.child(`tile1`).val(), 0, clicks);
-                
-    //         })
-    //     });
-    //   }
+    }
 
     getSubmittedImages(){
-        var clicks = [0,0,0];
+        var clicks = [0,0,0,0,0,0,0];
         var gc = this.state.dbKey
         var usern = this.state.username;
         this.getRoundCaption();
@@ -134,7 +118,6 @@ class Voting extends Component{
                 numVoted: snapshot.val() + 1
             });
         }.bind(this));
-        
     }
 
     //gets this rounds caption and appends it to the current page
@@ -152,8 +135,6 @@ class Voting extends Component{
         })
     }
 
-   
-    
     getRandomInt(min, max) 
     {
         min = Math.ceil(min);
@@ -174,20 +155,17 @@ class Voting extends Component{
         }); 
     }
 
-    
     componentDidMount(){
         //window.addEventListener('load', this.getSubmittedImages());
-        this.waitForAllSubmitted();
-        
+        this.waitForAllSubmitted(); 
     }
+
     componentWillMount(){
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
         this.setState({round: pathname[4]});
     }
-
-
 
     componentDidUpdate(){
         this.waitForAllSubmitted();
@@ -196,15 +174,13 @@ class Voting extends Component{
             this.getSubmittedImages();
             this.setState({init: 0});
         }
-
     }
+
     test(){
         console.log("allsubmitted: " + this.state.allSubmitted); 
     }
     
     render() {
-
-
         var winLink = "/win/" + this.state.username + "/" + this.state.dbKey + "/" + this.state.round;
 
         return (

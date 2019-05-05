@@ -12,6 +12,7 @@ import Voting from './components/vote';
 import Winning from './components/Win';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import Lobby from './components/Lobby'
+import Final from './components/Final'
 
 const routing = (
     <Router>
@@ -23,6 +24,7 @@ const routing = (
         <Route path="/vote/:gameKey" component={Voting} />
         <Route path="/win/:gameKey" component={Winning} />
         <Route path="/lobby/:gameKey" component={Lobby} />
+        <Route path="/final/:gameKey" component={Final} />
       </div>
     </Router>
   )
