@@ -31,6 +31,7 @@ class Final extends Component
 
     componentDidMount() {
         this.updatePlayers();
+        this.updateDatabase();
       }
 
       componentDidUpdate(){
@@ -79,7 +80,26 @@ class Final extends Component
     
     
       }
+    
+    updateDatabase() {
+      var newKey = this.state.dbKey + this.getDateString();
+      var currentKey = this.state.dbKey;
+      firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {
+        console.log(snapshot.val());
+        var current = snapshot.val();
+        firebase.database().ref('game-session/' + newKey).push(current);
+        firebase.database().ref('game-session/' + currentKey).update({'active': false});      
+    });
+  }
 
+    getDateString(){
+      var today = new Date();
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes();
+      return date+time;
+    }
+
+    
     render() {
 
         return (

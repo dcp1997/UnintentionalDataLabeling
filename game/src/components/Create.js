@@ -161,6 +161,7 @@ class Create extends Component {
             }
         };
         var info = {
+            active: true,
             currentRoundNumber : 1,
             imagesUsed : null,
             mode : this.state.mode,
@@ -249,6 +250,7 @@ class Create extends Component {
         var user = this.state.hostUserName.toString();  
         var nickname = this.state.gameName; 
         var exists;
+        var active;
         
         if (this.state.gameName.toString().length == 0){
             alert("You must enter a valid game name");
@@ -264,7 +266,30 @@ class Create extends Component {
                 ref.on('value', (snapshot) => {
                     var a = snapshot.exists();  // true
                     exists = snapshot.child(nickname).exists(); // true
-                    if (!exists){
+                    if (exists) {
+                        firebase.database().ref('game-session/' + nickname + '/active').once('value', function(snapshot) {
+                            active = snapshot.val();
+                            console.log(active);
+                        });
+                        if (!active){
+                            firebase.database().ref('game-session/' + nickname).push().then((snap) => {
+                                const key = snap.key;
+                                console.log(key);
+                                var gameNickname = key.substring(14);
+                                this.setState({gameName: nickname});
+                                this.setState({dbKey: nickname});
+                                this.setState({showStart: true});
+                                this.setState({showSubmit: false});
+                                this.addInfo(nickname);
+                                this.addPlayers(nickname);
+                                this.addSubmissions(nickname);
+                                this.addHands(nickname);
+                                this.addPlayersToSubmissions(nickname);
+                                this.addPlayersToVoting(nickname);
+                            }); 
+                        }
+                    }
+                    else {
                         firebase.database().ref('game-session/' + nickname).push().then((snap) => {
                             const key = snap.key;
                             console.log(key);
@@ -282,9 +307,10 @@ class Create extends Component {
                         }); 
                     } 
                 });
-                if (exists){
-                    alert("Game exists and can be joined")
+                if (active) { // if a game is active then it definitely exists
+                    alert("Game exists and can be joined");
                 }
+            
                  this.start = true;
                 //  this.continueSetup();
             }
