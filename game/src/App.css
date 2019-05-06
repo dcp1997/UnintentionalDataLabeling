@@ -155,7 +155,7 @@ form {
   align-items: center;
 }
 button {
-    width: 150px;
+    width: 250px;
     /* height: 25px; */
     margin: 1%;
     padding: 1%;
@@ -166,7 +166,7 @@ button {
     border: solid #F16B6C;
     color: #F16B6C;
     border-radius: 15px;
-    font-size: 30px;
+    font-size: 25px;
     font-family: 'Open Sans', serif;
     text-align: center;
 
@@ -253,15 +253,18 @@ div#winner.grid {
   width: 40%;
   margin: 0 auto;
 }
-div#winner.grid>* {
+/* div#winner.grid>* {
   height:40vw;
   width:40vw;
   
-}
+} */
 img.winnerPicture {
-  height: 35vw;
-  width: 35vw;
-  
+  /* height: 35vw;
+  width: 35vw; */
+  object-fit: scale-down; 
+  justify-content: center;
+  align-content: center;
+  padding: 3%;
   
 }
 .grid-item {
@@ -401,4 +404,15 @@ input[type='text'], input[type='number']{
     background-color: #05668D;
     color: white;
     text-align: center;
+  }
+
+  #createNav {
+    width: 75vw;
+    display: flex;
+    justify-content: space-between;
+    border:solid transparent;
+  }
+
+  div#createNav p {
+    font-size: 20px;
   }
