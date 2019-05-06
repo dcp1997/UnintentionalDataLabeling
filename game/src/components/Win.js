@@ -284,16 +284,17 @@ class Winning extends Component{
                     <div className="caption" id="caption">
                     {this.state.allSubmitted ? null :<h4>*Waiting on other players...*</h4>}
                     </div>
-
+                    <div class="grid-container">
                     <div className="grid" id="winner">
                     </div>  
+                    </div>
                     <div id="center">
                        {nextRound ?
-                        <Link to={gameLink}><Button >Go To Next Round</Button></Link>:null
+                        <Link to={gameLink}><Button >Next Round</Button></Link>:null
                     }
                     {
                         endGame ?
-                        <Link to={endGameLink}><Button >Final Score</Button></Link>:null
+                        <Link to={endGameLink}><Button >Final Scores</Button></Link>:null
                     }
                     </div>
             </div>
