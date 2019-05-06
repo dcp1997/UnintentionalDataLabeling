@@ -32,11 +32,7 @@ class Final extends Component
 
     componentDidMount() {
         this.updatePlayers();
-<<<<<<< HEAD
-        
-=======
         this.updateDatabase();
->>>>>>> parent of 13bbe2a... Merge branch 'master' of https://github.com/SaumyashreeRay/UnintentionalData
       }
 
       componentDidUpdate(){
