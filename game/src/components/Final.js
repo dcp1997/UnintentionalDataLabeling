@@ -96,7 +96,7 @@ class Final extends Component
           if (exit == numPlayers){
               this.updateDatabase();
           }
-        });
+        }.bind(this));
   
     
       }
