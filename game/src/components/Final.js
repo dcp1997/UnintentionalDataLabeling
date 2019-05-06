@@ -20,6 +20,8 @@ class Final extends Component
           scoreUpdated: false
         };
 
+        this.updateDatabase = this.updateDatabase.bind(this);
+
       }
 
 
@@ -44,6 +46,7 @@ class Final extends Component
       }
 
     updatePlayers() {
+      var gc = this.state.dbKey;
         var query = firebase.database().ref("game-session/"+ this.state.dbKey + "/players").orderByKey();
         query.once('value').then(function(snap){
           this.state.players = [];
@@ -80,7 +83,7 @@ class Final extends Component
         }.bind(this));
         firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {
           var exit = snapshot.child("playersExited").val();
-          firebase.database().ref('game-session/' + this.state.dbKey).update({
+          firebase.database().ref('game-session/' + gc).update({
             playersExited : (exit+1),});
         });
         
