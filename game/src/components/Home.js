@@ -7,6 +7,7 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class Home extends Component {
     render() { 
+        console.log("React Version: "+React.version);
         return   (
             <div>
             <header></header>

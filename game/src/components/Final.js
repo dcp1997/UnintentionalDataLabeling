@@ -34,10 +34,10 @@ class Final extends Component
 
     componentDidMount() {
         this.updatePlayers();
-        
       }
 
-      componentDidUpdate(){
+    //Constantly calls updatePlayers until it happens, sometimes it was not happening so this ensures it will
+    componentDidUpdate(){
         if(this.state.scoreUpdated == false)
         {
           this.updatePlayers();
@@ -45,6 +45,7 @@ class Final extends Component
 
       }
 
+    //gets all players from the database and their score, also tracks players leaving the game. 
     updatePlayers() {
       var gc = this.state.dbKey;
         var query = firebase.database().ref("game-session/"+ this.state.dbKey + "/players").orderByKey();
@@ -101,6 +102,7 @@ class Final extends Component
     
       }
     
+      //moves all the game information to a timestamped archive as to free up the key for new games
     updateDatabase() {
       var newKey = this.state.dbKey + this.getDateString();
       var currentKey = this.state.dbKey;
