@@ -80,12 +80,12 @@ class Create extends Component {
     addHands(k){
         var user = this.state.hostUserName;
         for (var i = 1; i <= this.state.numberofRounds; i++){   
-            var hand = { //2020 max rn
+            var hand = {
                 username: user,
-                tile1: this.getRandomInt(1,99),
-                tile2: this.getRandomInt(1,99),
-                tile3: this.getRandomInt(1,99),
-                tile4: this.getRandomInt(1,99)
+                tile1: this.getRandomInt(1,2020),
+                tile2: this.getRandomInt(1,2020),
+                tile3: this.getRandomInt(1,2020),
+                tile4: this.getRandomInt(1,2020)
             }      
             firebase.database().ref('game-session/' + k + '/round/' + i + '/hand/1').update(hand)
             this.checkHand(k, i);
@@ -175,8 +175,7 @@ class Create extends Component {
                 },
             ],
             round : [ null, oneRound ],
-            playersJoined: 1,
-            playersExited: 0
+            playersJoined: 1
         }
         firebase.database().ref('game-session/' + k).update(info);
     }
@@ -396,10 +395,9 @@ class Create extends Component {
                     <Button type="submit" onClick={this.handleSubmit} >Submit</Button> : null
                 }
                 {this.state.showStart ?
-                    <div id="createNav"> 
-                        <p> Shareable Code: {this.state.gameName}</p>
-                        <div><Link to={lobbyLink}><Button >Enter Lobby</Button></Link> </div>
-                    </div>
+                    <div> 
+                    <p> Shareable GameCode: {this.state.gameName}</p>
+                    <div><Link to={lobbyLink}><Button >Go To Lobby</Button></Link> </div></div>
                     :null
                         
                 }

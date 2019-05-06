@@ -20,8 +20,6 @@ class Final extends Component
           scoreUpdated: false
         };
 
-        this.updateDatabase = this.updateDatabase.bind(this);
-
       }
 
 
@@ -34,7 +32,11 @@ class Final extends Component
 
     componentDidMount() {
         this.updatePlayers();
+<<<<<<< HEAD
         
+=======
+        this.updateDatabase();
+>>>>>>> parent of 13bbe2a... Merge branch 'master' of https://github.com/SaumyashreeRay/UnintentionalData
       }
 
       componentDidUpdate(){
@@ -46,8 +48,8 @@ class Final extends Component
       }
 
     updatePlayers() {
-      var gc = this.state.dbKey;
         var query = firebase.database().ref("game-session/"+ this.state.dbKey + "/players").orderByKey();
+        
         query.once('value').then(function(snap){
           this.state.players = [];
           this.state.scores = [];
@@ -81,23 +83,7 @@ class Final extends Component
             });
           });
         }.bind(this));
-        firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {
-          var exit = snapshot.child("playersExited").val();
-          firebase.database().ref('game-session/' + gc).update({
-            playersExited : (exit+1),});
-        });
-        
-        firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {
-          console.log(snapshot.val());
-          var exit = snapshot.child("playersExited").val();
-          var numPlayers = snapshot.child("numberPlayers").val();
-          // console.log(snapshot.child("playersExited").val());
-          // console.log(snapshot.child("numberPlayers").val());
-          if (exit == numPlayers){
-              this.updateDatabase();
-          }
-        }.bind(this));
-  
+    
     
       }
     
