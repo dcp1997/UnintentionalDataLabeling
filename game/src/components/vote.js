@@ -101,6 +101,7 @@ class Voting extends Component{
                        elem.style.border = 'solid';
                        elem.style.borderColor = '#17C490';
                        this.setState({selected:true});
+                       this.setState({voteImage:index});
                     }
 
                 }.bind(this));
