@@ -118,7 +118,7 @@ class Voting extends Component{
 
         firebase.database().ref('game-session/' +  this.state.dbKey +'/round/' + this.state.round+'/submissions/promptID').once('value').then(function(snapshot){
             var capIndex = snapshot.val();
-            firebase.database().ref('testData_changeWhenDone').push({
+            firebase.database().ref('testData').push({
                 imageIndex: this.state.voteImage,
                 captionIndex: capIndex
             });

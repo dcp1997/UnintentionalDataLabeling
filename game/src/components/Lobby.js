@@ -20,6 +20,7 @@ class Lobby extends Component {
     };
   }
 
+  //gets the player names from the database using the database key, updates the state of players which is being rendered on this page
   updatePlayers() {
     var i = 0;
     var query = firebase.database().ref("game-session/"+ this.state.dbKey + "/players").orderByKey();
@@ -42,15 +43,13 @@ class Lobby extends Component {
         });
       });
     });
-
-
   }
   
-
 
   componentDidMount() {
     this.updatePlayers();
   }
+
   componentWillMount(){
     var pathname = window.location.pathname.split('/');
     this.state.username = pathname[2];
