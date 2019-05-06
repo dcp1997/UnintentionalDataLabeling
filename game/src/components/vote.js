@@ -46,14 +46,14 @@ class Voting extends Component{
                 var pic = document.createElement("img");
                 pic.setAttribute("class", "randomPictures");
                 pic.setAttribute("src", snapshot.val().url);
-                pic.setAttribute('id', "img"+currentCardNumber);
+                pic.setAttribute('id', "img"+index);
                 pic.setAttribute('alt', index);
                 
                 var elem = document.createElement("div");
                 elem.setAttribute('height', '200px');
                 elem.setAttribute('width', '200px');
                 elem.setAttribute("class", "grid-item");
-                elem.setAttribute('id', currentCardNumber);
+                elem.setAttribute('id', index);
                 elem.appendChild(pic);
                 document.getElementById("grid").appendChild(elem);
                 elem.addEventListener('click', function(e) {
@@ -63,37 +63,50 @@ class Voting extends Component{
     
                 
                     //meaning the card selected has not been clicked
-                    if (this.state.clicks[currentCardNumber] === 0){
+                    // if (clicks[currentCardNumber] === 0){
         
-                        elem.style.border = "solid";
-                        elem.style.borderColor = "#17C490";
-                        this.setState({voteImage: index});
-                        this.setState({selected:true});
+                    //     elem.style.border = "solid";
+                    //     elem.style.borderColor = "#17C490";
+                    //     this.setState({voteImage: index});
+                    //     this.setState({selected:true});
 
-                        //all other images lose their borders
-                        console.log(this.state.clicks);
-                        console.log(currentCardNumber);
-                        for(var l=0; l<this.state.clicks.length; l++){
-                            if(this.state.clicks[l]===1){
-                                 document.getElementById(l).style.border = 'none';
-                                 clicks[l]--;
-                                 console.log("here");
-                            }
+                    //     //all other images lose their borders
+                    //     console.log(clicks);
+                    //     console.log(currentCardNumber);
+                    //     for(var l=0; l<clicks.length; l++){
+                    //         if(clicks[l]===1){
+                    //              document.getElementById(l).style.border = 'none';
+                    //              clicks[l]--;
+                    //              console.log("here");
+                    //         }
+                    //     }
+                    //     clicks[currentCardNumber]++;
+                    //     console.log(clicks);
+                    // }
+                    // else if (clicks[currentCardNumber]=== 1){
+                    //     elem.style.border = 'none';
+                    //     clicks[currentCardNumber]--;
+                    //     this.setState({selected:false});
+                    // }
+                    if(this.state.selected===true){
+                        var elts = document.getElementsByClassName('grid-item');
+                        for(var i=0; i<elts.length;i++){
+                            elts[i].style.border = 'none';
                         }
-                        clicks[currentCardNumber]++;
-                        console.log(clicks);
+                        
+                        elem.style.border = 'solid';
+                        elem.style.borderColor = '#17C490'
                     }
-                    else if (this.state.clicks[currentCardNumber]=== 1){
-                        elem.style.border = 'none';
-                        clicks[currentCardNumber]--;
-                        this.setState({selected:false});
+                    else if(this.state.selected===false){
+                       elem.style.border = 'solid';
+                       elem.style.borderColor = '#17C490';
+                       this.setState({selected:true});
                     }
-                    
+
                 }.bind(this));
              }.bind(this));
-      
             });
-            currentCardNumber++;
+            
         }.bind(this));
     }
 
