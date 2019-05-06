@@ -59,8 +59,8 @@ class Create extends Component {
         this.setState({numberofRounds : event.target.value})
     }  
     
-    // add submissions part to each round
     addSubmissions(k){
+        // add submissions part to each round
         for (var i = 1; i < this.state.numberofRounds; i++){
             var submissions = {
                 players : [ null],
@@ -77,23 +77,21 @@ class Create extends Component {
         }
     }
 
-    //adds the hands for the user that created the game
     addHands(k){
         var user = this.state.hostUserName;
         for (var i = 1; i <= this.state.numberofRounds; i++){   
-            var hand = { //2020 max rn
+            var hand = {
                 username: user,
-                tile1: this.getRandomInt(1,99),
-                tile2: this.getRandomInt(1,99),
-                tile3: this.getRandomInt(1,99),
-                tile4: this.getRandomInt(1,99)
+                tile1: this.getRandomInt(1,2020),
+                tile2: this.getRandomInt(1,2020),
+                tile3: this.getRandomInt(1,2020),
+                tile4: this.getRandomInt(1,2020)
             }      
             firebase.database().ref('game-session/' + k + '/round/' + i + '/hand/1').update(hand)
             this.checkHand(k, i);
+            console.log(hand); 
         }
     }
-
-    //checking each image in a hand
     checkHand(k, i){
         var game = this;
         firebase.database().ref('game-session/' + k + '/round/'+ i + '/hand/1').once('value').then(function(snapshot){
@@ -104,19 +102,22 @@ class Create extends Component {
         })
         firebase.database().ref('game-session/'+k+'/round/'+i+'/hand/1').once('value').then(function(snapshot){console.log(snapshot.val())});
     }
-
-    //checking for 404 errors and replacing them
     checkImage(index, tile, k, i){
         var game = this;
         firebase.database().ref('images/'+index).once('value').then(function(snapshot){
             if(snapshot.exists()){
+                console.log(index);
+                console.log(snapshot.val())
                 var source = snapshot.val().url;
                 fetch('https://cors-anywhere.herokuapp.com/'+source).then((response)=>{
+                    console.log(response.ok);
                     if(!response.ok){
                         var ind = game.getRandomInt(1,2020);
                         game.checkImage(ind, tile, k, i);
+                        console.log(index+" had a 404");
                     }
                     else if(response.ok){
+                        console.log(index+" is okay");
                         var fix;
                         if(tile==='tile1'){
                             fix={'tile1':index};
@@ -137,13 +138,16 @@ class Create extends Component {
             else{
                 var ind = game.getRandomInt(1,2020);
                 game.checkImage(ind, tile, k, i);
+                console.log(index+" no longer exists");
             }})
         };
 
-        //creating the game area in the database
     addInfo(k){
         var oneRound = {
             hands : [null],
+            // {
+            //     // [user]: [null, this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800), this.getRandomInt(1,800)]
+            // },
             submissions : {
               players : [ null],
               promptID : this.getRandomInt(1,99),
@@ -171,13 +175,10 @@ class Create extends Component {
                 },
             ],
             round : [ null, oneRound ],
-            playersJoined: 1,
-            playersExited: 0
+            playersJoined: 1
         }
         firebase.database().ref('game-session/' + k).update(info);
     }
-
-    //adding the player areas in the db
     addPlayers(k){
         var player = {
             nickname: "",
@@ -188,7 +189,6 @@ class Create extends Component {
             firebase.database().ref('game-session/' + k + '/players/' + (i)).update(player)
         }
     }
-
 
     addPlayersToSubmissions(k){
         var playerSubmission = {
@@ -245,8 +245,6 @@ class Create extends Component {
     }
 
     
-    //checking that the game values the user set up fufill the right criterias and then 
-    //calling all the methods to create the game and allows the user to get into the lobby.
     handleSubmit()
     {     
         var user = this.state.hostUserName.toString();  
@@ -271,10 +269,12 @@ class Create extends Component {
                     if (exists) {
                         firebase.database().ref('game-session/' + nickname + '/active').once('value', function(snapshot) {
                             active = snapshot.val();
+                            console.log(active);
                         });
                         if (!active){
                             firebase.database().ref('game-session/' + nickname).push().then((snap) => {
                                 const key = snap.key;
+                                console.log(key);
                                 var gameNickname = key.substring(14);
                                 this.setState({gameName: nickname});
                                 this.setState({dbKey: nickname});
@@ -292,7 +292,7 @@ class Create extends Component {
                     else {
                         firebase.database().ref('game-session/' + nickname).push().then((snap) => {
                             const key = snap.key;
-                            
+                            console.log(key);
                             var gameNickname = key.substring(14);
                             this.setState({gameName: nickname});
                             this.setState({dbKey: nickname});
@@ -333,7 +333,6 @@ class Create extends Component {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-
 
     // from
     // https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
@@ -396,10 +395,9 @@ class Create extends Component {
                     <Button type="submit" onClick={this.handleSubmit} >Submit</Button> : null
                 }
                 {this.state.showStart ?
-                    <div id="createNav"> 
-                        <p> Shareable Code: {this.state.gameName}</p>
-                        <div><Link to={lobbyLink}><Button >Enter Lobby</Button></Link> </div>
-                    </div>
+                    <div> 
+                    <p> Shareable GameCode: {this.state.gameName}</p>
+                    <div><Link to={lobbyLink}><Button >Go To Lobby</Button></Link> </div></div>
                     :null
                         
                 }
