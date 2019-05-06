@@ -24,6 +24,7 @@ class Final extends Component
 
 
     componentWillMount(){
+        this.updatePlayers();
         var pathname = window.location.pathname.split('/');
         this.setState({username: pathname[2]});
         this.setState({dbKey: pathname[3]});
@@ -34,7 +35,7 @@ class Final extends Component
       }
 
       componentDidUpdate(){
-        if(this.state.scoreUpdated === false)
+        if(this.state.scoreUpdated == false)
         {
           this.updatePlayers();
         }
@@ -43,7 +44,8 @@ class Final extends Component
 
     updatePlayers() {
         var query = firebase.database().ref("game-session/"+ this.state.dbKey + "/players").orderByKey();
-        query.once("value" , snap => {
+        
+        query.once('value').then(function(snap){
           this.state.players = [];
           this.state.scores = [];
           snap.forEach(child => {
@@ -75,7 +77,7 @@ class Final extends Component
               scoreUpdated:true
             });
           });
-        });
+        }.bind(this));
     
     
       }
