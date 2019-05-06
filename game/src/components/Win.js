@@ -66,7 +66,7 @@ class Winning extends Component{
                 firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round + '/submissions/').update(winner)
                 
                 this.setState({winningIndex: winningPic});
-                this.setState({winnerFound: true});
+               
 
                 if(winningPic != null)
                 {
@@ -112,7 +112,7 @@ class Winning extends Component{
 
         }.bind(this));
 
-
+        this.setState({winnerFound: true});
 
     }
 
@@ -124,7 +124,12 @@ class Winning extends Component{
                 window.caption = snapshot.val().caption;
                 document.getElementById('caption').innerHTML = snapshot.val().caption;    
             });
-        }); 
+        });
+        
+        firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
+            var currentScore = parseInt(snapshot.val());
+            document.getElementById("score").innerHTML = "Score: " + currentScore;
+            });
     }
 
     //need a score function 
@@ -163,19 +168,12 @@ class Winning extends Component{
                             var upscore = {"score": updateScore}
                             firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+childSnapshot.key).update(upscore)
                        
-                    }.bind(this));
-                    
+                    }.bind(this)); 
                 }
-            }.bind(this));
-            
-                     
+            }.bind(this));       
         }.bind(this));
-            firebase.database().ref('game-session/'+ this.state.dbKey +'/players/'+ this.state.username + '/score/').once('value').then(function(snapshot){
-            var currentScore = parseInt(snapshot.val());
-            document.getElementById("score").innerHTML = "Score: " + currentScore;
-            });
-        }.bind(this))
-        
+           
+        }.bind(this)) 
     }
 
     waitForAllSubmitted(){
@@ -186,6 +184,7 @@ class Winning extends Component{
                 if(currentAmountofSubmissions >= snap.val().numberPlayers)
                 {
                     this.setState({allSubmitted: true});
+                    this.setState({winnerFound: false})
                     //this should be setting the winner        
                     
                 }
