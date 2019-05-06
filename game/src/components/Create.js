@@ -80,12 +80,12 @@ class Create extends Component {
     addHands(k){
         var user = this.state.hostUserName;
         for (var i = 1; i <= this.state.numberofRounds; i++){   
-            var hand = {
+            var hand = { //2020 max rn
                 username: user,
-                tile1: this.getRandomInt(1,2020),
-                tile2: this.getRandomInt(1,2020),
-                tile3: this.getRandomInt(1,2020),
-                tile4: this.getRandomInt(1,2020)
+                tile1: this.getRandomInt(1,99),
+                tile2: this.getRandomInt(1,99),
+                tile3: this.getRandomInt(1,99),
+                tile4: this.getRandomInt(1,99)
             }      
             firebase.database().ref('game-session/' + k + '/round/' + i + '/hand/1').update(hand)
             this.checkHand(k, i);
