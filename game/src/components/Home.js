@@ -14,7 +14,6 @@ class Home extends Component {
             
                 <div id="a">
                     <div id="description">Who can make the best meme?</div>
-                    v 1.00
                     <div id="menuOptions">
                         <Link to="/create">
                             <Button>New Game</Button>
