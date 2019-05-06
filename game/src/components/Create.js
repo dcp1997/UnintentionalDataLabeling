@@ -175,7 +175,8 @@ class Create extends Component {
                 },
             ],
             round : [ null, oneRound ],
-            playersJoined: 1
+            playersJoined: 1,
+            playersExited: 0
         }
         firebase.database().ref('game-session/' + k).update(info);
     }
