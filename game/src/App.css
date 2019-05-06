@@ -68,7 +68,15 @@ subtitle {
 }
 
 #vote {
-  background-color: 
+  background-color: #1B3022;
+}
+
+#win {
+  background-color: #95190C;
+}
+
+#final {
+  background-color: #610345;
 }
 
 .fa-home, .fa-sign-out-alt {
@@ -359,4 +367,33 @@ input[type='text'], input[type='number']{
   .winningUser{
     text-align: center;
     color:white;
+  }
+
+  .scores {
+    display:flex;
+    justify-content: center;
+    margin: 0% 15% 0% 15%;
+  }
+  #playerName, #playerScore {
+    font-size: 14px;
+    width:50vw;
+  }
+
+  .player, .score {
+    border:solid black;
+    padding: 2%;
+    margin-top:0;
+    margin-bottom:0;
+    background-color: #d9e7ff;
+    text-align: center;
+  }
+
+  .scoreHeader {
+    border: solid black;
+    margin-top:0;
+    margin-bottom:0;
+    padding: 2%;
+    background-color: #05668D;
+    color: white;
+    text-align: center;
   }

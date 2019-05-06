@@ -92,7 +92,7 @@ class Winning extends Component{
                                     var winDiv = document.createElement("div");
                                     winDiv.setAttribute("class", "winningUser");
 
-                                    var winningUser = document.createTextNode("User: " + child.val().playerSubmission.nickname);   
+                                    var winningUser = document.createTextNode("Player: " + child.val().playerSubmission.nickname);   
                                     winDiv.appendChild(winningUser);
                                     elem.appendChild(winDiv);
                                 }
@@ -274,7 +274,7 @@ class Winning extends Component{
                     </Link>   
                     </div>
                 </header>
-                <header>
+                <header id="win">
                     Round {this.state.round} Winner
                 </header>
         

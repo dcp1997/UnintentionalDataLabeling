@@ -54,14 +54,14 @@ class Final extends Component
             });
     
             const playerList = this.state.players.map((player) =>
-              <p>
-                {player}:                       
+              <p class="player">
+                {player}                      
                 <br/>
               </p>
             );
 
             const scoreL = this.state.scores.map((score) =>
-              <p>
+              <p class="score">
                 {score}
                 <br/>
               </p>
@@ -84,14 +84,14 @@ class Final extends Component
 
         return (
             <div>
-                <header id="win" class='icon'>
+                <header id="final" class='icon'>
                     <div>
                     <Link to="/">
                         <i class="fas fa-sign-out-alt fa-xs"></i>
                     </Link>   
                     </div>
                 </header>
-                <header>
+                <header id="final">
                     Final Scores
                 </header>
 
@@ -100,20 +100,14 @@ class Final extends Component
                     <div className="caption" id="caption">
 
                     </div>
-
                     <div className="scores">
-                    <p> Player Scores:</p>
-                    <div id = "scoreFloat">{this.state.playerRef} </div>
-
-                    <div id = "scoreFloat">{this.state.scoreList}</div>
-
-
-                    </div>  
+                      <div id = "playerName"><p className="scoreHeader">Player</p>{this.state.playerRef} </div>
+                      <div id = "playerScore"><p className="scoreHeader">Score</p>{this.state.scoreList}</div>
+                    </div> 
+                    <br></br> 
                     <div id="center">
-
-                    
                     {
-                        <Link to='/'><Button >Go to Main Menu</Button></Link>
+                        <Link to='/'><Button >End Game</Button></Link>
                     }
                     </div>
                 </div>
