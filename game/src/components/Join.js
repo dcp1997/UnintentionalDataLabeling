@@ -44,12 +44,15 @@ class Join extends Component {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    //creating the players voting area and submission area in the game session
     updatePlayer(k, i){
+        // alert("Updating player")
+        // alert("Key" + k)
+        // alert("Player " + i)
         var numberofRounds = 0;
         var user = this.state.userName;
         firebase.database().ref('game-session/' + k + '/numberRounds').once('value', function(snapshot) {
             numberofRounds = snapshot.val()
+            // alert("Rounds " + numberofRounds)
             for (var roundNum=0; roundNum<numberofRounds; roundNum++){
                 var playerSubmission = {
                     nickname : user,
@@ -65,9 +68,6 @@ class Join extends Component {
         });
     }
 
-
-    //adds the four images to the users hands, the number of rounds looks to be hardcoded to 3
-    //but from all the test runs it seems to be working, hmmmmmmmmmmm, keep an eye on this
     addHands(k, i){
         var game = this;
         var user = this.state.userName;
@@ -84,12 +84,12 @@ class Join extends Component {
                 }         
                 firebase.database().ref('game-session/' + k + '/round/' + round + '/hand/' +(i+1)).update(hand);
                 game.checkHand(k, round, i);
+                console.log("made it past check hand");
             } 
         }); 
     }
-
-    //checks four images in a players hand
     checkHand(k, round, i){
+        console.log('made it into check hand');
         var game = this;
         firebase.database().ref('game-session/' + k + '/round/'+ round + '/hand/'+(i+1)).once('value').then(function(snapshot){
             game.checkImage(snapshot.val().tile1, 'tile1', k, round, i);
@@ -99,19 +99,23 @@ class Join extends Component {
         })
         firebase.database().ref('game-session/'+k+'/round/'+round+'/hand/'+(i+1)).once('value').then(function(snapshot){console.log(snapshot.val())});
     }
-
-    //checks images for 404 error
     checkImage(index, tile, k, round, i){
+        console.log('checking image');
         var game = this;
         firebase.database().ref('images/'+index).once('value').then(function(snapshot){
             if(snapshot.exists()){
+                console.log(index);
+                console.log(snapshot.val())
                 var source = snapshot.val().url;
                 fetch('https://cors-anywhere.herokuapp.com/'+source).then((response)=>{
+                    console.log(response.ok);
                     if(!response.ok){
                         var ind = game.getRandomInt(1,2020);
                         game.checkImage(ind, tile, k, round, i);
+                        console.log(index+" had a 404");
                     }
                     else if(response.ok){
+                        console.log(index+" is okay");
                         var fix;
                         if(tile==='tile1'){
                             fix={'tile1':index};
@@ -132,15 +136,9 @@ class Join extends Component {
             else{
                 var ind = game.getRandomInt(1,2020);
                 game.checkImage(ind, tile, k, round, i);
+                console.log(index+" no longer exists");
             }})
         };
-
-
-    //occurs when submit button is hit.  Does a lot of stuff, should probably be broken up in the future into many methods.
-    //its hard with firebase bc a lot of the calls need to be embedded as the snapshot information cant be stored in variables
-    //to be used outside the methods
-    /////////
-    //adds players user name to an existing game and allows them to get to the lobby of the game.
     handleSubmit()
     {   
         var gc = this.state.gameCode;
@@ -156,6 +154,8 @@ class Join extends Component {
         if (gc!=null && user!=null){
             firebase.database().ref('game-session/' + gc + '/playersJoined').once('value', function(snapshot) {
                 joined = snapshot.val()
+                // console.log(joined);
+                // console.log(maxPlayers);
                 if (joined < maxPlayers) {
                     firebase.database().ref('game-session/' + gc + '/players').child(joined+1).update({
                         nickname : user,
@@ -176,6 +176,8 @@ class Join extends Component {
             firebase.database().ref('game-session/' + gc + '/players').once('value', function(snapshot) {
             }).then((snapshot)=>{
                 current = snapshot.numChildren();
+                console.log(joined)
+                console.log(current)
                 if (current > joined){
                     this.updatePlayer(gc, joined);
                     this.addHands(gc, joined);
@@ -188,6 +190,7 @@ class Join extends Component {
 
     render() { 
         var lobbyLink = "/lobby/" + this.state.userKey + "/" + this.state.gameCode ;
+        console.log("userkey " + this.state.userKey);
         return   (
             <div>
                 <header class='icon'> 
