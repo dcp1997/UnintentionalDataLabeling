@@ -21,6 +21,8 @@ class Final extends Component
         };
 
         this.updateDatabase = this.updateDatabase.bind(this);
+        this.incrementExit = this.incrementExit.bind(this);
+        this.checkExit = this.checkExit.bind(this);
 
       }
 
@@ -34,6 +36,7 @@ class Final extends Component
 
     componentDidMount() {
         this.updatePlayers();
+        this.checkExit();
       }
 
     //Constantly calls updatePlayers until it happens, sometimes it was not happening so this ensures it will
@@ -82,36 +85,46 @@ class Final extends Component
             });
           });
         }.bind(this));
-        firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {
-          var exit = snapshot.child("playersExited").val();
-          firebase.database().ref('game-session/' + gc).update({
-            playersExited : (exit+1),});
-        });
         
+      }
+
+      checkExit(){
+        var exited = this.incrementExit();
+        alert(exited);
         firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {
-          console.log(snapshot.val());
+          // console.log(snapshot.val());
           var exit = snapshot.child("playersExited").val();
           var numPlayers = snapshot.child("numberPlayers").val();
-          // console.log(snapshot.child("playersExited").val());
-          // console.log(snapshot.child("numberPlayers").val());
-          if (exit == numPlayers){
+          console.log("Players exited " + snapshot.child("playersExited").val());
+          console.log(snapshot.child("numberPlayers").val());
+          if (exit == numPlayers-1){
               this.updateDatabase();
           }
         }.bind(this));
-  
-    
+      }
+
+      incrementExit(){
+        var gc = this.state.dbKey;
+        var exit;
+        firebase.database().ref("game-session/"+ this.state.dbKey).once('value').then(function(snapshot) {
+          exit = snapshot.child("playersExited").val();
+          firebase.database().ref('game-session/' + gc).update({
+            playersExited : (exit+1),});
+        }.bind(this));
+        
       }
     
       //moves all the game information to a timestamped archive as to free up the key for new games
     updateDatabase() {
+      alert("Here")
       var newKey = this.state.dbKey + this.getDateString();
       var currentKey = this.state.dbKey;
       firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {
         console.log(snapshot.val());
         var current = snapshot.val();
         firebase.database().ref('game-session/' + newKey).push(current);
-        firebase.database().ref('game-session/' + currentKey).update({'active': false});      
-    });
+      });
+      firebase.database().ref('game-session/' + currentKey).update({active: "false"});
   }
 
     getDateString(){

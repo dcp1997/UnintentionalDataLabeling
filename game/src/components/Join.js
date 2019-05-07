@@ -153,7 +153,7 @@ class Join extends Component {
             maxPlayers = snapshot.val()
         });
 
-        if (gc!=null && user!=null){
+        if (gc!=null && user!=null && user.toString().length > 3 && user.toString().length < 10){
             firebase.database().ref('game-session/' + gc + '/playersJoined').once('value', function(snapshot) {
                 joined = snapshot.val()
                 if (joined < maxPlayers) {
@@ -183,6 +183,12 @@ class Join extends Component {
                     this.setState({showSubmit:false});
                 }
             }); 
+        } 
+        if (user.toString().length < 3) {
+            alert("Nickname too short");
+        }
+        if (user.toString().length > 10) {
+            alert("Nickname too long");
         }
     }
 

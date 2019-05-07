@@ -260,9 +260,11 @@ class Create extends Component {
         else if (!this.isAlphaNumeric(this.state.gameName)){
             alert("Game names can only include letters and numbers!")
         }
-        else if (this.state.gameName.toString().length > 0 && this.isAlphaNumeric(this.state.gameName) && 
+        else if (this.state.gameName.toString().length > 3  && this.state.gameName.toString().length < 12 
+            && this.isAlphaNumeric(this.state.gameName) && 
             this.state.mode!=null && this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!='' && 
+            this.state.hostUserName.toString().length > 3 && this.state.hostUserName.toString().length < 10 &&
             this.state.numberOfPlayers>=3 && this.state.numberofRounds>=3){
                 var ref = firebase.database().ref("game-session/");
                 ref.on('value', (snapshot) => {
@@ -272,7 +274,7 @@ class Create extends Component {
                         firebase.database().ref('game-session/' + nickname + '/active').once('value', function(snapshot) {
                             active = snapshot.val();
                         });
-                        if (!active){
+                        if (active == "false"){
                             firebase.database().ref('game-session/' + nickname).push().then((snap) => {
                                 const key = snap.key;
                                 var gameNickname = key.substring(14);
@@ -323,6 +325,12 @@ class Create extends Component {
         } 
         if (this.state.hostUserName==''){
             alert("Enter a valid nickname")
+        }
+        if (this.state.hostUserName.toString().length <= 3) {
+            alert("Nickname is too short")
+        }
+        if (this.state.hostUserName.toString().length >= 10) {
+            alert("Nickname is too long")
         }
         
     }
