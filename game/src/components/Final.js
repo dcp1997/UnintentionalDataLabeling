@@ -122,7 +122,7 @@ class Final extends Component
         var current = snapshot.val();
         firebase.database().ref('game-session/' + newKey).push(current);
       });
-      firebase.database().ref('game-session/' + currentKey).update({active: "false"});
+      firebase.database().ref('game-session/' + currentKey + '/active').push("false");
   }
 
     getDateString(){

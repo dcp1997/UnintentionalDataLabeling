@@ -157,7 +157,7 @@ class Create extends Component {
             }
         };
         var info = {
-            active: true,
+            active: "true",
             currentRoundNumber : 1,
             imagesUsed : null,
             mode : this.state.mode,
@@ -274,7 +274,7 @@ class Create extends Component {
                         firebase.database().ref('game-session/' + nickname + '/active').once('value', function(snapshot) {
                             active = snapshot.val();
                         });
-                        if (active == "false"){
+                        if (active != "true"){
                             firebase.database().ref('game-session/' + nickname).push().then((snap) => {
                                 const key = snap.key;
                                 var gameNickname = key.substring(14);
@@ -309,7 +309,7 @@ class Create extends Component {
                         }); 
                     } 
                 });
-                if (active) { // if a game is active then it definitely exists
+                if (active == "true") { // if a game is active then it definitely exists
                     alert("Game exists and can be joined");
                 }
             
