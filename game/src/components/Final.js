@@ -61,7 +61,7 @@ class Final extends Component
               scores: this.state.scores.concat([child.val().score])
 
             });
-    
+            
             const playerList = this.state.players.map((player) =>
               <p class="player">
                 {player}                      
@@ -89,8 +89,7 @@ class Final extends Component
       }
 
       checkExit(){
-        var exited = this.incrementExit();
-        alert(exited);
+        this.incrementExit();
         firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {
           // console.log(snapshot.val());
           var exit = snapshot.child("playersExited").val();

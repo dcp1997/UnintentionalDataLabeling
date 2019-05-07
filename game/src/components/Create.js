@@ -260,7 +260,7 @@ class Create extends Component {
         else if (!this.isAlphaNumeric(this.state.gameName)){
             alert("Game names can only include letters and numbers!")
         }
-        else if (this.state.gameName.toString().length > 3  && this.state.gameName.toString().length < 12 
+        else if (this.state.gameName.toString().length >= 3  && this.state.gameName.toString().length < 12 
             && this.isAlphaNumeric(this.state.gameName) && 
             this.state.mode!=null && this.state.numberOfPlayers!=null && 
             this.state.numberofRounds!=null && this.state.hostUserName!='' && 
@@ -331,6 +331,12 @@ class Create extends Component {
         }
         if (this.state.hostUserName.toString().length >= 10) {
             alert("Nickname is too long")
+        }
+        if (this.state.gameName.toString().length <3){
+            alert("Game name too short")
+        }
+        if (this.state.gameName.toString().length > 12){
+            alert("Game name too long")
         }
         
     }

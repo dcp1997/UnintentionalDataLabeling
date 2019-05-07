@@ -184,10 +184,10 @@ class Join extends Component {
                 }
             }); 
         } 
-        if (user.toString().length < 3) {
+        if (user.toString().length <= 3) {
             alert("Nickname too short");
         }
-        if (user.toString().length > 10) {
+        if (user.toString().length >= 10) {
             alert("Nickname too long");
         }
     }
