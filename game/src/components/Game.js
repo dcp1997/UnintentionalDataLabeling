@@ -22,16 +22,11 @@ class Game extends Component{
       }
 
       readDB(){
-
-
-        console.log("inside readDB 2: " + this.state.round);
-
         var clicks = [0, 0, 0, 0];
         this.appendCaption();
         var game = this;
         return firebase.database().ref(`game-session/` +  this.state.dbKey +`/round/` + this.state.round+`/hand/`+this.state.username).once('value').then(function(snapshot)
         {
-                    console.log(game);
                     game.appendImage(snapshot.child(`tile1`).val(), 0, clicks);
                     game.appendImage(snapshot.child(`tile2`).val(), 1, clicks);
                     game.appendImage(snapshot.child(`tile3`).val(), 2, clicks);

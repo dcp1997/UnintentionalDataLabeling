@@ -416,3 +416,12 @@ input[type='text'], input[type='number']{
   div#createNav p {
     font-size: 20px;
   }
+
+  .statCaption{
+    color:white;
+    font-size: 13px;
+  }
+  .disclaimer{
+    font-size:15px;
+    text-align: center;
+  }

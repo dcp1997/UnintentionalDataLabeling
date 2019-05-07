@@ -115,7 +115,6 @@ class Final extends Component
     
       //moves all the game information to a timestamped archive as to free up the key for new games
     updateDatabase() {
-      alert("Here")
       var newKey = this.state.dbKey + this.getDateString();
       var currentKey = this.state.dbKey;
       firebase.database().ref("game-session/"+ this.state.dbKey).once('value', function(snapshot) {

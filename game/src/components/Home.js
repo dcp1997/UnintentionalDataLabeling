@@ -22,9 +22,9 @@ class Home extends Component {
                         <Link to="/join">
                             <Button>Join Game</Button>
                         </Link>  
-                        {/* <Link to="/howtoplay">
-                            <Button>How to Play</Button>
-                        </Link>       */}
+                        { <Link to="/stats">
+                            <Button>Stats</Button>
+                        </Link>       }
                     </div>
                 </div>
             </div>
