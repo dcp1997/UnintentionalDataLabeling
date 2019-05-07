@@ -128,8 +128,8 @@ class Voting extends Component{
         //updates round with the amount of submitted images
         firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round +'/submissions/voting/numVoted/' ).once('value').then(function(snapshot){
             console.log(snapshot.val())
-            firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round +'/submissions/voting/').update({
-                numVoted: snapshot.val() + 1
+            firebase.database().ref('game-session/'+ this.state.dbKey +'/round/'+this.state.round +'/submissions/voting/numVoted').transaction(function(snapshot){
+                return snapshot + 1;
             });
         }.bind(this));
     }
